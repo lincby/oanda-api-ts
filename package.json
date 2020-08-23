@@ -1,0 +1,39 @@
+{
+  "name": "oanda-api-ts",
+  "version": "0.0.0",
+  "description": "oanda-api-ts",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "files": [
+    "build/src"
+  ],
+  "license": "Apache-2.0",
+  "keywords": [
+    "oanda-api-ts"
+  ],
+  "scripts": {
+    "test": "mocha -r ts-node/register test/**/*.spec.ts",
+    "check": "gts check",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "posttest": "echo 'npm run check'"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.12",
+    "@types/mocha": "^8.0.2",
+    "@types/node": "^13.11.1",
+    "chai": "^4.2.0",
+    "gts": "^2.0.2",
+    "mocha": "^8.1.1",
+    "nyc": "^15.1.0",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "decimal.js": "^10.2.0",
+    "json2typescript": "^1.4.1"
+  }
+}
