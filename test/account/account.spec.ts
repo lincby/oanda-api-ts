@@ -2,7 +2,11 @@ import {describe, it} from 'mocha';
 import {expect} from 'chai';
 import {Account} from '../../src';
 import {createAccountID, expectAccountID} from './account.id.spec';
-import {INTEGER_TEST_VALUE, STRING_TEST_VALUE} from '../test.utils.spec';
+import {
+  BOOLEAN_TEST_VALUE,
+  INTEGER_TEST_VALUE,
+  STRING_TEST_VALUE,
+} from '../test.utils.spec';
 import {JsonConvert} from 'json2typescript';
 import {createCurrency, expectCurrency} from '../primitives/currency.spec';
 import {
@@ -26,7 +30,7 @@ describe('Account', () => {
   it('test copy', () => {
     const account: Account = createAccount();
     const copyAccount: Account = account.copy();
-    expect(copyAccount).to.be.deep.equal(account);
+    expectAccount(copyAccount);
   });
 
   it('test to and from json', () => {
@@ -39,7 +43,7 @@ describe('Account', () => {
       Account
     );
     console.log('from json to class: ', accountFromJson);
-    expect(accountFromJson).to.be.deep.equal(accountToJson);
+    expectAccount(accountFromJson);
   });
 });
 
@@ -58,7 +62,10 @@ const createAccount = () => {
     .setResettablePLTime(createDateTime())
     .setMarginRate(createDecimalNumber())
     .setOpenTradeCount(INTEGER_TEST_VALUE)
-    .setOpenPositionCount(INTEGER_TEST_VALUE);
+    .setOpenPositionCount(INTEGER_TEST_VALUE)
+    .setPendingOrderCount(INTEGER_TEST_VALUE)
+    .setHedgingEnabled(BOOLEAN_TEST_VALUE)
+    .setUnrealizedPL(createAccountUnits());
 };
 
 const expectAccount = (account: Account) => {
@@ -78,4 +85,7 @@ const expectAccount = (account: Account) => {
   expectDecimalNumber(account.getMarginRate());
   expect(account.getOpenTradeCount()).to.be.equal(INTEGER_TEST_VALUE);
   expect(account.getOpenPositionCount()).to.be.equal(INTEGER_TEST_VALUE);
+  expect(account.getPendingOrderCount()).to.be.equal(INTEGER_TEST_VALUE);
+  expect(account.getHedgingEnabled()).to.be.equal(BOOLEAN_TEST_VALUE);
+  expectAccountUnits(account.getUnrealizedPL());
 };

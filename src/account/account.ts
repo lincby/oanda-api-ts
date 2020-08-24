@@ -39,6 +39,12 @@ export class Account {
   private openTradeCount = 0;
   @JsonProperty('openPositionCount', Number, false)
   private openPositionCount = 0;
+  @JsonProperty('pendingOrderCount', Number, false)
+  private pendingOrderCount = 0;
+  @JsonProperty('hedgingEnabled', Boolean, false)
+  private hedgingEnabled = false;
+  @JsonProperty('unrealizedPL', AccountUnitsJsonConverter, false)
+  private unrealizedPL: AccountUnits = new AccountUnits('');
 
   @JsonProperty('balance', AccountUnitsJsonConverter, false)
   private balance: AccountUnits = new AccountUnits('');
@@ -179,17 +185,41 @@ export class Account {
     return this.openPositionCount;
   }
 
+  setPendingOrderCount(pendingOrderCount: number): Account {
+    this.pendingOrderCount = pendingOrderCount;
+    return this;
+  }
+
+  getPendingOrderCount(): number {
+    return this.pendingOrderCount;
+  }
+
+  setHedgingEnabled(hedgingEnabled: boolean): Account {
+    this.hedgingEnabled = hedgingEnabled;
+    return this;
+  }
+
+  getHedgingEnabled(): boolean {
+    return this.hedgingEnabled;
+  }
+
+  setUnrealizedPL(unrealizedPL: AccountUnits): Account;
+  setUnrealizedPL(unrealizedPL: Decimal): Account;
+  setUnrealizedPL(unrealizedPL: string): Account;
+  setUnrealizedPL(unrealizedPL: AccountUnits | Decimal | string): Account {
+    this.unrealizedPL = this.accountUnitValue(unrealizedPL);
+    return this;
+  }
+
+  getUnrealizedPL(): AccountUnits {
+    return this.unrealizedPL.copy();
+  }
+
   setBalance(balance: AccountUnits): Account;
   setBalance(balance: Decimal): Account;
   setBalance(balance: string): Account;
   setBalance(balance: AccountUnits | Decimal | string): Account {
-    if (balance instanceof AccountUnits) {
-      this.balance = balance.copy();
-    } else if (balance instanceof Decimal) {
-      this.balance = new AccountUnits(balance);
-    } else {
-      this.balance = new AccountUnits(balance);
-    }
+    this.balance = this.accountUnitValue(balance);
     return this;
   }
 
@@ -212,6 +242,21 @@ export class Account {
       .setResettablePLTime(this.resettablePLTime.copy())
       .setMarginRate(this.marginRate.copy())
       .setOpenTradeCount(this.openTradeCount)
-      .setOpenPositionCount(this.openPositionCount);
+      .setOpenPositionCount(this.openPositionCount)
+      .setPendingOrderCount(this.pendingOrderCount)
+      .setHedgingEnabled(this.hedgingEnabled)
+      .setUnrealizedPL(this.unrealizedPL.copy());
   }
+
+  private accountUnitValue = (
+    src: AccountUnits | Decimal | string
+  ): AccountUnits => {
+    if (src instanceof AccountUnits) {
+      return src.copy();
+    } else if (src instanceof Decimal) {
+      return new AccountUnits(src);
+    } else {
+      return new AccountUnits(src);
+    }
+  };
 }
