@@ -65,7 +65,10 @@ const createAccount = () => {
     .setOpenPositionCount(INTEGER_TEST_VALUE)
     .setPendingOrderCount(INTEGER_TEST_VALUE)
     .setHedgingEnabled(BOOLEAN_TEST_VALUE)
-    .setUnrealizedPL(createAccountUnits());
+    .setUnrealizedPL(createAccountUnits())
+    .setNAV(createAccountUnits())
+    .setMarginUsed(createAccountUnits())
+    .setMarginAvailable(createAccountUnits());
 };
 
 const expectAccount = (account: Account) => {
@@ -88,4 +91,7 @@ const expectAccount = (account: Account) => {
   expect(account.getPendingOrderCount()).to.be.equal(INTEGER_TEST_VALUE);
   expect(account.getHedgingEnabled()).to.be.equal(BOOLEAN_TEST_VALUE);
   expectAccountUnits(account.getUnrealizedPL());
+  expectAccountUnits(account.getNAV());
+  expectAccountUnits(account.getMarginUsed());
+  expectAccountUnits(account.getMarginAvailable());
 };

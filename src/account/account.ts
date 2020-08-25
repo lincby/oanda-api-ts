@@ -45,6 +45,12 @@ export class Account {
   private hedgingEnabled = false;
   @JsonProperty('unrealizedPL', AccountUnitsJsonConverter, false)
   private unrealizedPL: AccountUnits = new AccountUnits('');
+  @JsonProperty('NAV', AccountUnitsJsonConverter, false)
+  private nAV: AccountUnits = new AccountUnits('');
+  @JsonProperty('marginUsed', AccountUnitsJsonConverter, false)
+  private marginUsed: AccountUnits = new AccountUnits('');
+  @JsonProperty('marginAvailable', AccountUnitsJsonConverter, false)
+  private marginAvailable: AccountUnits = new AccountUnits('');
 
   @JsonProperty('balance', AccountUnitsJsonConverter, false)
   private balance: AccountUnits = new AccountUnits('');
@@ -100,11 +106,7 @@ export class Account {
   setCreatedTime(createdTime: DateTime): Account;
   setCreatedTime(createdTime: string): Account;
   setCreatedTime(createdTime: DateTime | string): Account {
-    if (createdTime instanceof DateTime) {
-      this.createdTime = createdTime.copy();
-    } else {
-      this.createdTime = new DateTime(createdTime);
-    }
+    this.createdTime = this.dateTimeValue(createdTime);
     return this;
   }
 
@@ -137,11 +139,7 @@ export class Account {
   setResettablePLTime(resettablePLTime: DateTime): Account;
   setResettablePLTime(resettablePLTime: string): Account;
   setResettablePLTime(resettablePLTime: DateTime | string): Account {
-    if (resettablePLTime instanceof DateTime) {
-      this.resettablePLTime = resettablePLTime.copy();
-    } else {
-      this.resettablePLTime = new DateTime(resettablePLTime);
-    }
+    this.resettablePLTime = this.dateTimeValue(resettablePLTime);
     return this;
   }
 
@@ -215,6 +213,42 @@ export class Account {
     return this.unrealizedPL.copy();
   }
 
+  setNAV(nAV: AccountUnits): Account;
+  setNAV(nAV: Decimal): Account;
+  setNAV(nAV: string): Account;
+  setNAV(nAV: AccountUnits | Decimal | string): Account {
+    this.nAV = this.accountUnitValue(nAV);
+    return this;
+  }
+
+  getNAV(): AccountUnits {
+    return this.nAV.copy();
+  }
+
+  setMarginUsed(marginUsed: AccountUnits): Account;
+  setMarginUsed(marginUsed: Decimal): Account;
+  setMarginUsed(marginUsed: string): Account;
+  setMarginUsed(marginUsed: AccountUnits | Decimal | string): Account {
+    this.marginUsed = this.accountUnitValue(marginUsed);
+    return this;
+  }
+
+  getMarginUsed(): AccountUnits {
+    return this.marginUsed.copy();
+  }
+
+  setMarginAvailable(marginAvailable: AccountUnits): Account;
+  setMarginAvailable(marginAvailable: Decimal): Account;
+  setMarginAvailable(marginAvailable: string): Account;
+  setMarginAvailable(marginAvailable: AccountUnits | Decimal | string): Account {
+    this.marginAvailable = this.accountUnitValue(marginAvailable);
+    return this;
+  }
+
+  getMarginAvailable(): AccountUnits {
+    return this.marginAvailable.copy();
+  }
+
   setBalance(balance: AccountUnits): Account;
   setBalance(balance: Decimal): Account;
   setBalance(balance: string): Account;
@@ -245,8 +279,19 @@ export class Account {
       .setOpenPositionCount(this.openPositionCount)
       .setPendingOrderCount(this.pendingOrderCount)
       .setHedgingEnabled(this.hedgingEnabled)
-      .setUnrealizedPL(this.unrealizedPL.copy());
+      .setUnrealizedPL(this.unrealizedPL.copy())
+      .setNAV(this.nAV.copy())
+      .setMarginUsed(this.marginUsed.copy())
+      .setMarginAvailable(this.marginAvailable.copy());
   }
+
+  private dateTimeValue = (src: DateTime | string) => {
+    if (src instanceof DateTime) {
+      return src.copy();
+    } else {
+      return new DateTime(src);
+    }
+  };
 
   private accountUnitValue = (
     src: AccountUnits | Decimal | string
