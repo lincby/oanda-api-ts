@@ -12,6 +12,7 @@ import {GuaranteedStopLossOrderMode} from './guaranteed.stop.loss.order.mode';
 import {GuaranteedStopLossOrderMutability} from './guaranteed.stop.loss.order.mutability';
 import {DecimalNumber} from '../primitives/decimal.number';
 import {DecimalNumberJsonConverter} from '../converter/decimal.number.json.converter';
+import {PrimitiveUtils} from '../util/primitive.utils';
 
 @JsonObject('Account')
 export class Account {
@@ -51,6 +52,12 @@ export class Account {
   private marginUsed: AccountUnits = new AccountUnits('');
   @JsonProperty('marginAvailable', AccountUnitsJsonConverter, false)
   private marginAvailable: AccountUnits = new AccountUnits('');
+  @JsonProperty('positionValue', AccountUnitsJsonConverter, false)
+  private positionValue: AccountUnits = new AccountUnits('');
+  @JsonProperty('marginCloseoutUnrealizedPL', AccountUnitsJsonConverter, false)
+  private marginCloseoutUnrealizedPL: AccountUnits = new AccountUnits('');
+  @JsonProperty('marginCloseoutNAV', AccountUnitsJsonConverter, false)
+  private marginCloseoutNAV: AccountUnits = new AccountUnits('');
 
   @JsonProperty('balance', AccountUnitsJsonConverter, false)
   private balance: AccountUnits = new AccountUnits('');
@@ -106,7 +113,7 @@ export class Account {
   setCreatedTime(createdTime: DateTime): Account;
   setCreatedTime(createdTime: string): Account;
   setCreatedTime(createdTime: DateTime | string): Account {
-    this.createdTime = this.dateTimeValue(createdTime);
+    this.createdTime = PrimitiveUtils.dateTimeValue(createdTime);
     return this;
   }
 
@@ -139,7 +146,7 @@ export class Account {
   setResettablePLTime(resettablePLTime: DateTime): Account;
   setResettablePLTime(resettablePLTime: string): Account;
   setResettablePLTime(resettablePLTime: DateTime | string): Account {
-    this.resettablePLTime = this.dateTimeValue(resettablePLTime);
+    this.resettablePLTime = PrimitiveUtils.dateTimeValue(resettablePLTime);
     return this;
   }
 
@@ -205,7 +212,7 @@ export class Account {
   setUnrealizedPL(unrealizedPL: Decimal): Account;
   setUnrealizedPL(unrealizedPL: string): Account;
   setUnrealizedPL(unrealizedPL: AccountUnits | Decimal | string): Account {
-    this.unrealizedPL = this.accountUnitValue(unrealizedPL);
+    this.unrealizedPL = PrimitiveUtils.accountUnitValue(unrealizedPL);
     return this;
   }
 
@@ -217,7 +224,7 @@ export class Account {
   setNAV(nAV: Decimal): Account;
   setNAV(nAV: string): Account;
   setNAV(nAV: AccountUnits | Decimal | string): Account {
-    this.nAV = this.accountUnitValue(nAV);
+    this.nAV = PrimitiveUtils.accountUnitValue(nAV);
     return this;
   }
 
@@ -229,7 +236,7 @@ export class Account {
   setMarginUsed(marginUsed: Decimal): Account;
   setMarginUsed(marginUsed: string): Account;
   setMarginUsed(marginUsed: AccountUnits | Decimal | string): Account {
-    this.marginUsed = this.accountUnitValue(marginUsed);
+    this.marginUsed = PrimitiveUtils.accountUnitValue(marginUsed);
     return this;
   }
 
@@ -240,8 +247,10 @@ export class Account {
   setMarginAvailable(marginAvailable: AccountUnits): Account;
   setMarginAvailable(marginAvailable: Decimal): Account;
   setMarginAvailable(marginAvailable: string): Account;
-  setMarginAvailable(marginAvailable: AccountUnits | Decimal | string): Account {
-    this.marginAvailable = this.accountUnitValue(marginAvailable);
+  setMarginAvailable(
+    marginAvailable: AccountUnits | Decimal | string
+  ): Account {
+    this.marginAvailable = PrimitiveUtils.accountUnitValue(marginAvailable);
     return this;
   }
 
@@ -249,11 +258,55 @@ export class Account {
     return this.marginAvailable.copy();
   }
 
+  setPositionValue(positionValue: AccountUnits): Account;
+  setPositionValue(positionValue: Decimal): Account;
+  setPositionValue(positionValue: string): Account;
+  setPositionValue(positionValue: AccountUnits | Decimal | string): Account {
+    this.positionValue = PrimitiveUtils.accountUnitValue(positionValue);
+    return this;
+  }
+
+  getPositionValue(): AccountUnits {
+    return this.positionValue.copy();
+  }
+
+  setMarginCloseoutUnrealizedPL(
+    marginCloseoutUnrealizedPL: AccountUnits
+  ): Account;
+  setMarginCloseoutUnrealizedPL(marginCloseoutUnrealizedPL: Decimal): Account;
+  setMarginCloseoutUnrealizedPL(marginCloseoutUnrealizedPL: string): Account;
+  setMarginCloseoutUnrealizedPL(
+    marginCloseoutUnrealizedPL: AccountUnits | Decimal | string
+  ): Account {
+    this.marginCloseoutUnrealizedPL = PrimitiveUtils.accountUnitValue(
+      marginCloseoutUnrealizedPL
+    );
+    return this;
+  }
+
+  getMarginCloseoutUnrealizedPL(): AccountUnits {
+    return this.marginCloseoutUnrealizedPL.copy();
+  }
+
+  setMarginCloseoutNAV(marginCloseoutNAV: AccountUnits): Account;
+  setMarginCloseoutNAV(marginCloseoutNAV: Decimal): Account;
+  setMarginCloseoutNAV(marginCloseoutNAV: string): Account;
+  setMarginCloseoutNAV(
+    marginCloseoutNAV: AccountUnits | Decimal | string
+  ): Account {
+    this.marginCloseoutNAV = PrimitiveUtils.accountUnitValue(marginCloseoutNAV);
+    return this;
+  }
+
+  getMarginCloseoutNAV(): AccountUnits {
+    return this.marginCloseoutNAV.copy();
+  }
+
   setBalance(balance: AccountUnits): Account;
   setBalance(balance: Decimal): Account;
   setBalance(balance: string): Account;
   setBalance(balance: AccountUnits | Decimal | string): Account {
-    this.balance = this.accountUnitValue(balance);
+    this.balance = PrimitiveUtils.accountUnitValue(balance);
     return this;
   }
 
@@ -282,26 +335,9 @@ export class Account {
       .setUnrealizedPL(this.unrealizedPL.copy())
       .setNAV(this.nAV.copy())
       .setMarginUsed(this.marginUsed.copy())
-      .setMarginAvailable(this.marginAvailable.copy());
+      .setMarginAvailable(this.marginAvailable.copy())
+      .setPositionValue(this.positionValue.copy())
+      .setMarginCloseoutUnrealizedPL(this.marginCloseoutUnrealizedPL.copy())
+      .setMarginCloseoutNAV(this.marginCloseoutNAV.copy());
   }
-
-  private dateTimeValue = (src: DateTime | string) => {
-    if (src instanceof DateTime) {
-      return src.copy();
-    } else {
-      return new DateTime(src);
-    }
-  };
-
-  private accountUnitValue = (
-    src: AccountUnits | Decimal | string
-  ): AccountUnits => {
-    if (src instanceof AccountUnits) {
-      return src.copy();
-    } else if (src instanceof Decimal) {
-      return new AccountUnits(src);
-    } else {
-      return new AccountUnits(src);
-    }
-  };
 }

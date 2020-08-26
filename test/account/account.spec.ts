@@ -31,6 +31,7 @@ describe('Account', () => {
     const account: Account = createAccount();
     const copyAccount: Account = account.copy();
     expectAccount(copyAccount);
+    expect(copyAccount).to.be.deep.equal(account);
   });
 
   it('test to and from json', () => {
@@ -44,6 +45,7 @@ describe('Account', () => {
     );
     console.log('from json to class: ', accountFromJson);
     expectAccount(accountFromJson);
+    expect(accountFromJson).to.be.deep.equal(accountToJson);
   });
 });
 
@@ -68,7 +70,10 @@ const createAccount = () => {
     .setUnrealizedPL(createAccountUnits())
     .setNAV(createAccountUnits())
     .setMarginUsed(createAccountUnits())
-    .setMarginAvailable(createAccountUnits());
+    .setMarginAvailable(createAccountUnits())
+    .setPositionValue(createAccountUnits())
+    .setMarginCloseoutUnrealizedPL(createAccountUnits())
+    .setMarginCloseoutNAV(createAccountUnits());
 };
 
 const expectAccount = (account: Account) => {
@@ -94,4 +99,7 @@ const expectAccount = (account: Account) => {
   expectAccountUnits(account.getNAV());
   expectAccountUnits(account.getMarginUsed());
   expectAccountUnits(account.getMarginAvailable());
+  expectAccountUnits(account.getPositionValue());
+  expectAccountUnits(account.getMarginCloseoutUnrealizedPL());
+  expectAccountUnits(account.getMarginCloseoutNAV());
 };
