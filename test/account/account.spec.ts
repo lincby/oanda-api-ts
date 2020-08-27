@@ -73,7 +73,10 @@ const createAccount = () => {
     .setMarginAvailable(createAccountUnits())
     .setPositionValue(createAccountUnits())
     .setMarginCloseoutUnrealizedPL(createAccountUnits())
-    .setMarginCloseoutNAV(createAccountUnits());
+    .setMarginCloseoutNAV(createAccountUnits())
+    .setMarginCloseoutMarginUsed(createAccountUnits())
+    .setMarginCloseoutPercent(createDecimalNumber())
+    .setMarginCloseoutPositionValue(createDecimalNumber());
 };
 
 const expectAccount = (account: Account) => {
@@ -102,4 +105,7 @@ const expectAccount = (account: Account) => {
   expectAccountUnits(account.getPositionValue());
   expectAccountUnits(account.getMarginCloseoutUnrealizedPL());
   expectAccountUnits(account.getMarginCloseoutNAV());
+  expectAccountUnits(account.getMarginCloseoutMarginUsed());
+  expectDecimalNumber(account.getMarginCloseoutPercent());
+  expectDecimalNumber(account.getMarginCloseoutPositionValue());
 };

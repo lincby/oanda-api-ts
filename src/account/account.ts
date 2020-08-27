@@ -58,6 +58,16 @@ export class Account {
   private marginCloseoutUnrealizedPL: AccountUnits = new AccountUnits('');
   @JsonProperty('marginCloseoutNAV', AccountUnitsJsonConverter, false)
   private marginCloseoutNAV: AccountUnits = new AccountUnits('');
+  @JsonProperty('marginCloseoutMarginUsed', AccountUnitsJsonConverter, false)
+  private marginCloseoutMarginUsed: AccountUnits = new AccountUnits('');
+  @JsonProperty('marginCloseoutPercent', DecimalNumberJsonConverter, false)
+  private marginCloseoutPercent: DecimalNumber = new DecimalNumber('');
+  @JsonProperty(
+    'marginCloseoutPositionValue',
+    DecimalNumberJsonConverter,
+    false
+  )
+  private marginCloseoutPositionValue: DecimalNumber = new DecimalNumber('');
 
   @JsonProperty('balance', AccountUnitsJsonConverter, false)
   private balance: AccountUnits = new AccountUnits('');
@@ -158,13 +168,7 @@ export class Account {
   setMarginRate(marginRate: Decimal): Account;
   setMarginRate(marginRate: string): Account;
   setMarginRate(marginRate: DecimalNumber | Decimal | string): Account {
-    if (marginRate instanceof DecimalNumber) {
-      this.marginRate = marginRate.copy();
-    } else if (marginRate instanceof Decimal) {
-      this.marginRate = new DecimalNumber(marginRate);
-    } else {
-      this.marginRate = new DecimalNumber(marginRate);
-    }
+    this.marginRate = PrimitiveUtils.decimalNumberValue(marginRate);
     return this;
   }
 
@@ -302,6 +306,56 @@ export class Account {
     return this.marginCloseoutNAV.copy();
   }
 
+  setMarginCloseoutMarginUsed(marginCloseoutMarginUsed: AccountUnits): Account;
+  setMarginCloseoutMarginUsed(marginCloseoutMarginUsed: Decimal): Account;
+  setMarginCloseoutMarginUsed(marginCloseoutMarginUsed: string): Account;
+  setMarginCloseoutMarginUsed(
+    marginCloseoutMarginUsed: AccountUnits | Decimal | string
+  ): Account {
+    this.marginCloseoutMarginUsed = PrimitiveUtils.accountUnitValue(
+      marginCloseoutMarginUsed
+    );
+    return this;
+  }
+
+  getMarginCloseoutMarginUsed(): AccountUnits {
+    return this.marginCloseoutMarginUsed;
+  }
+
+  setMarginCloseoutPercent(marginCloseoutPercent: DecimalNumber): Account;
+  setMarginCloseoutPercent(marginCloseoutPercent: Decimal): Account;
+  setMarginCloseoutPercent(marginCloseoutPercent: string): Account;
+  setMarginCloseoutPercent(
+    marginCloseoutPercent: DecimalNumber | Decimal | string
+  ): Account {
+    this.marginCloseoutPercent = PrimitiveUtils.decimalNumberValue(
+      marginCloseoutPercent
+    );
+    return this;
+  }
+
+  getMarginCloseoutPercent(): DecimalNumber {
+    return this.marginCloseoutPercent;
+  }
+
+  setMarginCloseoutPositionValue(
+    marginCloseoutPositionValue: DecimalNumber
+  ): Account;
+  setMarginCloseoutPositionValue(marginCloseoutPositionValue: Decimal): Account;
+  setMarginCloseoutPositionValue(marginCloseoutPositionValue: string): Account;
+  setMarginCloseoutPositionValue(
+    marginCloseoutPositionValue: DecimalNumber | Decimal | string
+  ): Account {
+    this.marginCloseoutPositionValue = PrimitiveUtils.decimalNumberValue(
+      marginCloseoutPositionValue
+    );
+    return this;
+  }
+
+  getMarginCloseoutPositionValue(): DecimalNumber {
+    return this.marginCloseoutPositionValue;
+  }
+
   setBalance(balance: AccountUnits): Account;
   setBalance(balance: Decimal): Account;
   setBalance(balance: string): Account;
@@ -338,6 +392,9 @@ export class Account {
       .setMarginAvailable(this.marginAvailable.copy())
       .setPositionValue(this.positionValue.copy())
       .setMarginCloseoutUnrealizedPL(this.marginCloseoutUnrealizedPL.copy())
-      .setMarginCloseoutNAV(this.marginCloseoutNAV.copy());
+      .setMarginCloseoutNAV(this.marginCloseoutNAV.copy())
+      .setMarginCloseoutMarginUsed(this.marginCloseoutMarginUsed.copy())
+      .setMarginCloseoutPercent(this.marginCloseoutPercent.copy())
+      .setMarginCloseoutPositionValue(this.marginCloseoutPositionValue.copy());
   }
 }
