@@ -60,7 +60,6 @@ const createAccount = () => {
     .setGuaranteedStopLossOrderMutability(
       GuaranteedStopLossOrderMutability.FIXED
     )
-    .setBalance(createAccountUnits())
     .setResettablePLTime(createDateTime())
     .setMarginRate(createDecimalNumber())
     .setOpenTradeCount(INTEGER_TEST_VALUE)
@@ -76,7 +75,11 @@ const createAccount = () => {
     .setMarginCloseoutNAV(createAccountUnits())
     .setMarginCloseoutMarginUsed(createAccountUnits())
     .setMarginCloseoutPercent(createDecimalNumber())
-    .setMarginCloseoutPositionValue(createDecimalNumber());
+    .setMarginCloseoutPositionValue(createDecimalNumber())
+    .setWithdrawalLimit(createAccountUnits())
+    .setMarginCallMarginUsed(createAccountUnits())
+    .setMarginCallPercent(createDecimalNumber())
+    .setBalance(createAccountUnits());
 };
 
 const expectAccount = (account: Account) => {
@@ -91,7 +94,6 @@ const expectAccount = (account: Account) => {
   expect(account.getGuaranteedStopLossOrderMutability()).to.be.equal(
     GuaranteedStopLossOrderMutability.FIXED
   );
-  expectAccountUnits(account.getBalance());
   expectDateTime(account.getResettablePLTime());
   expectDecimalNumber(account.getMarginRate());
   expect(account.getOpenTradeCount()).to.be.equal(INTEGER_TEST_VALUE);
@@ -108,4 +110,8 @@ const expectAccount = (account: Account) => {
   expectAccountUnits(account.getMarginCloseoutMarginUsed());
   expectDecimalNumber(account.getMarginCloseoutPercent());
   expectDecimalNumber(account.getMarginCloseoutPositionValue());
+  expectAccountUnits(account.getWithdrawalLimit());
+  expectAccountUnits(account.getMarginCallMarginUsed());
+  expectDecimalNumber(account.getMarginCallPercent());
+  expectAccountUnits(account.getBalance());
 };

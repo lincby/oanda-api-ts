@@ -68,7 +68,12 @@ export class Account {
     false
   )
   private marginCloseoutPositionValue: DecimalNumber = new DecimalNumber('');
-
+  @JsonProperty('withdrawalLimit', AccountUnitsJsonConverter, false)
+  private withdrawalLimit: AccountUnits = new AccountUnits('');
+  @JsonProperty('marginCallMarginUsed', AccountUnitsJsonConverter, false)
+  private marginCallMarginUsed: AccountUnits = new AccountUnits('');
+  @JsonProperty('marginCallPercent', DecimalNumberJsonConverter, false)
+  private marginCallPercent: DecimalNumber = new DecimalNumber('');
   @JsonProperty('balance', AccountUnitsJsonConverter, false)
   private balance: AccountUnits = new AccountUnits('');
 
@@ -356,6 +361,52 @@ export class Account {
     return this.marginCloseoutPositionValue;
   }
 
+  setWithdrawalLimit(withdrawalLimit: AccountUnits): Account;
+  setWithdrawalLimit(withdrawalLimit: Decimal): Account;
+  setWithdrawalLimit(withdrawalLimit: string): Account;
+  setWithdrawalLimit(
+    withdrawalLimit: AccountUnits | Decimal | string
+  ): Account {
+    this.withdrawalLimit = PrimitiveUtils.accountUnitValue(withdrawalLimit);
+    return this;
+  }
+
+  getWithdrawalLimit(): AccountUnits {
+    return this.withdrawalLimit.copy();
+  }
+
+  setMarginCallMarginUsed(marginCallMarginUsed: AccountUnits): Account;
+  setMarginCallMarginUsed(marginCallMarginUsed: Decimal): Account;
+  setMarginCallMarginUsed(marginCallMarginUsed: string): Account;
+  setMarginCallMarginUsed(
+    marginCallMarginUsed: AccountUnits | Decimal | string
+  ): Account {
+    this.marginCallMarginUsed = PrimitiveUtils.accountUnitValue(
+      marginCallMarginUsed
+    );
+    return this;
+  }
+
+  getMarginCallMarginUsed(): AccountUnits {
+    return this.marginCallMarginUsed.copy();
+  }
+
+  setMarginCallPercent(marginCallPercent: DecimalNumber): Account;
+  setMarginCallPercent(marginCallPercent: Decimal): Account;
+  setMarginCallPercent(marginCallPercent: string): Account;
+  setMarginCallPercent(
+    marginCallPercent: DecimalNumber | Decimal | string
+  ): Account {
+    this.marginCallPercent = PrimitiveUtils.decimalNumberValue(
+      marginCallPercent
+    );
+    return this;
+  }
+
+  getMarginCallPercent(): DecimalNumber {
+    return this.marginCallPercent.copy();
+  }
+
   setBalance(balance: AccountUnits): Account;
   setBalance(balance: Decimal): Account;
   setBalance(balance: string): Account;
@@ -374,7 +425,6 @@ export class Account {
       .setAlias(this.alias)
       .setCurrency(this.currency.copy())
       .setCreatedByUserID(this.createdByUserID)
-      .setBalance(this.balance.copy())
       .setCreatedTime(this.createdTime.copy())
       .setGuaranteedStopLossOrderMode(this.guaranteedStopLossOrderMode)
       .setGuaranteedStopLossOrderMutability(
@@ -395,6 +445,10 @@ export class Account {
       .setMarginCloseoutNAV(this.marginCloseoutNAV.copy())
       .setMarginCloseoutMarginUsed(this.marginCloseoutMarginUsed.copy())
       .setMarginCloseoutPercent(this.marginCloseoutPercent.copy())
-      .setMarginCloseoutPositionValue(this.marginCloseoutPositionValue.copy());
+      .setMarginCloseoutPositionValue(this.marginCloseoutPositionValue.copy())
+      .setWithdrawalLimit(this.withdrawalLimit.copy())
+      .setMarginCallMarginUsed(this.marginCallMarginUsed.copy())
+      .setMarginCallPercent(this.marginCallPercent.copy())
+      .setBalance(this.balance.copy());
   }
 }
