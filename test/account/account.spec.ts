@@ -79,7 +79,10 @@ const createAccount = () => {
     .setWithdrawalLimit(createAccountUnits())
     .setMarginCallMarginUsed(createAccountUnits())
     .setMarginCallPercent(createDecimalNumber())
-    .setBalance(createAccountUnits());
+    .setBalance(createAccountUnits())
+    .setPl(createAccountUnits())
+    .setResettablePL(createAccountUnits())
+    .setFinancing(createAccountUnits());
 };
 
 const expectAccount = (account: Account) => {
@@ -114,4 +117,7 @@ const expectAccount = (account: Account) => {
   expectAccountUnits(account.getMarginCallMarginUsed());
   expectDecimalNumber(account.getMarginCallPercent());
   expectAccountUnits(account.getBalance());
+  expectAccountUnits(account.getPl());
+  expectAccountUnits(account.getResettablePL());
+  expectAccountUnits(account.getFinancing());
 };

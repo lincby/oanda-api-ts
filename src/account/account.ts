@@ -76,6 +76,12 @@ export class Account {
   private marginCallPercent: DecimalNumber = new DecimalNumber('');
   @JsonProperty('balance', AccountUnitsJsonConverter, false)
   private balance: AccountUnits = new AccountUnits('');
+  @JsonProperty('pl', AccountUnitsJsonConverter, false)
+  private pl: AccountUnits = new AccountUnits('');
+  @JsonProperty('resettablePL', AccountUnitsJsonConverter, false)
+  private resettablePL: AccountUnits = new AccountUnits('');
+  @JsonProperty('financing', AccountUnitsJsonConverter, false)
+  private financing: AccountUnits = new AccountUnits('');
 
   setAccountID(id: AccountID): Account;
   setAccountID(id: string): Account;
@@ -419,6 +425,42 @@ export class Account {
     return this.balance.copy();
   }
 
+  setPl(pl: AccountUnits): Account;
+  setPl(pl: Decimal): Account;
+  setPl(pl: string): Account;
+  setPl(pl: AccountUnits | Decimal | string): Account {
+    this.pl = PrimitiveUtils.accountUnitValue(pl);
+    return this;
+  }
+
+  getPl(): AccountUnits {
+    return this.pl.copy();
+  }
+
+  setResettablePL(resettablePL: AccountUnits): Account;
+  setResettablePL(resettablePL: Decimal): Account;
+  setResettablePL(resettablePL: string): Account;
+  setResettablePL(resettablePL: AccountUnits | Decimal | string): Account {
+    this.resettablePL = PrimitiveUtils.accountUnitValue(resettablePL);
+    return this;
+  }
+
+  getResettablePL(): AccountUnits {
+    return this.resettablePL.copy();
+  }
+
+  setFinancing(financing: AccountUnits): Account;
+  setFinancing(financing: Decimal): Account;
+  setFinancing(financing: string): Account;
+  setFinancing(financing: AccountUnits | Decimal | string): Account {
+    this.financing = PrimitiveUtils.accountUnitValue(financing);
+    return this;
+  }
+
+  getFinancing(): AccountUnits {
+    return this.financing.copy();
+  }
+
   copy(): Account {
     return new Account()
       .setAccountID(this.id.copy())
@@ -449,6 +491,9 @@ export class Account {
       .setWithdrawalLimit(this.withdrawalLimit.copy())
       .setMarginCallMarginUsed(this.marginCallMarginUsed.copy())
       .setMarginCallPercent(this.marginCallPercent.copy())
-      .setBalance(this.balance.copy());
+      .setBalance(this.balance.copy())
+      .setPl(this.pl.copy())
+      .setResettablePL(this.resettablePL.copy())
+      .setFinancing(this.financing.copy());
   }
 }
