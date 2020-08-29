@@ -85,7 +85,10 @@ const createAccount = () => {
     .setFinancing(createAccountUnits())
     .setCommission(createAccountUnits())
     .setDividendAdjustment(createAccountUnits())
-    .setGuaranteedExecutionFees(createAccountUnits());
+    .setGuaranteedExecutionFees(createAccountUnits())
+    .setMarginCallEnterTime(createDateTime())
+    .setMarginCallExtensionCount(INTEGER_TEST_VALUE)
+    .setLastMarginCallExtensionTime(createDateTime());
 };
 
 const expectAccount = (account: Account) => {
@@ -126,4 +129,7 @@ const expectAccount = (account: Account) => {
   expectAccountUnits(account.getCommission());
   expectAccountUnits(account.getDividendAdjustment());
   expectAccountUnits(account.getGuaranteedExecutionFees());
+  expectDateTime(account.getMarginCallEnterTime());
+  expect(account.getMarginCallExtensionCount()).to.be.equal(INTEGER_TEST_VALUE);
+  expectDateTime(account.getLastMarginCallExtensionTime());
 };

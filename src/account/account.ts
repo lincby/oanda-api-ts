@@ -88,6 +88,12 @@ export class Account {
   private dividendAdjustment: AccountUnits = new AccountUnits('');
   @JsonProperty('guaranteedExecutionFees', AccountUnitsJsonConverter, false)
   private guaranteedExecutionFees: AccountUnits = new AccountUnits('');
+  @JsonProperty('marginCallEnterTime', DateTimeJsonConverter, true)
+  private marginCallEnterTime: DateTime = new DateTime('');
+  @JsonProperty('marginCallExtensionCount', Number, false)
+  private marginCallExtensionCount = 0;
+  @JsonProperty('lastMarginCallExtensionTime', DateTimeJsonConverter, true)
+  private lastMarginCallExtensionTime: DateTime = new DateTime('');
 
   setAccountID(id: AccountID): Account;
   setAccountID(id: string): Account;
@@ -511,6 +517,45 @@ export class Account {
     return this.guaranteedExecutionFees.copy();
   }
 
+  setMarginCallEnterTime(marginCallEnterTime: DateTime): Account;
+  setMarginCallEnterTime(marginCallEnterTime: string): Account;
+  setMarginCallEnterTime(marginCallEnterTime: DateTime | string): Account {
+    this.marginCallEnterTime = PrimitiveUtils.dateTimeValue(
+      marginCallEnterTime
+    );
+    return this;
+  }
+
+  getMarginCallEnterTime(): DateTime {
+    return this.marginCallEnterTime.copy();
+  }
+
+  setMarginCallExtensionCount(marginCallExtensionCount: number): Account {
+    this.marginCallExtensionCount = marginCallExtensionCount;
+    return this;
+  }
+
+  getMarginCallExtensionCount(): number {
+    return this.marginCallExtensionCount;
+  }
+
+  setLastMarginCallExtensionTime(
+    lastMarginCallExtensionTime: DateTime
+  ): Account;
+  setLastMarginCallExtensionTime(lastMarginCallExtensionTime: string): Account;
+  setLastMarginCallExtensionTime(
+    lastMarginCallExtensionTime: DateTime | string
+  ): Account {
+    this.lastMarginCallExtensionTime = PrimitiveUtils.dateTimeValue(
+      lastMarginCallExtensionTime
+    );
+    return this;
+  }
+
+  getLastMarginCallExtensionTime(): DateTime {
+    return this.lastMarginCallExtensionTime.copy();
+  }
+
   copy(): Account {
     return new Account()
       .setAccountID(this.id.copy())
@@ -547,6 +592,9 @@ export class Account {
       .setFinancing(this.financing.copy())
       .setCommission(this.commission.copy())
       .setDividendAdjustment(this.dividendAdjustment.copy())
-      .setGuaranteedExecutionFees(this.guaranteedExecutionFees.copy());
+      .setGuaranteedExecutionFees(this.guaranteedExecutionFees.copy())
+      .setMarginCallEnterTime(this.marginCallEnterTime.copy())
+      .setMarginCallExtensionCount(this.marginCallExtensionCount)
+      .setLastMarginCallExtensionTime(this.lastMarginCallExtensionTime.copy());
   }
 }
