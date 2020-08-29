@@ -82,7 +82,10 @@ const createAccount = () => {
     .setBalance(createAccountUnits())
     .setPl(createAccountUnits())
     .setResettablePL(createAccountUnits())
-    .setFinancing(createAccountUnits());
+    .setFinancing(createAccountUnits())
+    .setCommission(createAccountUnits())
+    .setDividendAdjustment(createAccountUnits())
+    .setGuaranteedExecutionFees(createAccountUnits());
 };
 
 const expectAccount = (account: Account) => {
@@ -120,4 +123,7 @@ const expectAccount = (account: Account) => {
   expectAccountUnits(account.getPl());
   expectAccountUnits(account.getResettablePL());
   expectAccountUnits(account.getFinancing());
+  expectAccountUnits(account.getCommission());
+  expectAccountUnits(account.getDividendAdjustment());
+  expectAccountUnits(account.getGuaranteedExecutionFees());
 };

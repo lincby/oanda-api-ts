@@ -82,6 +82,12 @@ export class Account {
   private resettablePL: AccountUnits = new AccountUnits('');
   @JsonProperty('financing', AccountUnitsJsonConverter, false)
   private financing: AccountUnits = new AccountUnits('');
+  @JsonProperty('commission', AccountUnitsJsonConverter, false)
+  private commission: AccountUnits = new AccountUnits('');
+  @JsonProperty('dividendAdjustment', AccountUnitsJsonConverter, false)
+  private dividendAdjustment: AccountUnits = new AccountUnits('');
+  @JsonProperty('guaranteedExecutionFees', AccountUnitsJsonConverter, false)
+  private guaranteedExecutionFees: AccountUnits = new AccountUnits('');
 
   setAccountID(id: AccountID): Account;
   setAccountID(id: string): Account;
@@ -461,6 +467,50 @@ export class Account {
     return this.financing.copy();
   }
 
+  setCommission(commission: AccountUnits): Account;
+  setCommission(commission: Decimal): Account;
+  setCommission(commission: string): Account;
+  setCommission(commission: AccountUnits | Decimal | string): Account {
+    this.commission = PrimitiveUtils.accountUnitValue(commission);
+    return this;
+  }
+
+  getCommission(): AccountUnits {
+    return this.commission.copy();
+  }
+
+  setDividendAdjustment(dividendAdjustment: AccountUnits): Account;
+  setDividendAdjustment(dividendAdjustment: Decimal): Account;
+  setDividendAdjustment(dividendAdjustment: string): Account;
+  setDividendAdjustment(
+    dividendAdjustment: AccountUnits | Decimal | string
+  ): Account {
+    this.dividendAdjustment = PrimitiveUtils.accountUnitValue(
+      dividendAdjustment
+    );
+    return this;
+  }
+
+  getDividendAdjustment(): AccountUnits {
+    return this.dividendAdjustment.copy();
+  }
+
+  setGuaranteedExecutionFees(guaranteedExecutionFees: AccountUnits): Account;
+  setGuaranteedExecutionFees(guaranteedExecutionFees: Decimal): Account;
+  setGuaranteedExecutionFees(guaranteedExecutionFees: string): Account;
+  setGuaranteedExecutionFees(
+    guaranteedExecutionFees: AccountUnits | Decimal | string
+  ): Account {
+    this.guaranteedExecutionFees = PrimitiveUtils.accountUnitValue(
+      guaranteedExecutionFees
+    );
+    return this;
+  }
+
+  getGuaranteedExecutionFees(): AccountUnits {
+    return this.guaranteedExecutionFees.copy();
+  }
+
   copy(): Account {
     return new Account()
       .setAccountID(this.id.copy())
@@ -494,6 +544,9 @@ export class Account {
       .setBalance(this.balance.copy())
       .setPl(this.pl.copy())
       .setResettablePL(this.resettablePL.copy())
-      .setFinancing(this.financing.copy());
+      .setFinancing(this.financing.copy())
+      .setCommission(this.commission.copy())
+      .setDividendAdjustment(this.dividendAdjustment.copy())
+      .setGuaranteedExecutionFees(this.guaranteedExecutionFees.copy());
   }
 }
