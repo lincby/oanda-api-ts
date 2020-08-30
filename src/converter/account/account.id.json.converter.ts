@@ -1,5 +1,5 @@
 import {JsonConverter, JsonCustomConvert} from 'json2typescript';
-import {AccountID} from '../account/account.id';
+import {AccountID} from '../../account/account.id';
 
 @JsonConverter
 export class AccountIdJsonConverter implements JsonCustomConvert<AccountID> {

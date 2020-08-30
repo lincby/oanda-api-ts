@@ -1,5 +1,5 @@
 import {JsonConverter, JsonCustomConvert} from 'json2typescript';
-import {AccountUnits} from '../primitives/account.units';
+import {AccountUnits} from '../../primitives/account.units';
 
 @JsonConverter
 export class AccountUnitsJsonConverter

@@ -1,7 +1,7 @@
 import {describe} from 'mocha';
 import {it} from 'mocha';
 import {expect} from 'chai';
-import {AccountID} from '../../src';
+import {AccountID} from '../../src/account/account.id';
 import {STRING_TEST_VALUE} from '../test.utils.spec';
 
 describe('AccountID', () => {

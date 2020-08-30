@@ -2,8 +2,18 @@ import {AccountUnits} from '../primitives/account.units';
 import {DateTime} from '../primitives/date.time';
 import Decimal from 'decimal.js';
 import {DecimalNumber} from '../primitives/decimal.number';
+import {InstrumentName} from '../primitives/instrument.name';
 
 export class PrimitiveUtils {
+
+  static instrumentNameValue = (src: InstrumentName | string): InstrumentName => {
+    if(src instanceof InstrumentName) {
+      return src.copy();
+    } else {
+      return new InstrumentName(src);
+    }
+  }
+
   static decimalNumberValue = (
     src: DecimalNumber | Decimal | string
   ): DecimalNumber => {

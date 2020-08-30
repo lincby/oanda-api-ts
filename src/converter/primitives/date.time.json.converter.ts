@@ -1,5 +1,5 @@
 import {JsonConverter, JsonCustomConvert} from 'json2typescript';
-import {DateTime} from '../primitives/date.time';
+import {DateTime} from '../../primitives/date.time';
 
 @JsonConverter
 export class DateTimeJsonConverter implements JsonCustomConvert<DateTime> {

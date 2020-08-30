@@ -1,5 +1,5 @@
 import {JsonConverter, JsonCustomConvert} from 'json2typescript';
-import {Currency} from '../primitives/currency';
+import {Currency} from '../../primitives/currency';
 
 @JsonConverter
 export class CurrencyJsonConverter implements JsonCustomConvert<Currency> {

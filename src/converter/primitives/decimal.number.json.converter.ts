@@ -1,5 +1,5 @@
 import {JsonConverter, JsonCustomConvert} from 'json2typescript';
-import {DecimalNumber} from '../primitives/decimal.number';
+import {DecimalNumber} from '../../primitives/decimal.number';
 
 @JsonConverter
 export class DecimalNumberJsonConverter
