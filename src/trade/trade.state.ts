@@ -1,0 +1,5 @@
+export enum TradeState {
+  OPEN = 'OPEN',
+  CLOSED = 'CLOSED',
+  CLOSE_WHEN_TRADEABLE = 'CLOSE_WHEN_TRADEABLE',
+}

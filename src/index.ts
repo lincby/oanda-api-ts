@@ -25,6 +25,7 @@ export {InstrumentName} from './primitives/instrument.name';
 // trade
 export {TradeID} from './trade/trade.id';
 export {TradeSummary} from './trade/trade.summary';
+export {TradeState} from './trade/trade.state';
 // transaction
 export {TransactionID} from './transaction/transaction.id';
 // utils

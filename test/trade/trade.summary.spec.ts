@@ -11,6 +11,12 @@ import {
   createPriceValue,
   expectPriceValue,
 } from '../price_common/price.value.spec';
+import {createDateTime, expectDateTime} from '../primitives/date.time.spec';
+import {TradeState} from '../../src/trade/trade.state';
+import {
+  createDecimalNumber,
+  expectDecimalNumber,
+} from '../primitives/decimal.number.spec';
 
 describe('TradeSummary', () => {
   it('test setter and getter', () => {
@@ -44,10 +50,16 @@ const createTradeSummary = (): TradeSummary =>
   new TradeSummary()
     .setTradeID(createTradeID())
     .setInstrumentName(createInstrumentName())
-    .setPrice(createPriceValue());
+    .setPrice(createPriceValue())
+    .setOpenTime(createDateTime())
+    .setState(TradeState.OPEN)
+    .setInitialUnits(createDecimalNumber());
 
 const expectTradeSummary = (tradeSummary: TradeSummary) => {
   expectTradeID(tradeSummary.getTradeID());
   expectInstrumentName(tradeSummary.getInstrumentName());
   expectPriceValue(tradeSummary.getPrice());
+  expectDateTime(tradeSummary.getOpenTime());
+  expect(tradeSummary.getState()).to.be.equal(TradeState.OPEN);
+  expectDecimalNumber(tradeSummary.getInitialUnits());
 };

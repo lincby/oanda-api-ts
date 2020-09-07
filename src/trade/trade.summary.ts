@@ -8,6 +8,11 @@ import {PriceValue} from '../price_common/price.value';
 import {PriceValueJsonConverter} from '../converter/price_common/price.value.json.converter';
 import Decimal from 'decimal.js';
 import {PriceCommonUtils} from '../util/price.common.utils';
+import {DateTime} from '../primitives/date.time';
+import {DateTimeJsonConverter} from '../converter/primitives/date.time.json.converter';
+import {TradeState} from './trade.state';
+import {DecimalNumber} from '../primitives/decimal.number';
+import {DecimalNumberJsonConverter} from '../converter/primitives/decimal.number.json.converter';
 
 @JsonObject('TradeSummary')
 export class TradeSummary {
@@ -17,6 +22,12 @@ export class TradeSummary {
   private instrumentName: InstrumentName = new InstrumentName('');
   @JsonProperty('price', PriceValueJsonConverter, false)
   private price: PriceValue = new PriceValue('');
+  @JsonProperty('openTime', DateTimeJsonConverter, false)
+  private openTime: DateTime = new DateTime('');
+  @JsonProperty('state', String, true)
+  private state: TradeState = TradeState.CLOSED;
+  @JsonProperty('initialUnits', DecimalNumberJsonConverter, true)
+  private initialUnits: DecimalNumber = new DecimalNumber('');
 
   setTradeID(id: TradeID): TradeSummary;
   setTradeID(id: string): TradeSummary;
@@ -56,10 +67,47 @@ export class TradeSummary {
     return this.price.copy();
   }
 
+  setOpenTime(openTime: DateTime): TradeSummary;
+  setOpenTime(openTime: string): TradeSummary;
+  setOpenTime(openTime: DateTime | string): TradeSummary {
+    this.openTime = PrimitiveUtils.dateTimeValue(openTime);
+    return this;
+  }
+
+  getOpenTime(): DateTime {
+    return this.openTime.copy();
+  }
+
+  setState(state: TradeState): TradeSummary {
+    this.state = state;
+    return this;
+  }
+
+  getState(): TradeState {
+    return this.state;
+  }
+
+  setInitialUnits(initialUnits: DecimalNumber): TradeSummary;
+  setInitialUnits(initialUnits: Decimal): TradeSummary;
+  setInitialUnits(initialUnits: string): TradeSummary;
+  setInitialUnits(
+    initialUnits: DecimalNumber | Decimal | string
+  ): TradeSummary {
+    this.initialUnits = PrimitiveUtils.decimalNumberValue(initialUnits);
+    return this;
+  }
+
+  getInitialUnits(): DecimalNumber {
+    return this.initialUnits.copy();
+  }
+
   copy(): TradeSummary {
     return new TradeSummary()
       .setTradeID(this.id.copy())
       .setInstrumentName(this.instrumentName.copy())
-      .setPrice(this.price.copy());
+      .setPrice(this.price.copy())
+      .setOpenTime(this.openTime.copy())
+      .setState(this.state)
+      .setInitialUnits(this.initialUnits.copy());
   }
 }
