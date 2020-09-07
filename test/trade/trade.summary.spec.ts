@@ -17,6 +17,7 @@ import {
   createDecimalNumber,
   expectDecimalNumber,
 } from '../primitives/decimal.number.spec';
+import {createAccountUnits, expectAccountUnits} from '../primitives/account.units.spec';
 
 describe('TradeSummary', () => {
   it('test setter and getter', () => {
@@ -53,7 +54,10 @@ const createTradeSummary = (): TradeSummary =>
     .setPrice(createPriceValue())
     .setOpenTime(createDateTime())
     .setState(TradeState.OPEN)
-    .setInitialUnits(createDecimalNumber());
+    .setInitialUnits(createDecimalNumber())
+      .setInitialMarginRequired(createAccountUnits())
+      .setCurrentUnits(createDecimalNumber())
+      .setRealizedPL(createAccountUnits());
 
 const expectTradeSummary = (tradeSummary: TradeSummary) => {
   expectTradeID(tradeSummary.getTradeID());
@@ -62,4 +66,7 @@ const expectTradeSummary = (tradeSummary: TradeSummary) => {
   expectDateTime(tradeSummary.getOpenTime());
   expect(tradeSummary.getState()).to.be.equal(TradeState.OPEN);
   expectDecimalNumber(tradeSummary.getInitialUnits());
+  expectAccountUnits(tradeSummary.getInitialMarginRequired());
+  expectDecimalNumber(tradeSummary.getCurrentUnits());
+  expectAccountUnits(tradeSummary.getRealizedPL());
 };

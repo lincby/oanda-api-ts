@@ -13,6 +13,8 @@ import {DateTimeJsonConverter} from '../converter/primitives/date.time.json.conv
 import {TradeState} from './trade.state';
 import {DecimalNumber} from '../primitives/decimal.number';
 import {DecimalNumberJsonConverter} from '../converter/primitives/decimal.number.json.converter';
+import {AccountUnits} from '../primitives/account.units';
+import {AccountUnitsJsonConverter} from '../converter/primitives/account.units.json.converter';
 
 @JsonObject('TradeSummary')
 export class TradeSummary {
@@ -26,8 +28,14 @@ export class TradeSummary {
   private openTime: DateTime = new DateTime('');
   @JsonProperty('state', String, true)
   private state: TradeState = TradeState.CLOSED;
-  @JsonProperty('initialUnits', DecimalNumberJsonConverter, true)
+  @JsonProperty('initialUnits', DecimalNumberJsonConverter, false)
   private initialUnits: DecimalNumber = new DecimalNumber('');
+  @JsonProperty('initialMarginRequired', AccountUnitsJsonConverter, false)
+  private initialMarginRequired: AccountUnits = new AccountUnits('');
+  @JsonProperty('currentUnits', DecimalNumberJsonConverter, false)
+  private currentUnits: DecimalNumber = new DecimalNumber('');
+  @JsonProperty('realizedPL', AccountUnitsJsonConverter, false)
+  private realizedPL: AccountUnits = new AccountUnits('');
 
   setTradeID(id: TradeID): TradeSummary;
   setTradeID(id: string): TradeSummary;
@@ -101,6 +109,42 @@ export class TradeSummary {
     return this.initialUnits.copy();
   }
 
+  setInitialMarginRequired(initialMarginRequired: AccountUnits): TradeSummary;
+  setInitialMarginRequired(initialMarginRequired: Decimal): TradeSummary;
+  setInitialMarginRequired(initialMarginRequired: string): TradeSummary;
+  setInitialMarginRequired(initialMarginRequired: AccountUnits | Decimal | string): TradeSummary {
+    this.initialMarginRequired = PrimitiveUtils.accountUnitValue(initialMarginRequired);
+    return this;
+  }
+
+  getInitialMarginRequired(): AccountUnits {
+    return this.initialMarginRequired.copy();
+  }
+
+  setCurrentUnits(currentUnits: DecimalNumber): TradeSummary;
+  setCurrentUnits(currentUnits: Decimal): TradeSummary;
+  setCurrentUnits(currentUnits: string): TradeSummary;
+  setCurrentUnits(currentUnits: DecimalNumber | Decimal | string): TradeSummary {
+    this.currentUnits = PrimitiveUtils.decimalNumberValue(currentUnits);
+    return this;
+  }
+
+  getCurrentUnits(): DecimalNumber {
+    return this.currentUnits.copy();
+  }
+
+  setRealizedPL(realizedPL: AccountUnits): TradeSummary;
+  setRealizedPL(realizedPL: Decimal): TradeSummary;
+  setRealizedPL(realizedPL: string): TradeSummary;
+  setRealizedPL(realizedPL: AccountUnits | Decimal | string): TradeSummary {
+    this.realizedPL = PrimitiveUtils.accountUnitValue(realizedPL);
+    return this;
+  }
+
+  getRealizedPL(): AccountUnits {
+    return this.realizedPL.copy();
+  }
+
   copy(): TradeSummary {
     return new TradeSummary()
       .setTradeID(this.id.copy())
@@ -108,6 +152,9 @@ export class TradeSummary {
       .setPrice(this.price.copy())
       .setOpenTime(this.openTime.copy())
       .setState(this.state)
-      .setInitialUnits(this.initialUnits.copy());
+      .setInitialUnits(this.initialUnits.copy())
+        .setInitialMarginRequired(this.initialMarginRequired.copy())
+        .setCurrentUnits(this.currentUnits.copy())
+        .setRealizedPL(this.realizedPL.copy());
   }
 }
