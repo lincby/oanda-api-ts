@@ -2,7 +2,8 @@ import {JsonConverter, JsonCustomConvert} from 'json2typescript';
 import {InstrumentName} from '../../primitives/instrument.name';
 
 @JsonConverter
-export class InstrumentNameJsonConverter implements JsonCustomConvert<InstrumentName> {
+export class InstrumentNameJsonConverter
+  implements JsonCustomConvert<InstrumentName> {
   serialize(instrumentName: InstrumentName): string {
     return instrumentName.getValue();
   }

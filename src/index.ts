@@ -11,7 +11,10 @@ export {DateTimeJsonConverter} from './converter/primitives/date.time.json.conve
 export {DecimalNumberJsonConverter} from './converter/primitives/decimal.number.json.converter';
 export {TransactionIdJsonConverter} from './converter/transaction/transaction.id.json.converter';
 export {TradeIdJsonConverter} from './converter/trade/trade.id.json.converter';
-export {InstrumentNameJsonConverter} from './converter/primitives/instrument.name.json.converter'
+export {InstrumentNameJsonConverter} from './converter/primitives/instrument.name.json.converter';
+export {PriceValueJsonConverter} from './converter/price_common/price.value.json.converter';
+// price common
+export {PriceValue} from './price_common/price.value';
 // primitives
 export {StringPrimitive} from './primitives/string.primitive';
 export {Currency} from './primitives/currency';
@@ -26,3 +29,4 @@ export {TradeSummary} from './trade/trade.summary';
 export {TransactionID} from './transaction/transaction.id';
 // utils
 export {PrimitiveUtils} from './util/primitive.utils';
+export {PriceCommonUtils} from './util/price.common.utils';

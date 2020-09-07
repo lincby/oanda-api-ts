@@ -1,18 +1,20 @@
 import {AccountID} from './account.id';
 import {JsonObject, JsonProperty} from 'json2typescript';
-import {AccountIdJsonConverter} from '../converter/account.id.json.converter';
+import {AccountIdJsonConverter} from '../converter/account/account.id.json.converter';
 import {Currency} from '../primitives/currency';
-import {CurrencyJsonConverter} from '../converter/currency.json.converter';
+import {CurrencyJsonConverter} from '../converter/primitives/currency.json.converter';
 import {AccountUnits} from '../primitives/account.units';
-import {AccountUnitsJsonConverter} from '../converter/account.units.json.converter';
+import {AccountUnitsJsonConverter} from '../converter/primitives/account.units.json.converter';
 import Decimal from 'decimal.js';
 import {DateTime} from '../primitives/date.time';
-import {DateTimeJsonConverter} from '../converter/date.time.json.converter';
+import {DateTimeJsonConverter} from '../converter/primitives/date.time.json.converter';
 import {GuaranteedStopLossOrderMode} from './guaranteed.stop.loss.order.mode';
 import {GuaranteedStopLossOrderMutability} from './guaranteed.stop.loss.order.mutability';
 import {DecimalNumber} from '../primitives/decimal.number';
-import {DecimalNumberJsonConverter} from '../converter/decimal.number.json.converter';
+import {DecimalNumberJsonConverter} from '../converter/primitives/decimal.number.json.converter';
 import {PrimitiveUtils} from '../util/primitive.utils';
+import {TransactionID} from '../transaction/transaction.id';
+import {TransactionIdJsonConverter} from '../converter/transaction/transaction.id.json.converter';
 
 @JsonObject('Account')
 export class Account {
@@ -94,6 +96,8 @@ export class Account {
   private marginCallExtensionCount = 0;
   @JsonProperty('lastMarginCallExtensionTime', DateTimeJsonConverter, true)
   private lastMarginCallExtensionTime: DateTime = new DateTime('');
+  @JsonProperty('lastTransactionID', TransactionIdJsonConverter, false)
+  private lastTransactionID: TransactionID = new TransactionID('');
 
   setAccountID(id: AccountID): Account;
   setAccountID(id: string): Account;
@@ -556,6 +560,21 @@ export class Account {
     return this.lastMarginCallExtensionTime.copy();
   }
 
+  setLastTransactionID(lastTransactionID: TransactionID): Account;
+  setLastTransactionID(lastTransactionID: string): Account;
+  setLastTransactionID(lastTransactionID: TransactionID | string): Account {
+    if (lastTransactionID instanceof TransactionID) {
+      this.lastTransactionID = lastTransactionID.copy();
+    } else {
+      this.lastTransactionID = new TransactionID(lastTransactionID);
+    }
+    return this;
+  }
+
+  getLastTransactionID(): TransactionID {
+    return this.lastTransactionID.copy();
+  }
+
   copy(): Account {
     return new Account()
       .setAccountID(this.id.copy())
@@ -595,6 +614,7 @@ export class Account {
       .setGuaranteedExecutionFees(this.guaranteedExecutionFees.copy())
       .setMarginCallEnterTime(this.marginCallEnterTime.copy())
       .setMarginCallExtensionCount(this.marginCallExtensionCount)
-      .setLastMarginCallExtensionTime(this.lastMarginCallExtensionTime.copy());
+      .setLastMarginCallExtensionTime(this.lastMarginCallExtensionTime.copy())
+      .setLastTransactionID(this.lastTransactionID.copy());
   }
 }

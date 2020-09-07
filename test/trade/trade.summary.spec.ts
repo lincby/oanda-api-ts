@@ -3,7 +3,14 @@ import {expect} from 'chai';
 import {TradeSummary} from '../../src/trade/trade.summary';
 import {createTradeID, expectTradeID} from './trade.id.spec';
 import {JsonConvert} from 'json2typescript';
-import {createInstrumentName, expectInstrumentName} from '../primitives/instrument.name.spec';
+import {
+  createInstrumentName,
+  expectInstrumentName,
+} from '../primitives/instrument.name.spec';
+import {
+  createPriceValue,
+  expectPriceValue,
+} from '../price_common/price.value.spec';
 
 describe('TradeSummary', () => {
   it('test setter and getter', () => {
@@ -35,10 +42,12 @@ describe('TradeSummary', () => {
 
 const createTradeSummary = (): TradeSummary =>
   new TradeSummary()
-      .setTradeID(createTradeID())
-      .setInstrumentName(createInstrumentName());
+    .setTradeID(createTradeID())
+    .setInstrumentName(createInstrumentName())
+    .setPrice(createPriceValue());
 
 const expectTradeSummary = (tradeSummary: TradeSummary) => {
   expectTradeID(tradeSummary.getTradeID());
   expectInstrumentName(tradeSummary.getInstrumentName());
+  expectPriceValue(tradeSummary.getPrice());
 };

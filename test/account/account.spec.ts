@@ -20,6 +20,10 @@ import {
   createDecimalNumber,
   expectDecimalNumber,
 } from '../primitives/decimal.number.spec';
+import {
+  createTransactionID,
+  expectTransactionID,
+} from '../transaction/transaction.id.spec';
 
 describe('Account', () => {
   it('test setter and getter', () => {
@@ -49,8 +53,8 @@ describe('Account', () => {
   });
 });
 
-const createAccount = () => {
-  return new Account()
+const createAccount = (): Account =>
+  new Account()
     .setAccountID(createAccountID())
     .setAlias(STRING_TEST_VALUE)
     .setCurrency(createCurrency())
@@ -88,8 +92,8 @@ const createAccount = () => {
     .setGuaranteedExecutionFees(createAccountUnits())
     .setMarginCallEnterTime(createDateTime())
     .setMarginCallExtensionCount(INTEGER_TEST_VALUE)
-    .setLastMarginCallExtensionTime(createDateTime());
-};
+    .setLastMarginCallExtensionTime(createDateTime())
+    .setLastTransactionID(createTransactionID());
 
 const expectAccount = (account: Account) => {
   expectAccountID(account.getAccountID());
@@ -132,4 +136,5 @@ const expectAccount = (account: Account) => {
   expectDateTime(account.getMarginCallEnterTime());
   expect(account.getMarginCallExtensionCount()).to.be.equal(INTEGER_TEST_VALUE);
   expectDateTime(account.getLastMarginCallExtensionTime());
+  expectTransactionID(account.getLastTransactionID());
 };

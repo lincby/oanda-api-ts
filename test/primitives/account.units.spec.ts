@@ -33,9 +33,9 @@ describe('AccountUnits', () => {
 export const createAccountUnits = () =>
   new AccountUnits(new Decimal(DOUBLE_TEST_VALUE).toString());
 
-export const expectAccountUnits = (currency: AccountUnits) => {
-  expect(currency.getValue()).to.be.equal(DOUBLE_TEST_VALUE.toString());
-  expect(currency.getDecimalValue()).to.be.deep.equal(
+export const expectAccountUnits = (accountUnits: AccountUnits) => {
+  expect(accountUnits.getValue()).to.be.equal(DOUBLE_TEST_VALUE.toString());
+  expect(accountUnits.getDecimalValue()).to.be.deep.equal(
     new Decimal(DOUBLE_TEST_VALUE)
   );
 };
