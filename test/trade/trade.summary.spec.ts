@@ -61,9 +61,9 @@ const createTradeSummary = (): TradeSummary =>
     .setInitialMarginRequired(createAccountUnits())
     .setCurrentUnits(createDecimalNumber())
     .setRealizedPL(createAccountUnits())
-      .setUnrealizedPL(createAccountUnits())
-      .setMarginUsed(createAccountUnits())
-      .setAverageClosePrice(createPriceValue());
+    .setUnrealizedPL(createAccountUnits())
+    .setMarginUsed(createAccountUnits())
+    .setAverageClosePrice(createPriceValue());
 
 const expectTradeSummary = (tradeSummary: TradeSummary) => {
   expectTradeID(tradeSummary.getTradeID());

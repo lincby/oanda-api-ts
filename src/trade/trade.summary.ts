@@ -184,7 +184,9 @@ export class TradeSummary {
   setAverageClosePrice(averageClosePrice: PriceValue): TradeSummary;
   setAverageClosePrice(averageClosePrice: Decimal): TradeSummary;
   setAverageClosePrice(averageClosePrice: string): TradeSummary;
-  setAverageClosePrice(averageClosePrice: PriceValue | Decimal | string): TradeSummary {
+  setAverageClosePrice(
+    averageClosePrice: PriceValue | Decimal | string
+  ): TradeSummary {
     this.averageClosePrice = PriceCommonUtils.priceValue(averageClosePrice);
     return this;
   }
@@ -205,7 +207,7 @@ export class TradeSummary {
       .setCurrentUnits(this.currentUnits.copy())
       .setRealizedPL(this.realizedPL.copy())
       .setUnrealizedPL(this.unrealizedPL.copy())
-        .setMarginUsed(this.marginUsed.copy())
-        .setAverageClosePrice(this.averageClosePrice.copy());
+      .setMarginUsed(this.marginUsed.copy())
+      .setAverageClosePrice(this.averageClosePrice.copy());
   }
 }
