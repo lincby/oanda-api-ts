@@ -13,6 +13,7 @@ export {TransactionIdJsonConverter} from './converter/transaction/transaction.id
 export {TradeIdJsonConverter} from './converter/trade/trade.id.json.converter';
 export {InstrumentNameJsonConverter} from './converter/primitives/instrument.name.json.converter';
 export {PriceValueJsonConverter} from './converter/price_common/price.value.json.converter';
+export {TransactionIdArrayJsonConverter} from './converter/transaction/transaction.id.array.json.converter';
 // price common
 export {PriceValue} from './price_common/price.value';
 // primitives

@@ -15,6 +15,8 @@ import {DecimalNumber} from '../primitives/decimal.number';
 import {DecimalNumberJsonConverter} from '../converter/primitives/decimal.number.json.converter';
 import {AccountUnits} from '../primitives/account.units';
 import {AccountUnitsJsonConverter} from '../converter/primitives/account.units.json.converter';
+import {TransactionID} from '../transaction/transaction.id';
+import {TransactionIdArrayJsonConverter} from '../converter/transaction/transaction.id.array.json.converter';
 
 @JsonObject('TradeSummary')
 export class TradeSummary {
@@ -42,6 +44,8 @@ export class TradeSummary {
   private marginUsed: AccountUnits = new AccountUnits('');
   @JsonProperty('averageClosePrice', PriceValueJsonConverter, false)
   private averageClosePrice: PriceValue = new PriceValue('');
+  @JsonProperty('closingTransactionIDs', TransactionIdArrayJsonConverter, false)
+  private closingTransactionIDs: TransactionID[] = new Array<TransactionID>();
 
   setTradeID(id: TradeID): TradeSummary;
   setTradeID(id: string): TradeSummary;
@@ -195,6 +199,29 @@ export class TradeSummary {
     return this.averageClosePrice.copy();
   }
 
+  setClosingTransactionIDs(closingTransactionIDs: string[] | TransactionID[]) {
+    const newClosingTransactionIDs: TransactionID[] = new Array<
+      TransactionID
+    >();
+    closingTransactionIDs.forEach((item: any) => {
+      if (item instanceof TransactionID) {
+        newClosingTransactionIDs.push(item.copy());
+      } else {
+        newClosingTransactionIDs.push(new TransactionID(item));
+      }
+    });
+    this.closingTransactionIDs = newClosingTransactionIDs;
+    return this;
+  }
+
+  getClosingTransactionIDs(): TransactionID[] {
+    const copyOfClosingTransactionID = new Array<TransactionID>();
+    this.closingTransactionIDs.forEach(item =>
+      copyOfClosingTransactionID.push(item.copy())
+    );
+    return copyOfClosingTransactionID;
+  }
+
   copy(): TradeSummary {
     return new TradeSummary()
       .setTradeID(this.id.copy())
@@ -208,6 +235,7 @@ export class TradeSummary {
       .setRealizedPL(this.realizedPL.copy())
       .setUnrealizedPL(this.unrealizedPL.copy())
       .setMarginUsed(this.marginUsed.copy())
-      .setAverageClosePrice(this.averageClosePrice.copy());
+      .setAverageClosePrice(this.averageClosePrice.copy())
+      .setClosingTransactionIDs(this.getClosingTransactionIDs());
   }
 }

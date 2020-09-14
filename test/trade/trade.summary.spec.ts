@@ -21,6 +21,10 @@ import {
   createAccountUnits,
   expectAccountUnits,
 } from '../primitives/account.units.spec';
+import {
+  createTransactionID,
+  expectTransactionID,
+} from '../transaction/transaction.id.spec';
 
 describe('TradeSummary', () => {
   it('test setter and getter', () => {
@@ -63,7 +67,12 @@ const createTradeSummary = (): TradeSummary =>
     .setRealizedPL(createAccountUnits())
     .setUnrealizedPL(createAccountUnits())
     .setMarginUsed(createAccountUnits())
-    .setAverageClosePrice(createPriceValue());
+    .setAverageClosePrice(createPriceValue())
+    .setClosingTransactionIDs([
+      createTransactionID(),
+      createTransactionID(),
+      createTransactionID(),
+    ]);
 
 const expectTradeSummary = (tradeSummary: TradeSummary) => {
   expectTradeID(tradeSummary.getTradeID());
@@ -78,4 +87,7 @@ const expectTradeSummary = (tradeSummary: TradeSummary) => {
   expectAccountUnits(tradeSummary.getUnrealizedPL());
   expectAccountUnits(tradeSummary.getMarginUsed());
   expectPriceValue(tradeSummary.getAverageClosePrice());
+  expectTransactionID(tradeSummary.getClosingTransactionIDs()[0]);
+  expectTransactionID(tradeSummary.getClosingTransactionIDs()[1]);
+  expectTransactionID(tradeSummary.getClosingTransactionIDs()[2]);
 };
