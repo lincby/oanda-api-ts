@@ -99,8 +99,6 @@ export class Account {
   @JsonProperty('lastTransactionID', TransactionIdJsonConverter, false)
   private lastTransactionID: TransactionID = new TransactionID('');
 
-  setAccountID(id: AccountID): Account;
-  setAccountID(id: string): Account;
   setAccountID(id: AccountID | string): Account {
     if (id instanceof AccountID) {
       this.id = id.copy();
@@ -123,8 +121,6 @@ export class Account {
     return this.alias;
   }
 
-  setCurrency(currency: Currency): Account;
-  setCurrency(currency: string): Account;
   setCurrency(currency: Currency | string): Account {
     if (currency instanceof Currency) {
       this.currency = currency.copy();
@@ -147,8 +143,6 @@ export class Account {
     return this.createdByUserID;
   }
 
-  setCreatedTime(createdTime: DateTime): Account;
-  setCreatedTime(createdTime: string): Account;
   setCreatedTime(createdTime: DateTime | string): Account {
     this.createdTime = PrimitiveUtils.dateTimeValue(createdTime);
     return this;
@@ -180,8 +174,6 @@ export class Account {
     return this.guaranteedStopLossOrderMutability;
   }
 
-  setResettablePLTime(resettablePLTime: DateTime): Account;
-  setResettablePLTime(resettablePLTime: string): Account;
   setResettablePLTime(resettablePLTime: DateTime | string): Account {
     this.resettablePLTime = PrimitiveUtils.dateTimeValue(resettablePLTime);
     return this;
@@ -191,9 +183,6 @@ export class Account {
     return this.resettablePLTime;
   }
 
-  setMarginRate(marginRate: DecimalNumber): Account;
-  setMarginRate(marginRate: Decimal): Account;
-  setMarginRate(marginRate: string): Account;
   setMarginRate(marginRate: DecimalNumber | Decimal | string): Account {
     this.marginRate = PrimitiveUtils.decimalNumberValue(marginRate);
     return this;
@@ -239,9 +228,6 @@ export class Account {
     return this.hedgingEnabled;
   }
 
-  setUnrealizedPL(unrealizedPL: AccountUnits): Account;
-  setUnrealizedPL(unrealizedPL: Decimal): Account;
-  setUnrealizedPL(unrealizedPL: string): Account;
   setUnrealizedPL(unrealizedPL: AccountUnits | Decimal | string): Account {
     this.unrealizedPL = PrimitiveUtils.accountUnitValue(unrealizedPL);
     return this;
@@ -251,9 +237,6 @@ export class Account {
     return this.unrealizedPL.copy();
   }
 
-  setNAV(nAV: AccountUnits): Account;
-  setNAV(nAV: Decimal): Account;
-  setNAV(nAV: string): Account;
   setNAV(nAV: AccountUnits | Decimal | string): Account {
     this.nAV = PrimitiveUtils.accountUnitValue(nAV);
     return this;
@@ -263,9 +246,6 @@ export class Account {
     return this.nAV.copy();
   }
 
-  setMarginUsed(marginUsed: AccountUnits): Account;
-  setMarginUsed(marginUsed: Decimal): Account;
-  setMarginUsed(marginUsed: string): Account;
   setMarginUsed(marginUsed: AccountUnits | Decimal | string): Account {
     this.marginUsed = PrimitiveUtils.accountUnitValue(marginUsed);
     return this;
@@ -275,9 +255,6 @@ export class Account {
     return this.marginUsed.copy();
   }
 
-  setMarginAvailable(marginAvailable: AccountUnits): Account;
-  setMarginAvailable(marginAvailable: Decimal): Account;
-  setMarginAvailable(marginAvailable: string): Account;
   setMarginAvailable(
     marginAvailable: AccountUnits | Decimal | string
   ): Account {
@@ -289,9 +266,6 @@ export class Account {
     return this.marginAvailable.copy();
   }
 
-  setPositionValue(positionValue: AccountUnits): Account;
-  setPositionValue(positionValue: Decimal): Account;
-  setPositionValue(positionValue: string): Account;
   setPositionValue(positionValue: AccountUnits | Decimal | string): Account {
     this.positionValue = PrimitiveUtils.accountUnitValue(positionValue);
     return this;
@@ -301,11 +275,6 @@ export class Account {
     return this.positionValue.copy();
   }
 
-  setMarginCloseoutUnrealizedPL(
-    marginCloseoutUnrealizedPL: AccountUnits
-  ): Account;
-  setMarginCloseoutUnrealizedPL(marginCloseoutUnrealizedPL: Decimal): Account;
-  setMarginCloseoutUnrealizedPL(marginCloseoutUnrealizedPL: string): Account;
   setMarginCloseoutUnrealizedPL(
     marginCloseoutUnrealizedPL: AccountUnits | Decimal | string
   ): Account {
@@ -319,9 +288,6 @@ export class Account {
     return this.marginCloseoutUnrealizedPL.copy();
   }
 
-  setMarginCloseoutNAV(marginCloseoutNAV: AccountUnits): Account;
-  setMarginCloseoutNAV(marginCloseoutNAV: Decimal): Account;
-  setMarginCloseoutNAV(marginCloseoutNAV: string): Account;
   setMarginCloseoutNAV(
     marginCloseoutNAV: AccountUnits | Decimal | string
   ): Account {
@@ -333,9 +299,6 @@ export class Account {
     return this.marginCloseoutNAV.copy();
   }
 
-  setMarginCloseoutMarginUsed(marginCloseoutMarginUsed: AccountUnits): Account;
-  setMarginCloseoutMarginUsed(marginCloseoutMarginUsed: Decimal): Account;
-  setMarginCloseoutMarginUsed(marginCloseoutMarginUsed: string): Account;
   setMarginCloseoutMarginUsed(
     marginCloseoutMarginUsed: AccountUnits | Decimal | string
   ): Account {
@@ -349,9 +312,6 @@ export class Account {
     return this.marginCloseoutMarginUsed;
   }
 
-  setMarginCloseoutPercent(marginCloseoutPercent: DecimalNumber): Account;
-  setMarginCloseoutPercent(marginCloseoutPercent: Decimal): Account;
-  setMarginCloseoutPercent(marginCloseoutPercent: string): Account;
   setMarginCloseoutPercent(
     marginCloseoutPercent: DecimalNumber | Decimal | string
   ): Account {
@@ -366,11 +326,6 @@ export class Account {
   }
 
   setMarginCloseoutPositionValue(
-    marginCloseoutPositionValue: DecimalNumber
-  ): Account;
-  setMarginCloseoutPositionValue(marginCloseoutPositionValue: Decimal): Account;
-  setMarginCloseoutPositionValue(marginCloseoutPositionValue: string): Account;
-  setMarginCloseoutPositionValue(
     marginCloseoutPositionValue: DecimalNumber | Decimal | string
   ): Account {
     this.marginCloseoutPositionValue = PrimitiveUtils.decimalNumberValue(
@@ -383,9 +338,6 @@ export class Account {
     return this.marginCloseoutPositionValue;
   }
 
-  setWithdrawalLimit(withdrawalLimit: AccountUnits): Account;
-  setWithdrawalLimit(withdrawalLimit: Decimal): Account;
-  setWithdrawalLimit(withdrawalLimit: string): Account;
   setWithdrawalLimit(
     withdrawalLimit: AccountUnits | Decimal | string
   ): Account {
@@ -397,9 +349,6 @@ export class Account {
     return this.withdrawalLimit.copy();
   }
 
-  setMarginCallMarginUsed(marginCallMarginUsed: AccountUnits): Account;
-  setMarginCallMarginUsed(marginCallMarginUsed: Decimal): Account;
-  setMarginCallMarginUsed(marginCallMarginUsed: string): Account;
   setMarginCallMarginUsed(
     marginCallMarginUsed: AccountUnits | Decimal | string
   ): Account {
@@ -413,9 +362,6 @@ export class Account {
     return this.marginCallMarginUsed.copy();
   }
 
-  setMarginCallPercent(marginCallPercent: DecimalNumber): Account;
-  setMarginCallPercent(marginCallPercent: Decimal): Account;
-  setMarginCallPercent(marginCallPercent: string): Account;
   setMarginCallPercent(
     marginCallPercent: DecimalNumber | Decimal | string
   ): Account {
@@ -429,9 +375,6 @@ export class Account {
     return this.marginCallPercent.copy();
   }
 
-  setBalance(balance: AccountUnits): Account;
-  setBalance(balance: Decimal): Account;
-  setBalance(balance: string): Account;
   setBalance(balance: AccountUnits | Decimal | string): Account {
     this.balance = PrimitiveUtils.accountUnitValue(balance);
     return this;
@@ -441,9 +384,6 @@ export class Account {
     return this.balance.copy();
   }
 
-  setPl(pl: AccountUnits): Account;
-  setPl(pl: Decimal): Account;
-  setPl(pl: string): Account;
   setPl(pl: AccountUnits | Decimal | string): Account {
     this.pl = PrimitiveUtils.accountUnitValue(pl);
     return this;
@@ -453,9 +393,6 @@ export class Account {
     return this.pl.copy();
   }
 
-  setResettablePL(resettablePL: AccountUnits): Account;
-  setResettablePL(resettablePL: Decimal): Account;
-  setResettablePL(resettablePL: string): Account;
   setResettablePL(resettablePL: AccountUnits | Decimal | string): Account {
     this.resettablePL = PrimitiveUtils.accountUnitValue(resettablePL);
     return this;
@@ -465,9 +402,6 @@ export class Account {
     return this.resettablePL.copy();
   }
 
-  setFinancing(financing: AccountUnits): Account;
-  setFinancing(financing: Decimal): Account;
-  setFinancing(financing: string): Account;
   setFinancing(financing: AccountUnits | Decimal | string): Account {
     this.financing = PrimitiveUtils.accountUnitValue(financing);
     return this;
@@ -477,9 +411,6 @@ export class Account {
     return this.financing.copy();
   }
 
-  setCommission(commission: AccountUnits): Account;
-  setCommission(commission: Decimal): Account;
-  setCommission(commission: string): Account;
   setCommission(commission: AccountUnits | Decimal | string): Account {
     this.commission = PrimitiveUtils.accountUnitValue(commission);
     return this;
@@ -489,9 +420,6 @@ export class Account {
     return this.commission.copy();
   }
 
-  setDividendAdjustment(dividendAdjustment: AccountUnits): Account;
-  setDividendAdjustment(dividendAdjustment: Decimal): Account;
-  setDividendAdjustment(dividendAdjustment: string): Account;
   setDividendAdjustment(
     dividendAdjustment: AccountUnits | Decimal | string
   ): Account {
@@ -505,9 +433,6 @@ export class Account {
     return this.dividendAdjustment.copy();
   }
 
-  setGuaranteedExecutionFees(guaranteedExecutionFees: AccountUnits): Account;
-  setGuaranteedExecutionFees(guaranteedExecutionFees: Decimal): Account;
-  setGuaranteedExecutionFees(guaranteedExecutionFees: string): Account;
   setGuaranteedExecutionFees(
     guaranteedExecutionFees: AccountUnits | Decimal | string
   ): Account {
@@ -521,8 +446,6 @@ export class Account {
     return this.guaranteedExecutionFees.copy();
   }
 
-  setMarginCallEnterTime(marginCallEnterTime: DateTime): Account;
-  setMarginCallEnterTime(marginCallEnterTime: string): Account;
   setMarginCallEnterTime(marginCallEnterTime: DateTime | string): Account {
     this.marginCallEnterTime = PrimitiveUtils.dateTimeValue(
       marginCallEnterTime
@@ -544,10 +467,6 @@ export class Account {
   }
 
   setLastMarginCallExtensionTime(
-    lastMarginCallExtensionTime: DateTime
-  ): Account;
-  setLastMarginCallExtensionTime(lastMarginCallExtensionTime: string): Account;
-  setLastMarginCallExtensionTime(
     lastMarginCallExtensionTime: DateTime | string
   ): Account {
     this.lastMarginCallExtensionTime = PrimitiveUtils.dateTimeValue(
@@ -560,8 +479,6 @@ export class Account {
     return this.lastMarginCallExtensionTime.copy();
   }
 
-  setLastTransactionID(lastTransactionID: TransactionID): Account;
-  setLastTransactionID(lastTransactionID: string): Account;
   setLastTransactionID(lastTransactionID: TransactionID | string): Account {
     if (lastTransactionID instanceof TransactionID) {
       this.lastTransactionID = lastTransactionID.copy();

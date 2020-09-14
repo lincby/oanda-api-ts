@@ -2,9 +2,6 @@ import {StringPrimitive} from './string.primitive';
 import {Decimal} from 'decimal.js';
 
 export class AccountUnits extends StringPrimitive {
-  constructor(accountUnits: AccountUnits);
-  constructor(accountUnits: Decimal);
-  constructor(accountUnits: string);
   constructor(accountUnits: AccountUnits | Decimal | string) {
     if (accountUnits instanceof AccountUnits) {
       super(accountUnits.getValue());

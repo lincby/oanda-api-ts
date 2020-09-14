@@ -1,8 +1,6 @@
 import {StringPrimitive} from '../primitives/string.primitive';
 
 export class TransactionID extends StringPrimitive {
-  constructor(transactionID: TransactionID);
-  constructor(transactionID: string);
   constructor(transactionID: TransactionID | string) {
     if (transactionID instanceof TransactionID) {
       super(transactionID.getValue());

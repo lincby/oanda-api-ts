@@ -47,8 +47,6 @@ export class TradeSummary {
   @JsonProperty('closingTransactionIDs', TransactionIdArrayJsonConverter, false)
   private closingTransactionIDs: TransactionID[] = new Array<TransactionID>();
 
-  setTradeID(id: TradeID): TradeSummary;
-  setTradeID(id: string): TradeSummary;
   setTradeID(id: TradeID | string): TradeSummary {
     if (id instanceof TradeID) {
       this.id = id.copy();
@@ -62,8 +60,6 @@ export class TradeSummary {
     return this.id.copy();
   }
 
-  setInstrumentName(instrumentName: InstrumentName): TradeSummary;
-  setInstrumentName(instrumentName: string): TradeSummary;
   setInstrumentName(instrumentName: InstrumentName | string): TradeSummary {
     this.instrumentName = PrimitiveUtils.instrumentNameValue(instrumentName);
     return this;
@@ -73,9 +69,6 @@ export class TradeSummary {
     return this.instrumentName.copy();
   }
 
-  setPrice(priceValue: PriceValue): TradeSummary;
-  setPrice(priceValue: Decimal): TradeSummary;
-  setPrice(priceValue: string): TradeSummary;
   setPrice(priceValue: PriceValue | Decimal | string): TradeSummary {
     this.price = PriceCommonUtils.priceValue(priceValue);
     return this;
@@ -85,8 +78,6 @@ export class TradeSummary {
     return this.price.copy();
   }
 
-  setOpenTime(openTime: DateTime): TradeSummary;
-  setOpenTime(openTime: string): TradeSummary;
   setOpenTime(openTime: DateTime | string): TradeSummary {
     this.openTime = PrimitiveUtils.dateTimeValue(openTime);
     return this;
@@ -105,9 +96,6 @@ export class TradeSummary {
     return this.state;
   }
 
-  setInitialUnits(initialUnits: DecimalNumber): TradeSummary;
-  setInitialUnits(initialUnits: Decimal): TradeSummary;
-  setInitialUnits(initialUnits: string): TradeSummary;
   setInitialUnits(
     initialUnits: DecimalNumber | Decimal | string
   ): TradeSummary {
@@ -119,9 +107,6 @@ export class TradeSummary {
     return this.initialUnits.copy();
   }
 
-  setInitialMarginRequired(initialMarginRequired: AccountUnits): TradeSummary;
-  setInitialMarginRequired(initialMarginRequired: Decimal): TradeSummary;
-  setInitialMarginRequired(initialMarginRequired: string): TradeSummary;
   setInitialMarginRequired(
     initialMarginRequired: AccountUnits | Decimal | string
   ): TradeSummary {
@@ -135,9 +120,6 @@ export class TradeSummary {
     return this.initialMarginRequired.copy();
   }
 
-  setCurrentUnits(currentUnits: DecimalNumber): TradeSummary;
-  setCurrentUnits(currentUnits: Decimal): TradeSummary;
-  setCurrentUnits(currentUnits: string): TradeSummary;
   setCurrentUnits(
     currentUnits: DecimalNumber | Decimal | string
   ): TradeSummary {
@@ -149,9 +131,6 @@ export class TradeSummary {
     return this.currentUnits.copy();
   }
 
-  setRealizedPL(realizedPL: AccountUnits): TradeSummary;
-  setRealizedPL(realizedPL: Decimal): TradeSummary;
-  setRealizedPL(realizedPL: string): TradeSummary;
   setRealizedPL(realizedPL: AccountUnits | Decimal | string): TradeSummary {
     this.realizedPL = PrimitiveUtils.accountUnitValue(realizedPL);
     return this;
@@ -161,9 +140,6 @@ export class TradeSummary {
     return this.realizedPL.copy();
   }
 
-  setUnrealizedPL(unrealizedPL: AccountUnits): TradeSummary;
-  setUnrealizedPL(unrealizedPL: Decimal): TradeSummary;
-  setUnrealizedPL(unrealizedPL: string): TradeSummary;
   setUnrealizedPL(unrealizedPL: AccountUnits | Decimal | string): TradeSummary {
     this.unrealizedPL = PrimitiveUtils.accountUnitValue(unrealizedPL);
     return this;
@@ -173,9 +149,6 @@ export class TradeSummary {
     return this.unrealizedPL;
   }
 
-  setMarginUsed(marginUsed: AccountUnits): TradeSummary;
-  setMarginUsed(marginUsed: Decimal): TradeSummary;
-  setMarginUsed(marginUsed: string): TradeSummary;
   setMarginUsed(marginUsed: AccountUnits | Decimal | string): TradeSummary {
     this.marginUsed = PrimitiveUtils.accountUnitValue(marginUsed);
     return this;
@@ -185,9 +158,6 @@ export class TradeSummary {
     return this.marginUsed;
   }
 
-  setAverageClosePrice(averageClosePrice: PriceValue): TradeSummary;
-  setAverageClosePrice(averageClosePrice: Decimal): TradeSummary;
-  setAverageClosePrice(averageClosePrice: string): TradeSummary;
   setAverageClosePrice(
     averageClosePrice: PriceValue | Decimal | string
   ): TradeSummary {
@@ -203,6 +173,7 @@ export class TradeSummary {
     const newClosingTransactionIDs: TransactionID[] = new Array<
       TransactionID
     >();
+
     closingTransactionIDs.forEach((item: any) => {
       if (item instanceof TransactionID) {
         newClosingTransactionIDs.push(item.copy());

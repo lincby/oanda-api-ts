@@ -2,9 +2,6 @@ import {StringPrimitive} from '../primitives/string.primitive';
 import Decimal from 'decimal.js';
 
 export class PriceValue extends StringPrimitive {
-  constructor(priceValue: PriceValue);
-  constructor(priceValue: Decimal);
-  constructor(priceValue: string);
   constructor(priceValue: PriceValue | Decimal | string) {
     if (priceValue instanceof PriceValue) {
       super(priceValue.getValue());

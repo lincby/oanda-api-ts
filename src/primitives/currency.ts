@@ -1,8 +1,6 @@
 import {StringPrimitive} from './string.primitive';
 
 export class Currency extends StringPrimitive {
-  constructor(currency: Currency);
-  constructor(currency: string);
   constructor(currency: Currency | string) {
     if (currency instanceof Currency) {
       super(currency.getValue());
