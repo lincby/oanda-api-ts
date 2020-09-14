@@ -14,6 +14,9 @@ export {TradeIdJsonConverter} from './converter/trade/trade.id.json.converter';
 export {InstrumentNameJsonConverter} from './converter/primitives/instrument.name.json.converter';
 export {PriceValueJsonConverter} from './converter/price_common/price.value.json.converter';
 export {TransactionIdArrayJsonConverter} from './converter/transaction/transaction.id.array.json.converter';
+export {ClientIdJsonConverter} from './converter/transaction/client.id.json.converter';
+export {ClientTagJsonConverter} from './converter/transaction/client.tag.json.converter';
+export {ClientCommentJsonConverter} from './converter/transaction/client.comment.json.converter';
 // price common
 export {PriceValue} from './price_common/price.value';
 // primitives
@@ -29,6 +32,10 @@ export {TradeSummary} from './trade/trade.summary';
 export {TradeState} from './trade/trade.state';
 // transaction
 export {TransactionID} from './transaction/transaction.id';
+export {ClientExtensions} from './transaction/client.extensions';
+export {ClientID} from './transaction/client.id';
+export {ClientTag} from './transaction/client.tag';
+export {ClientComment} from './transaction/client.comment';
 // utils
 export {PrimitiveUtils} from './util/primitive.utils';
 export {PriceCommonUtils} from './util/price.common.utils';
