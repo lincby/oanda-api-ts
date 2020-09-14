@@ -46,6 +46,12 @@ export class TradeSummary {
   private averageClosePrice: PriceValue = new PriceValue('');
   @JsonProperty('closingTransactionIDs', TransactionIdArrayJsonConverter, false)
   private closingTransactionIDs: TransactionID[] = new Array<TransactionID>();
+  @JsonProperty('financing', AccountUnitsJsonConverter, false)
+  private financing: AccountUnits = new AccountUnits('');
+  @JsonProperty('dividendAdjustment', AccountUnitsJsonConverter, false)
+  private dividendAdjustment: AccountUnits = new AccountUnits('');
+  @JsonProperty('closeTime', DateTimeJsonConverter, false)
+  private closeTime: DateTime = new DateTime('');
 
   setTradeID(id: TradeID | string): TradeSummary {
     if (id instanceof TradeID) {
@@ -169,7 +175,9 @@ export class TradeSummary {
     return this.averageClosePrice.copy();
   }
 
-  setClosingTransactionIDs(closingTransactionIDs: string[] | TransactionID[]) {
+  setClosingTransactionIDs(
+    closingTransactionIDs: string[] | TransactionID[]
+  ): TradeSummary {
     const newClosingTransactionIDs: TransactionID[] = new Array<
       TransactionID
     >();
@@ -193,6 +201,37 @@ export class TradeSummary {
     return copyOfClosingTransactionID;
   }
 
+  setFinancing(financing: AccountUnits | Decimal | string): TradeSummary {
+    this.financing = PrimitiveUtils.accountUnitValue(financing);
+    return this;
+  }
+
+  getFinancing(): AccountUnits {
+    return this.financing.copy();
+  }
+
+  setDividendAdjustment(
+    dividendAdjustment: AccountUnits | Decimal | string
+  ): TradeSummary {
+    this.dividendAdjustment = PrimitiveUtils.accountUnitValue(
+      dividendAdjustment
+    );
+    return this;
+  }
+
+  getDividendAdjustment(): AccountUnits {
+    return this.dividendAdjustment.copy();
+  }
+
+  setCloseTime(closeTime: DateTime | string): TradeSummary {
+    this.closeTime = PrimitiveUtils.dateTimeValue(closeTime);
+    return this;
+  }
+
+  getCloseTime(): DateTime {
+    return this.closeTime.copy();
+  }
+
   copy(): TradeSummary {
     return new TradeSummary()
       .setTradeID(this.id.copy())
@@ -207,6 +246,9 @@ export class TradeSummary {
       .setUnrealizedPL(this.unrealizedPL.copy())
       .setMarginUsed(this.marginUsed.copy())
       .setAverageClosePrice(this.averageClosePrice.copy())
-      .setClosingTransactionIDs(this.getClosingTransactionIDs());
+      .setClosingTransactionIDs(this.getClosingTransactionIDs())
+      .setFinancing(this.financing.copy())
+      .setDividendAdjustment(this.dividendAdjustment.copy())
+      .setCloseTime(this.closeTime.copy());
   }
 }

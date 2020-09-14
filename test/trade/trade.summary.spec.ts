@@ -72,7 +72,10 @@ const createTradeSummary = (): TradeSummary =>
       createTransactionID(),
       createTransactionID(),
       createTransactionID(),
-    ]);
+    ])
+    .setFinancing(createAccountUnits())
+    .setDividendAdjustment(createAccountUnits())
+    .setCloseTime(createDateTime());
 
 const expectTradeSummary = (tradeSummary: TradeSummary) => {
   expectTradeID(tradeSummary.getTradeID());
@@ -90,4 +93,7 @@ const expectTradeSummary = (tradeSummary: TradeSummary) => {
   expectTransactionID(tradeSummary.getClosingTransactionIDs()[0]);
   expectTransactionID(tradeSummary.getClosingTransactionIDs()[1]);
   expectTransactionID(tradeSummary.getClosingTransactionIDs()[2]);
+  expectAccountUnits(tradeSummary.getFinancing());
+  expectAccountUnits(tradeSummary.getDividendAdjustment());
+  expectDateTime(tradeSummary.getCloseTime());
 };
