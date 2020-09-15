@@ -17,41 +17,55 @@ import {AccountUnits} from '../primitives/account.units';
 import {AccountUnitsJsonConverter} from '../converter/primitives/account.units.json.converter';
 import {TransactionID} from '../transaction/transaction.id';
 import {TransactionIdArrayJsonConverter} from '../converter/transaction/transaction.id.array.json.converter';
+import {ClientExtensions} from '../transaction/client.extensions';
+import {OrderID} from '../order/order.id';
+import {OrderUtils} from '../util/order.utils';
+import {OrderIdJsonConverter} from '../converter/order/order.id.json.converter';
 
 @JsonObject('TradeSummary')
 export class TradeSummary {
-  @JsonProperty('id', TradeIdJsonConverter, false)
+  @JsonProperty('id', TradeIdJsonConverter, true)
   private id: TradeID = new TradeID('');
-  @JsonProperty('instrumentName', InstrumentNameJsonConverter, false)
+  @JsonProperty('instrumentName', InstrumentNameJsonConverter, true)
   private instrumentName: InstrumentName = new InstrumentName('');
-  @JsonProperty('price', PriceValueJsonConverter, false)
+  @JsonProperty('price', PriceValueJsonConverter, true)
   private price: PriceValue = new PriceValue('');
-  @JsonProperty('openTime', DateTimeJsonConverter, false)
+  @JsonProperty('openTime', DateTimeJsonConverter, true)
   private openTime: DateTime = new DateTime('');
   @JsonProperty('state', String, true)
   private state: TradeState = TradeState.CLOSED;
-  @JsonProperty('initialUnits', DecimalNumberJsonConverter, false)
+  @JsonProperty('initialUnits', DecimalNumberJsonConverter, true)
   private initialUnits: DecimalNumber = new DecimalNumber('');
-  @JsonProperty('initialMarginRequired', AccountUnitsJsonConverter, false)
+  @JsonProperty('initialMarginRequired', AccountUnitsJsonConverter, true)
   private initialMarginRequired: AccountUnits = new AccountUnits('');
-  @JsonProperty('currentUnits', DecimalNumberJsonConverter, false)
+  @JsonProperty('currentUnits', DecimalNumberJsonConverter, true)
   private currentUnits: DecimalNumber = new DecimalNumber('');
-  @JsonProperty('realizedPL', AccountUnitsJsonConverter, false)
+  @JsonProperty('realizedPL', AccountUnitsJsonConverter, true)
   private realizedPL: AccountUnits = new AccountUnits('');
-  @JsonProperty('unrealizedPL', AccountUnitsJsonConverter, false)
+  @JsonProperty('unrealizedPL', AccountUnitsJsonConverter, true)
   private unrealizedPL: AccountUnits = new AccountUnits('');
-  @JsonProperty('marginUsed', AccountUnitsJsonConverter, false)
+  @JsonProperty('marginUsed', AccountUnitsJsonConverter, true)
   private marginUsed: AccountUnits = new AccountUnits('');
-  @JsonProperty('averageClosePrice', PriceValueJsonConverter, false)
+  @JsonProperty('averageClosePrice', PriceValueJsonConverter, true)
   private averageClosePrice: PriceValue = new PriceValue('');
-  @JsonProperty('closingTransactionIDs', TransactionIdArrayJsonConverter, false)
+  @JsonProperty('closingTransactionIDs', TransactionIdArrayJsonConverter, true)
   private closingTransactionIDs: TransactionID[] = new Array<TransactionID>();
-  @JsonProperty('financing', AccountUnitsJsonConverter, false)
+  @JsonProperty('financing', AccountUnitsJsonConverter, true)
   private financing: AccountUnits = new AccountUnits('');
-  @JsonProperty('dividendAdjustment', AccountUnitsJsonConverter, false)
+  @JsonProperty('dividendAdjustment', AccountUnitsJsonConverter, true)
   private dividendAdjustment: AccountUnits = new AccountUnits('');
-  @JsonProperty('closeTime', DateTimeJsonConverter, false)
+  @JsonProperty('closeTime', DateTimeJsonConverter, true)
   private closeTime: DateTime = new DateTime('');
+  @JsonProperty('clientExtensions', ClientExtensions, true)
+  private clientExtensions: ClientExtensions = new ClientExtensions();
+  @JsonProperty('takeProfitOrderID', OrderIdJsonConverter, true)
+  private takeProfitOrderID: OrderID = new OrderID('');
+  @JsonProperty('stopLossOrderID', OrderIdJsonConverter, true)
+  private stopLossOrderID: OrderID = new OrderID('');
+  @JsonProperty('guaranteedStopLossOrderID', OrderIdJsonConverter, true)
+  private guaranteedStopLossOrderID: OrderID = new OrderID('');
+  @JsonProperty('trailingStopLossOrderID', OrderIdJsonConverter, true)
+  private trailingStopLossOrderID: OrderID = new OrderID('');
 
   setTradeID(id: TradeID | string): TradeSummary {
     if (id instanceof TradeID) {
@@ -232,6 +246,59 @@ export class TradeSummary {
     return this.closeTime.copy();
   }
 
+  setClientExtensions(clientExtensions: ClientExtensions): TradeSummary {
+    this.clientExtensions = clientExtensions.copy();
+    return this;
+  }
+
+  getClientExtensions(): ClientExtensions {
+    return this.clientExtensions.copy();
+  }
+
+  setTakeProfitOrderID(takeProfitOrderID: OrderID | string): TradeSummary {
+    this.takeProfitOrderID = OrderUtils.orderIdValue(takeProfitOrderID);
+    return this;
+  }
+
+  getTakeProfitOrderID(): OrderID {
+    return this.takeProfitOrderID.copy();
+  }
+
+  setStopLossOrderID(stopLossOrderID: OrderID | string): TradeSummary {
+    this.stopLossOrderID = OrderUtils.orderIdValue(stopLossOrderID);
+    return this;
+  }
+
+  getStopLossOrderID(): OrderID {
+    return this.stopLossOrderID.copy();
+  }
+
+  setGuaranteedStopLossOrderID(
+    guaranteedStopLossOrderID: OrderID | string
+  ): TradeSummary {
+    this.guaranteedStopLossOrderID = OrderUtils.orderIdValue(
+      guaranteedStopLossOrderID
+    );
+    return this;
+  }
+
+  getGuaranteedStopLossOrderID(): OrderID {
+    return this.guaranteedStopLossOrderID.copy();
+  }
+
+  setTrailingStopLossOrderID(
+    trailingStopLossOrderID: OrderID | string
+  ): TradeSummary {
+    this.trailingStopLossOrderID = OrderUtils.orderIdValue(
+      trailingStopLossOrderID
+    );
+    return this;
+  }
+
+  getTrailingStopLossOrderID(): OrderID {
+    return this.trailingStopLossOrderID.copy();
+  }
+
   copy(): TradeSummary {
     return new TradeSummary()
       .setTradeID(this.id.copy())
@@ -249,6 +316,11 @@ export class TradeSummary {
       .setClosingTransactionIDs(this.getClosingTransactionIDs())
       .setFinancing(this.financing.copy())
       .setDividendAdjustment(this.dividendAdjustment.copy())
-      .setCloseTime(this.closeTime.copy());
+      .setCloseTime(this.closeTime.copy())
+      .setClientExtensions(this.clientExtensions.copy())
+      .setTakeProfitOrderID(this.takeProfitOrderID.copy())
+      .setStopLossOrderID(this.stopLossOrderID.copy())
+      .setGuaranteedStopLossOrderID(this.guaranteedStopLossOrderID.copy())
+      .setTrailingStopLossOrderID(this.trailingStopLossOrderID.copy());
   }
 }

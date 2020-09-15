@@ -13,7 +13,7 @@ export class ClientExtensions {
   private id: ClientID = new ClientID('');
   @JsonProperty('tag', ClientTagJsonConverter, true)
   private tag: ClientTag = new ClientTag('');
-  @JsonProperty('tag', ClientCommentJsonConverter, true)
+  @JsonProperty('comment', ClientCommentJsonConverter, true)
   private comment: ClientComment = new ClientComment('');
 
   setId(id: ClientID | string): ClientExtensions {

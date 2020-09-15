@@ -25,6 +25,11 @@ import {
   createTransactionID,
   expectTransactionID,
 } from '../transaction/transaction.id.spec';
+import {
+  createClientExtensions,
+  expectClientExtensions,
+} from '../transaction/client.extensions.spec';
+import {createOrderID, expectOrderID} from '../order/order.id.spec';
 
 describe('TradeSummary', () => {
   it('test setter and getter', () => {
@@ -43,12 +48,10 @@ describe('TradeSummary', () => {
     const jsonConvert: JsonConvert = new JsonConvert();
     const tradeSummaryToJson: TradeSummary = createTradeSummary();
     const json: string = jsonConvert.serializeObject(tradeSummaryToJson);
-    console.log('from class to json: ', json);
     const tradeSummaryFromJson: TradeSummary = jsonConvert.deserializeObject(
       json,
       TradeSummary
     );
-    console.log('from json to class: ', tradeSummaryFromJson);
     expectTradeSummary(tradeSummaryFromJson);
     expect(tradeSummaryFromJson).to.be.deep.equal(tradeSummaryToJson);
   });
@@ -75,7 +78,12 @@ const createTradeSummary = (): TradeSummary =>
     ])
     .setFinancing(createAccountUnits())
     .setDividendAdjustment(createAccountUnits())
-    .setCloseTime(createDateTime());
+    .setCloseTime(createDateTime())
+    .setClientExtensions(createClientExtensions())
+    .setTakeProfitOrderID(createOrderID())
+    .setStopLossOrderID(createOrderID())
+    .setGuaranteedStopLossOrderID(createOrderID())
+    .setTrailingStopLossOrderID(createOrderID());
 
 const expectTradeSummary = (tradeSummary: TradeSummary) => {
   expectTradeID(tradeSummary.getTradeID());
@@ -96,4 +104,9 @@ const expectTradeSummary = (tradeSummary: TradeSummary) => {
   expectAccountUnits(tradeSummary.getFinancing());
   expectAccountUnits(tradeSummary.getDividendAdjustment());
   expectDateTime(tradeSummary.getCloseTime());
+  expectClientExtensions(tradeSummary.getClientExtensions());
+  expectOrderID(tradeSummary.getTakeProfitOrderID());
+  expectOrderID(tradeSummary.getStopLossOrderID());
+  expectOrderID(tradeSummary.getGuaranteedStopLossOrderID());
+  expectOrderID(tradeSummary.getTrailingStopLossOrderID());
 };

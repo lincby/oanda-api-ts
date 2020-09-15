@@ -32,13 +32,13 @@ describe('ClientExtensions', () => {
   });
 });
 
-const createClientExtensions = () =>
+export const createClientExtensions = () =>
   new ClientExtensions()
     .setId(createClientID())
     .setTag(createClientTag())
     .setComment(createClientComment());
 
-const expectClientExtensions = (clientExtensions: ClientExtensions) => {
+export const expectClientExtensions = (clientExtensions: ClientExtensions) => {
   expectClientID(clientExtensions.getId());
   expectClientTag(clientExtensions.getTag());
   expectClientComment(clientExtensions.getComment());

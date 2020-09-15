@@ -17,6 +17,9 @@ export {TransactionIdArrayJsonConverter} from './converter/transaction/transacti
 export {ClientIdJsonConverter} from './converter/transaction/client.id.json.converter';
 export {ClientTagJsonConverter} from './converter/transaction/client.tag.json.converter';
 export {ClientCommentJsonConverter} from './converter/transaction/client.comment.json.converter';
+export {OrderIdJsonConverter} from './converter/order/order.id.json.converter';
+// order
+export {OrderID} from './order/order.id';
 // price common
 export {PriceValue} from './price_common/price.value';
 // primitives
@@ -39,3 +42,4 @@ export {ClientComment} from './transaction/client.comment';
 // utils
 export {PrimitiveUtils} from './util/primitive.utils';
 export {PriceCommonUtils} from './util/price.common.utils';
+export {OrderUtils} from './util/order.utils';
