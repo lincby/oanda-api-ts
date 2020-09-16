@@ -26,8 +26,8 @@ import {OrderIdJsonConverter} from '../converter/order/order.id.json.converter';
 export class TradeSummary {
   @JsonProperty('id', TradeIdJsonConverter, true)
   private id: TradeID = new TradeID('');
-  @JsonProperty('instrumentName', InstrumentNameJsonConverter, true)
-  private instrumentName: InstrumentName = new InstrumentName('');
+  @JsonProperty('instrument', InstrumentNameJsonConverter, true)
+  private instrument: InstrumentName = new InstrumentName('');
   @JsonProperty('price', PriceValueJsonConverter, true)
   private price: PriceValue = new PriceValue('');
   @JsonProperty('openTime', DateTimeJsonConverter, true)
@@ -80,13 +80,13 @@ export class TradeSummary {
     return this.id.copy();
   }
 
-  setInstrumentName(instrumentName: InstrumentName | string): TradeSummary {
-    this.instrumentName = PrimitiveUtils.instrumentNameValue(instrumentName);
+  setInstrument(instrumentName: InstrumentName | string): TradeSummary {
+    this.instrument = PrimitiveUtils.instrumentNameValue(instrumentName);
     return this;
   }
 
-  getInstrumentName(): InstrumentName {
-    return this.instrumentName.copy();
+  getInstrument(): InstrumentName {
+    return this.instrument.copy();
   }
 
   setPrice(priceValue: PriceValue | Decimal | string): TradeSummary {
@@ -302,7 +302,7 @@ export class TradeSummary {
   copy(): TradeSummary {
     return new TradeSummary()
       .setTradeID(this.id.copy())
-      .setInstrumentName(this.instrumentName.copy())
+      .setInstrument(this.instrument.copy())
       .setPrice(this.price.copy())
       .setOpenTime(this.openTime.copy())
       .setState(this.state)

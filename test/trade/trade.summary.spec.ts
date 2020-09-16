@@ -57,10 +57,10 @@ describe('TradeSummary', () => {
   });
 });
 
-const createTradeSummary = (): TradeSummary =>
+export const createTradeSummary = (): TradeSummary =>
   new TradeSummary()
     .setTradeID(createTradeID())
-    .setInstrumentName(createInstrumentName())
+    .setInstrument(createInstrumentName())
     .setPrice(createPriceValue())
     .setOpenTime(createDateTime())
     .setState(TradeState.OPEN)
@@ -85,9 +85,9 @@ const createTradeSummary = (): TradeSummary =>
     .setGuaranteedStopLossOrderID(createOrderID())
     .setTrailingStopLossOrderID(createOrderID());
 
-const expectTradeSummary = (tradeSummary: TradeSummary) => {
+export const expectTradeSummary = (tradeSummary: TradeSummary) => {
   expectTradeID(tradeSummary.getTradeID());
-  expectInstrumentName(tradeSummary.getInstrumentName());
+  expectInstrumentName(tradeSummary.getInstrument());
   expectPriceValue(tradeSummary.getPrice());
   expectDateTime(tradeSummary.getOpenTime());
   expect(tradeSummary.getState()).to.be.equal(TradeState.OPEN);
