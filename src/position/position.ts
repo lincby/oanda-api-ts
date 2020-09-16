@@ -20,6 +20,12 @@ export class Position {
   private resettablePL: AccountUnits = new AccountUnits('');
   @JsonProperty('financing', AccountUnitsJsonConverter, true)
   private financing: AccountUnits = new AccountUnits('');
+  @JsonProperty('commission', AccountUnitsJsonConverter, true)
+  private commission: AccountUnits = new AccountUnits('');
+  @JsonProperty('dividendAdjustment', AccountUnitsJsonConverter, true)
+  private dividendAdjustment: AccountUnits = new AccountUnits('');
+  @JsonProperty('guaranteedExecutionFees', AccountUnitsJsonConverter, true)
+  private guaranteedExecutionFees: AccountUnits = new AccountUnits('');
 
   setInstrument(instrument: InstrumentName | string): Position {
     this.instrument = PrimitiveUtils.instrumentNameValue(instrument);
@@ -75,6 +81,42 @@ export class Position {
     return this.financing.copy();
   }
 
+  setCommission(commission: AccountUnits | Decimal | string): Position {
+    this.commission = PrimitiveUtils.accountUnitValue(commission);
+    return this;
+  }
+
+  getCommission(): AccountUnits {
+    return this.commission.copy();
+  }
+
+  setDividendAdjustment(
+    dividendAdjustment: AccountUnits | Decimal | string
+  ): Position {
+    this.dividendAdjustment = PrimitiveUtils.accountUnitValue(
+      dividendAdjustment
+    );
+    return this;
+  }
+
+  getDividendAdjustment(): AccountUnits {
+    return this.dividendAdjustment.copy();
+  }
+
+  // guaranteedExecutionFees
+  setGuaranteedExecutionFees(
+    guaranteedExecutionFees: AccountUnits | Decimal | string
+  ): Position {
+    this.guaranteedExecutionFees = PrimitiveUtils.accountUnitValue(
+      guaranteedExecutionFees
+    );
+    return this;
+  }
+
+  getGuaranteedExecutionFees(): AccountUnits {
+    return this.guaranteedExecutionFees.copy();
+  }
+
   copy(): Position {
     return new Position()
       .setInstrument(this.instrument.copy())
@@ -82,6 +124,9 @@ export class Position {
       .setUnrealizedPL(this.unrealizedPL.copy())
       .setMarginUsed(this.marginUsed.copy())
       .setResettablePL(this.resettablePL.copy())
-      .setFinancing(this.financing.copy());
+      .setFinancing(this.financing.copy())
+      .setCommission(this.commission.copy())
+      .setDividendAdjustment(this.dividendAdjustment.copy())
+      .setGuaranteedExecutionFees(this.guaranteedExecutionFees.copy());
   }
 }
