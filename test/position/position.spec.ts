@@ -43,10 +43,16 @@ export const createPosition = () =>
   new Position()
     .setInstrument(createInstrumentName())
     .setPl(createAccountUnits())
-    .setUnrealizedPL(createAccountUnits());
+    .setUnrealizedPL(createAccountUnits())
+    .setMarginUsed(createAccountUnits())
+    .setResettablePL(createAccountUnits())
+    .setFinancing(createAccountUnits());
 
 export const expectPosition = (position: Position) => {
   expectInstrumentName(position.getInstrument());
   expectAccountUnits(position.getPl());
   expectAccountUnits(position.getUnrealizedPL());
+  expectAccountUnits(position.getMarginUsed());
+  expectAccountUnits(position.getResettablePL());
+  expectAccountUnits(position.getFinancing());
 };
