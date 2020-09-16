@@ -20,6 +20,8 @@ export {ClientCommentJsonConverter} from './converter/transaction/client.comment
 export {OrderIdJsonConverter} from './converter/order/order.id.json.converter';
 // order
 export {OrderID} from './order/order.id';
+// position
+export {Position} from './position/position';
 // price common
 export {PriceValue} from './price_common/price.value';
 // primitives
