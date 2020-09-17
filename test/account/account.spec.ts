@@ -1,6 +1,6 @@
 import {describe, it} from 'mocha';
 import {expect} from 'chai';
-import {Account} from '../../src';
+import {Account} from '../../src/account/account';
 import {createAccountID, expectAccountID} from './account.id.spec';
 import {
   BOOLEAN_TEST_VALUE,
@@ -24,6 +24,12 @@ import {
   createTransactionID,
   expectTransactionID,
 } from '../transaction/transaction.id.spec';
+import {
+  createTradeSummary,
+  expectTradeSummary,
+} from '../trade/trade.summary.spec';
+import {createPosition, expectPosition} from '../position/position.spec';
+import {createMarketOrder, expectMarketOrder} from '../order/market.order.spec';
 
 describe('Account', () => {
   it('test setter and getter', () => {
@@ -93,7 +99,10 @@ const createAccount = (): Account =>
     .setMarginCallEnterTime(createDateTime())
     .setMarginCallExtensionCount(INTEGER_TEST_VALUE)
     .setLastMarginCallExtensionTime(createDateTime())
-    .setLastTransactionID(createTransactionID());
+    .setLastTransactionID(createTransactionID())
+    .setTrades([createTradeSummary()])
+    .setPositions([createPosition(), createPosition()])
+    .setOrders([createMarketOrder(), createMarketOrder()]);
 
 const expectAccount = (account: Account) => {
   expectAccountID(account.getAccountID());
@@ -137,4 +146,9 @@ const expectAccount = (account: Account) => {
   expect(account.getMarginCallExtensionCount()).to.be.equal(INTEGER_TEST_VALUE);
   expectDateTime(account.getLastMarginCallExtensionTime());
   expectTransactionID(account.getLastTransactionID());
+  expectTradeSummary(account.getTrades()[0]);
+  expectPosition(account.getPositions()[0]);
+  expectPosition(account.getPositions()[1]);
+  expectMarketOrder(account.getOrders()[0]);
+  expectMarketOrder(account.getOrders()[1]);
 };

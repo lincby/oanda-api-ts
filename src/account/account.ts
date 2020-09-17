@@ -15,54 +15,57 @@ import {DecimalNumberJsonConverter} from '../converter/primitives/decimal.number
 import {PrimitiveUtils} from '../util/primitive.utils';
 import {TransactionID} from '../transaction/transaction.id';
 import {TransactionIdJsonConverter} from '../converter/transaction/transaction.id.json.converter';
+import {TradeSummary} from '../trade/trade.summary';
+import {Position} from '../position/position';
+import {MarketOrder} from '../order/market.order';
 
 @JsonObject('Account')
 export class Account {
-  @JsonProperty('id', AccountIdJsonConverter, false)
+  @JsonProperty('id', AccountIdJsonConverter, true)
   private id: AccountID = new AccountID('');
   @JsonProperty('alias', String, true)
   private alias = '';
-  @JsonProperty('currency', CurrencyJsonConverter, false)
+  @JsonProperty('currency', CurrencyJsonConverter, true)
   private currency: Currency = new Currency('');
-  @JsonProperty('createdByUserID', Number, false)
+  @JsonProperty('createdByUserID', Number, true)
   private createdByUserID = 0;
-  @JsonProperty('createdTime', DateTimeJsonConverter, false)
+  @JsonProperty('createdTime', DateTimeJsonConverter, true)
   private createdTime: DateTime = new DateTime('');
-  @JsonProperty('guaranteedStopLossOrderMode', String, false)
+  @JsonProperty('guaranteedStopLossOrderMode', String, true)
   private guaranteedStopLossOrderMode: GuaranteedStopLossOrderMode =
     GuaranteedStopLossOrderMode.DISABLED;
   @JsonProperty('guaranteedStopLossOrderMutability', String, true)
   private guaranteedStopLossOrderMutability: GuaranteedStopLossOrderMutability =
     GuaranteedStopLossOrderMutability.CANCELABLE;
-  @JsonProperty('createdTime', DateTimeJsonConverter, false)
+  @JsonProperty('createdTime', DateTimeJsonConverter, true)
   private resettablePLTime: DateTime = new DateTime('');
   @JsonProperty('marginRate', DecimalNumberJsonConverter, true)
   private marginRate: DecimalNumber = new DecimalNumber('');
-  @JsonProperty('openTradeCount', Number, false)
+  @JsonProperty('openTradeCount', Number, true)
   private openTradeCount = 0;
-  @JsonProperty('openPositionCount', Number, false)
+  @JsonProperty('openPositionCount', Number, true)
   private openPositionCount = 0;
-  @JsonProperty('pendingOrderCount', Number, false)
+  @JsonProperty('pendingOrderCount', Number, true)
   private pendingOrderCount = 0;
-  @JsonProperty('hedgingEnabled', Boolean, false)
+  @JsonProperty('hedgingEnabled', Boolean, true)
   private hedgingEnabled = false;
-  @JsonProperty('unrealizedPL', AccountUnitsJsonConverter, false)
+  @JsonProperty('unrealizedPL', AccountUnitsJsonConverter, true)
   private unrealizedPL: AccountUnits = new AccountUnits('');
-  @JsonProperty('NAV', AccountUnitsJsonConverter, false)
+  @JsonProperty('NAV', AccountUnitsJsonConverter, true)
   private nAV: AccountUnits = new AccountUnits('');
-  @JsonProperty('marginUsed', AccountUnitsJsonConverter, false)
+  @JsonProperty('marginUsed', AccountUnitsJsonConverter, true)
   private marginUsed: AccountUnits = new AccountUnits('');
-  @JsonProperty('marginAvailable', AccountUnitsJsonConverter, false)
+  @JsonProperty('marginAvailable', AccountUnitsJsonConverter, true)
   private marginAvailable: AccountUnits = new AccountUnits('');
-  @JsonProperty('positionValue', AccountUnitsJsonConverter, false)
+  @JsonProperty('positionValue', AccountUnitsJsonConverter, true)
   private positionValue: AccountUnits = new AccountUnits('');
-  @JsonProperty('marginCloseoutUnrealizedPL', AccountUnitsJsonConverter, false)
+  @JsonProperty('marginCloseoutUnrealizedPL', AccountUnitsJsonConverter, true)
   private marginCloseoutUnrealizedPL: AccountUnits = new AccountUnits('');
-  @JsonProperty('marginCloseoutNAV', AccountUnitsJsonConverter, false)
+  @JsonProperty('marginCloseoutNAV', AccountUnitsJsonConverter, true)
   private marginCloseoutNAV: AccountUnits = new AccountUnits('');
-  @JsonProperty('marginCloseoutMarginUsed', AccountUnitsJsonConverter, false)
+  @JsonProperty('marginCloseoutMarginUsed', AccountUnitsJsonConverter, true)
   private marginCloseoutMarginUsed: AccountUnits = new AccountUnits('');
-  @JsonProperty('marginCloseoutPercent', DecimalNumberJsonConverter, false)
+  @JsonProperty('marginCloseoutPercent', DecimalNumberJsonConverter, true)
   private marginCloseoutPercent: DecimalNumber = new DecimalNumber('');
   @JsonProperty(
     'marginCloseoutPositionValue',
@@ -70,34 +73,40 @@ export class Account {
     false
   )
   private marginCloseoutPositionValue: DecimalNumber = new DecimalNumber('');
-  @JsonProperty('withdrawalLimit', AccountUnitsJsonConverter, false)
+  @JsonProperty('withdrawalLimit', AccountUnitsJsonConverter, true)
   private withdrawalLimit: AccountUnits = new AccountUnits('');
-  @JsonProperty('marginCallMarginUsed', AccountUnitsJsonConverter, false)
+  @JsonProperty('marginCallMarginUsed', AccountUnitsJsonConverter, true)
   private marginCallMarginUsed: AccountUnits = new AccountUnits('');
-  @JsonProperty('marginCallPercent', DecimalNumberJsonConverter, false)
+  @JsonProperty('marginCallPercent', DecimalNumberJsonConverter, true)
   private marginCallPercent: DecimalNumber = new DecimalNumber('');
-  @JsonProperty('balance', AccountUnitsJsonConverter, false)
+  @JsonProperty('balance', AccountUnitsJsonConverter, true)
   private balance: AccountUnits = new AccountUnits('');
-  @JsonProperty('pl', AccountUnitsJsonConverter, false)
+  @JsonProperty('pl', AccountUnitsJsonConverter, true)
   private pl: AccountUnits = new AccountUnits('');
-  @JsonProperty('resettablePL', AccountUnitsJsonConverter, false)
+  @JsonProperty('resettablePL', AccountUnitsJsonConverter, true)
   private resettablePL: AccountUnits = new AccountUnits('');
-  @JsonProperty('financing', AccountUnitsJsonConverter, false)
+  @JsonProperty('financing', AccountUnitsJsonConverter, true)
   private financing: AccountUnits = new AccountUnits('');
-  @JsonProperty('commission', AccountUnitsJsonConverter, false)
+  @JsonProperty('commission', AccountUnitsJsonConverter, true)
   private commission: AccountUnits = new AccountUnits('');
-  @JsonProperty('dividendAdjustment', AccountUnitsJsonConverter, false)
+  @JsonProperty('dividendAdjustment', AccountUnitsJsonConverter, true)
   private dividendAdjustment: AccountUnits = new AccountUnits('');
-  @JsonProperty('guaranteedExecutionFees', AccountUnitsJsonConverter, false)
+  @JsonProperty('guaranteedExecutionFees', AccountUnitsJsonConverter, true)
   private guaranteedExecutionFees: AccountUnits = new AccountUnits('');
   @JsonProperty('marginCallEnterTime', DateTimeJsonConverter, true)
   private marginCallEnterTime: DateTime = new DateTime('');
-  @JsonProperty('marginCallExtensionCount', Number, false)
+  @JsonProperty('marginCallExtensionCount', Number, true)
   private marginCallExtensionCount = 0;
   @JsonProperty('lastMarginCallExtensionTime', DateTimeJsonConverter, true)
   private lastMarginCallExtensionTime: DateTime = new DateTime('');
-  @JsonProperty('lastTransactionID', TransactionIdJsonConverter, false)
+  @JsonProperty('lastTransactionID', TransactionIdJsonConverter, true)
   private lastTransactionID: TransactionID = new TransactionID('');
+  @JsonProperty('trades', [TradeSummary], true)
+  private trades: TradeSummary[] = new Array<TradeSummary>();
+  @JsonProperty('positions', [Position], true)
+  private positions: Position[] = new Array<Position>();
+  @JsonProperty('orders', [MarketOrder], true)
+  private orders: MarketOrder[] = new Array<MarketOrder>();
 
   setAccountID(id: AccountID | string): Account {
     if (id instanceof AccountID) {
@@ -492,6 +501,45 @@ export class Account {
     return this.lastTransactionID.copy();
   }
 
+  setTrades(trades: TradeSummary[]): Account {
+    const newTradeSummaries: TradeSummary[] = new Array<TradeSummary>();
+    trades.forEach((item: TradeSummary) => newTradeSummaries.push(item.copy()));
+    this.trades = newTradeSummaries;
+    return this;
+  }
+
+  getTrades(): TradeSummary[] {
+    const copyOfTradeSummaries = new Array<TradeSummary>();
+    this.trades.forEach(item => copyOfTradeSummaries.push(item.copy()));
+    return copyOfTradeSummaries;
+  }
+
+  setPositions(positions: Position[]): Account {
+    const newPositions: Position[] = new Array<Position>();
+    positions.forEach((item: Position) => newPositions.push(item.copy()));
+    this.positions = newPositions;
+    return this;
+  }
+
+  getPositions(): Position[] {
+    const copyOfPositions = new Array<Position>();
+    this.positions.forEach(item => copyOfPositions.push(item.copy()));
+    return copyOfPositions;
+  }
+
+  setOrders(orders: MarketOrder[]): Account {
+    const newOrders: MarketOrder[] = new Array<MarketOrder>();
+    orders.forEach((item: MarketOrder) => newOrders.push(item.copy()));
+    this.orders = newOrders;
+    return this;
+  }
+
+  getOrders(): MarketOrder[] {
+    const copyOfOrders = new Array<MarketOrder>();
+    this.orders.forEach(item => copyOfOrders.push(item.copy()));
+    return copyOfOrders;
+  }
+
   copy(): Account {
     return new Account()
       .setAccountID(this.id.copy())
@@ -532,6 +580,9 @@ export class Account {
       .setMarginCallEnterTime(this.marginCallEnterTime.copy())
       .setMarginCallExtensionCount(this.marginCallExtensionCount)
       .setLastMarginCallExtensionTime(this.lastMarginCallExtensionTime.copy())
-      .setLastTransactionID(this.lastTransactionID.copy());
+      .setLastTransactionID(this.lastTransactionID.copy())
+      .setTrades(this.getTrades())
+      .setPositions(this.getPositions())
+      .setOrders(this.getOrders());
   }
 }
