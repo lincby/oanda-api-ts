@@ -10,6 +10,7 @@ import {
   createAccountUnits,
   expectAccountUnits,
 } from '../primitives/account.units.spec';
+import {createPositionSide, expectPositionSide} from './position.side.spec';
 
 describe('Position', () => {
   it('test setter and getter', () => {
@@ -28,12 +29,10 @@ describe('Position', () => {
     const jsonConvert: JsonConvert = new JsonConvert();
     const positionToJson: Position = createPosition();
     const json: string = jsonConvert.serializeObject(positionToJson);
-    console.log('from class to json: ', json);
     const positionFromJson: Position = jsonConvert.deserializeObject(
       json,
       Position
     );
-    console.log('from json to class: ', positionFromJson);
     expectPosition(positionFromJson);
     expect(positionFromJson).to.be.deep.equal(positionToJson);
   });
@@ -49,7 +48,9 @@ export const createPosition = () =>
     .setFinancing(createAccountUnits())
     .setCommission(createAccountUnits())
     .setDividendAdjustment(createAccountUnits())
-    .setGuaranteedExecutionFees(createAccountUnits());
+    .setGuaranteedExecutionFees(createAccountUnits())
+    .setLong(createPositionSide())
+    .setShort(createPositionSide());
 
 export const expectPosition = (position: Position) => {
   expectInstrumentName(position.getInstrument());
@@ -61,4 +62,6 @@ export const expectPosition = (position: Position) => {
   expectAccountUnits(position.getCommission());
   expectAccountUnits(position.getDividendAdjustment());
   expectAccountUnits(position.getGuaranteedExecutionFees());
+  expectPositionSide(position.getLong());
+  expectPositionSide(position.getShort());
 };

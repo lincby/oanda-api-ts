@@ -5,6 +5,7 @@ import {PrimitiveUtils} from '../util/primitive.utils';
 import {AccountUnits} from '../primitives/account.units';
 import {AccountUnitsJsonConverter} from '../converter/primitives/account.units.json.converter';
 import Decimal from 'decimal.js';
+import {PositionSide} from './position.side';
 
 @JsonObject('Position')
 export class Position {
@@ -26,6 +27,10 @@ export class Position {
   private dividendAdjustment: AccountUnits = new AccountUnits('');
   @JsonProperty('guaranteedExecutionFees', AccountUnitsJsonConverter, true)
   private guaranteedExecutionFees: AccountUnits = new AccountUnits('');
+  @JsonProperty('long', PositionSide, true)
+  private long: PositionSide = new PositionSide();
+  @JsonProperty('short', PositionSide, true)
+  private short: PositionSide = new PositionSide();
 
   setInstrument(instrument: InstrumentName | string): Position {
     this.instrument = PrimitiveUtils.instrumentNameValue(instrument);
@@ -103,7 +108,6 @@ export class Position {
     return this.dividendAdjustment.copy();
   }
 
-  // guaranteedExecutionFees
   setGuaranteedExecutionFees(
     guaranteedExecutionFees: AccountUnits | Decimal | string
   ): Position {
@@ -117,6 +121,24 @@ export class Position {
     return this.guaranteedExecutionFees.copy();
   }
 
+  setLong(long: PositionSide): Position {
+    this.long = long.copy();
+    return this;
+  }
+
+  getLong(): PositionSide {
+    return this.long.copy();
+  }
+
+  setShort(short: PositionSide): Position {
+    this.short = short.copy();
+    return this;
+  }
+
+  getShort(): PositionSide {
+    return this.short.copy();
+  }
+
   copy(): Position {
     return new Position()
       .setInstrument(this.instrument.copy())
@@ -127,6 +149,8 @@ export class Position {
       .setFinancing(this.financing.copy())
       .setCommission(this.commission.copy())
       .setDividendAdjustment(this.dividendAdjustment.copy())
-      .setGuaranteedExecutionFees(this.guaranteedExecutionFees.copy());
+      .setGuaranteedExecutionFees(this.guaranteedExecutionFees.copy())
+      .setLong(this.long.copy())
+      .setShort(this.short.copy());
   }
 }
