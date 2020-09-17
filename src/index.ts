@@ -21,6 +21,10 @@ export {OrderIdJsonConverter} from './converter/order/order.id.json.converter';
 export {TradeIdArrayJsonConverter} from './converter/trade/trade.id.array.json.converter';
 // order
 export {OrderID} from './order/order.id';
+export {Order} from './order/order';
+export {OrderType} from './order/order.type';
+export {OrderState} from './order/order.state';
+export {MarketOrder} from './order/market.order';
 // position
 export {Position} from './position/position';
 export {PositionSide} from './position/position.side';
