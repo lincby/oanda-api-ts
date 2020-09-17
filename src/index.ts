@@ -18,10 +18,12 @@ export {ClientIdJsonConverter} from './converter/transaction/client.id.json.conv
 export {ClientTagJsonConverter} from './converter/transaction/client.tag.json.converter';
 export {ClientCommentJsonConverter} from './converter/transaction/client.comment.json.converter';
 export {OrderIdJsonConverter} from './converter/order/order.id.json.converter';
+export {TradeIdArrayJsonConverter} from './converter/trade/trade.id.array.json.converter';
 // order
 export {OrderID} from './order/order.id';
 // position
 export {Position} from './position/position';
+export {PositionSide} from './position/position.side';
 // price common
 export {PriceValue} from './price_common/price.value';
 // primitives

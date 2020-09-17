@@ -5,18 +5,18 @@ import {TransactionID} from '../../transaction/transaction.id';
 export class TransactionIdArrayJsonConverter
   implements JsonCustomConvert<TransactionID[]> {
   serialize(transactionIDs: TransactionID[]): string[] {
-    const serializedClosingTransactionIDs = new Array<string>();
+    const serializedTransactionIDs = new Array<string>();
     transactionIDs.forEach(item =>
-      serializedClosingTransactionIDs.push(item.getValue())
+      serializedTransactionIDs.push(item.getValue())
     );
-    return serializedClosingTransactionIDs;
+    return serializedTransactionIDs;
   }
 
   deserialize(transactionIDs: string[]): TransactionID[] {
-    const deserializedClosingTransactionIDs = new Array<TransactionID>();
+    const deserializedTransactionIDs = new Array<TransactionID>();
     transactionIDs.forEach(item =>
-      deserializedClosingTransactionIDs.push(new TransactionID(item))
+      deserializedTransactionIDs.push(new TransactionID(item))
     );
-    return deserializedClosingTransactionIDs;
+    return deserializedTransactionIDs;
   }
 }
