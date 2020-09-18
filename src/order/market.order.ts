@@ -10,9 +10,9 @@ import {PrimitiveUtils} from '../util/primitive.utils';
 import {OrderState} from './order.state';
 import {ClientExtensions} from '../transaction/client.extensions';
 
-@JsonObject('Order')
+@JsonObject('MarketOrder')
 export class MarketOrder implements Order {
-  @JsonProperty('stopLossOrderID', OrderIdJsonConverter, true)
+  @JsonProperty('id', OrderIdJsonConverter, true)
   private id: OrderID = new OrderID('');
   @JsonProperty('type', String, true)
   private type: OrderType = OrderType.MARKET;
