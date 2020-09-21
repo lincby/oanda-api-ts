@@ -10,6 +10,28 @@ import {
   createClientExtensions,
   expectClientExtensions,
 } from '../transaction/client.extensions.spec';
+import {
+  createInstrumentName,
+  expectInstrumentName,
+} from '../primitives/instrument.name.spec';
+import {
+  createDecimalNumber,
+  expectDecimalNumber,
+} from '../primitives/decimal.number.spec';
+import {TimeInForce} from '../../src/order/time.in.force';
+import {
+  createPriceValue,
+  expectPriceValue,
+} from '../price_common/price.value.spec';
+import {OrderPositionFill} from '../../src/order/order.position.fill';
+import {
+  createMarketOrderTradeClose,
+  expectMarketOrderTradeClose,
+} from '../transaction/market.order.trade.close.spec';
+import {
+  createMarketOrderPositionCloseout,
+  expectMarketOrderPositionCloseout,
+} from '../transaction/market.order.position.closeout.spec';
 
 describe('MarketOrder', () => {
   it('test setter and getter', () => {
@@ -44,7 +66,14 @@ export const createMarketOrder = () =>
     .setId(createOrderID())
     .setCreateTime(createDateTime())
     .setState(OrderState.FILLED)
-    .setClientExtensions(createClientExtensions());
+    .setClientExtensions(createClientExtensions())
+    .setInstrument(createInstrumentName())
+    .setUnits(createDecimalNumber())
+    .setTimeInForce(TimeInForce.GFD)
+    .setPriceBound(createPriceValue())
+    .setPositionFill(OrderPositionFill.OPEN_ONLY)
+    .setTradeClose(createMarketOrderTradeClose())
+    .setLongPositionCloseout(createMarketOrderPositionCloseout());
 
 export const expectMarketOrder = (order: MarketOrder) => {
   expectOrderID(order.getId());
@@ -52,4 +81,11 @@ export const expectMarketOrder = (order: MarketOrder) => {
   expectDateTime(order.getCreateTime());
   expect(order.getState()).to.be.equal(OrderState.FILLED);
   expectClientExtensions(order.getClientExtensions());
+  expectInstrumentName(order.getInstrument());
+  expectDecimalNumber(order.getUnits());
+  expect(order.getTimeInForce()).to.be.equal(TimeInForce.GFD);
+  expectPriceValue(order.getPriceBound());
+  expect(order.getPositionFill()).to.be.equal(OrderPositionFill.OPEN_ONLY);
+  expectMarketOrderTradeClose(order.getTradeClose());
+  expectMarketOrderPositionCloseout(order.getLongPositionCloseout());
 };

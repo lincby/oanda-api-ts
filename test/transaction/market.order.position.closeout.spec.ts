@@ -40,12 +40,12 @@ describe('MarketOrderPositionCloseout', () => {
   });
 });
 
-const createMarketOrderPositionCloseout = () =>
+export const createMarketOrderPositionCloseout = () =>
   new MarketOrderPositionCloseout()
     .setInstrument(createInstrumentName())
     .setUnits(STRING_TEST_VALUE);
 
-const expectMarketOrderPositionCloseout = (
+export const expectMarketOrderPositionCloseout = (
   marketOrderPositionCloseout: MarketOrderPositionCloseout
 ) => {
   expectInstrumentName(marketOrderPositionCloseout.getInstrument());

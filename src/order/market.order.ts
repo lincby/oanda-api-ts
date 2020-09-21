@@ -9,6 +9,18 @@ import {OrderUtils} from '../util/order.utils';
 import {PrimitiveUtils} from '../util/primitive.utils';
 import {OrderState} from './order.state';
 import {ClientExtensions} from '../transaction/client.extensions';
+import {InstrumentName} from '../primitives/instrument.name';
+import {InstrumentNameJsonConverter} from '../converter/primitives/instrument.name.json.converter';
+import {DecimalNumber} from '../primitives/decimal.number';
+import {DecimalNumberJsonConverter} from '../converter/primitives/decimal.number.json.converter';
+import Decimal from 'decimal.js';
+import {TimeInForce} from './time.in.force';
+import {PriceValue} from '../price_common/price.value';
+import {PriceValueJsonConverter} from '../converter/price_common/price.value.json.converter';
+import {PriceCommonUtils} from '../util/price.common.utils';
+import {OrderPositionFill} from './order.position.fill';
+import {MarketOrderTradeClose} from '../transaction/market.order.trade.close';
+import {MarketOrderPositionCloseout} from '../transaction/market.order.position.closeout';
 
 @JsonObject('MarketOrder')
 export class MarketOrder implements Order {
@@ -22,6 +34,20 @@ export class MarketOrder implements Order {
   private state: OrderState = OrderState.CANCELLED;
   @JsonProperty('clientExtensions', ClientExtensions, true)
   private clientExtensions: ClientExtensions = new ClientExtensions();
+  @JsonProperty('instrument', InstrumentNameJsonConverter, true)
+  private instrument: InstrumentName = new InstrumentName('');
+  @JsonProperty('units', DecimalNumberJsonConverter, true)
+  private units: DecimalNumber = new DecimalNumber('');
+  @JsonProperty('timeInForce', String, true)
+  private timeInForce: TimeInForce = TimeInForce.FOK;
+  @JsonProperty('priceBound', PriceValueJsonConverter, true)
+  private priceBound: PriceValue = new PriceValue('');
+  @JsonProperty('positionFill', String, true)
+  private positionFill: OrderPositionFill = OrderPositionFill.DEFAULT;
+  @JsonProperty('tradeClose', MarketOrderTradeClose, true)
+  private tradeClose: MarketOrderTradeClose = new MarketOrderTradeClose();
+  @JsonProperty('longPositionCloseout', MarketOrderPositionCloseout, true)
+  private longPositionCloseout: MarketOrderPositionCloseout = new MarketOrderPositionCloseout();
 
   setId(id: OrderID | string): MarketOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -62,11 +88,83 @@ export class MarketOrder implements Order {
     return this.clientExtensions.copy();
   }
 
+  setInstrument(instrument: InstrumentName | string): MarketOrder {
+    this.instrument = PrimitiveUtils.instrumentNameValue(instrument);
+    return this;
+  }
+
+  getInstrument(): InstrumentName {
+    return this.instrument.copy();
+  }
+
+  setUnits(units: DecimalNumber | Decimal | string): MarketOrder {
+    this.units = PrimitiveUtils.decimalNumberValue(units);
+    return this;
+  }
+
+  getUnits(): DecimalNumber {
+    return this.units.copy();
+  }
+
+  setTimeInForce(timeInForce: TimeInForce): MarketOrder {
+    this.timeInForce = timeInForce;
+    return this;
+  }
+
+  getTimeInForce(): TimeInForce {
+    return this.timeInForce;
+  }
+
+  setPriceBound(priceBound: PriceValue | Decimal | string): MarketOrder {
+    this.priceBound = PriceCommonUtils.priceValue(priceBound);
+    return this;
+  }
+
+  getPriceBound(): PriceValue {
+    return this.priceBound.copy();
+  }
+
+  setPositionFill(positionFill: OrderPositionFill): MarketOrder {
+    this.positionFill = positionFill;
+    return this;
+  }
+
+  getPositionFill(): OrderPositionFill {
+    return this.positionFill;
+  }
+
+  setTradeClose(tradeClose: MarketOrderTradeClose): MarketOrder {
+    this.tradeClose = tradeClose.copy();
+    return this;
+  }
+
+  getTradeClose(): MarketOrderTradeClose {
+    return this.tradeClose.copy();
+  }
+
+  setLongPositionCloseout(
+    longPositionCloseout: MarketOrderPositionCloseout
+  ): MarketOrder {
+    this.longPositionCloseout = longPositionCloseout.copy();
+    return this;
+  }
+
+  getLongPositionCloseout(): MarketOrderPositionCloseout {
+    return this.longPositionCloseout.copy();
+  }
+
   copy(): MarketOrder {
     return new MarketOrder()
       .setId(this.id.copy())
       .setCreateTime(this.createTime.copy())
       .setState(this.state)
-      .setClientExtensions(this.clientExtensions.copy());
+      .setClientExtensions(this.clientExtensions.copy())
+      .setInstrument(this.instrument.copy())
+      .setUnits(this.units.copy())
+      .setTimeInForce(this.timeInForce)
+      .setPriceBound(this.priceBound.copy())
+      .setPositionFill(this.positionFill)
+      .setTradeClose(this.tradeClose.copy())
+      .setLongPositionCloseout(this.longPositionCloseout.copy());
   }
 }
