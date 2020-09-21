@@ -21,13 +21,17 @@ describe('MarketOrderTradeClose', () => {
   it('test to and from json', () => {
     const jsonConvert: JsonConvert = new JsonConvert();
     const marketOrderTradeCloseToJson: MarketOrderTradeClose = createMarketOrderTradeClose();
-    const json: string = jsonConvert.serializeObject(marketOrderTradeCloseToJson);
+    const json: string = jsonConvert.serializeObject(
+      marketOrderTradeCloseToJson
+    );
     const marketOrderTradeCloseFromJson: MarketOrderTradeClose = jsonConvert.deserializeObject(
-        json,
-        MarketOrderTradeClose
+      json,
+      MarketOrderTradeClose
     );
     expectMarketOrderTradeClose(marketOrderTradeCloseFromJson);
-    expect(marketOrderTradeCloseFromJson).to.be.deep.equal(marketOrderTradeCloseToJson);
+    expect(marketOrderTradeCloseFromJson).to.be.deep.equal(
+      marketOrderTradeCloseToJson
+    );
   });
 });
 
