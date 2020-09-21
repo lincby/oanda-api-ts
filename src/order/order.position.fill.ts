@@ -1,0 +1,6 @@
+export enum OrderPositionFill {
+  OPEN_ONLY = 'OPEN_ONLY',
+  REDUCE_FIRST = 'REDUCE_FIRST',
+  REDUCE_ONLY = 'REDUCE_ONLY',
+  DEFAULT = 'DEFAULT',
+}

@@ -18,6 +18,8 @@ export interface Order {
   setState(state: OrderState): MarketOrder | FixedPriceOrder;
   getState(): OrderState;
 
-  setClientExtensions(clientExtensions: ClientExtensions): MarketOrder | FixedPriceOrder;
+  setClientExtensions(
+    clientExtensions: ClientExtensions
+  ): MarketOrder | FixedPriceOrder;
   getClientExtensions(): ClientExtensions;
 }
