@@ -52,6 +52,8 @@ export {ClientTag} from './transaction/client.tag';
 export {ClientComment} from './transaction/client.comment';
 export {MarketOrderTradeClose} from './transaction/market.order.trade.close';
 export {MarketOrderPositionCloseout} from './transaction/market.order.position.closeout';
+export {MarketOrderMarginCloseout} from './transaction/market.order.margin.closeout';
+export {MarketOrderMarginCloseoutReason} from './transaction/market.order.margin.closeout.reason';
 // utils
 export {PrimitiveUtils} from './util/primitive.utils';
 export {PriceCommonUtils} from './util/price.common.utils';
