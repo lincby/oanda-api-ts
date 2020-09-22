@@ -21,6 +21,7 @@ import {PriceCommonUtils} from '../util/price.common.utils';
 import {OrderPositionFill} from './order.position.fill';
 import {MarketOrderTradeClose} from '../transaction/market.order.trade.close';
 import {MarketOrderPositionCloseout} from '../transaction/market.order.position.closeout';
+import {MarketOrderMarginCloseout} from '../transaction/market.order.margin.closeout';
 
 @JsonObject('MarketOrder')
 export class MarketOrder implements Order {
@@ -48,6 +49,10 @@ export class MarketOrder implements Order {
   private tradeClose: MarketOrderTradeClose = new MarketOrderTradeClose();
   @JsonProperty('longPositionCloseout', MarketOrderPositionCloseout, true)
   private longPositionCloseout: MarketOrderPositionCloseout = new MarketOrderPositionCloseout();
+  @JsonProperty('shortPositionCloseout', MarketOrderPositionCloseout, true)
+  private shortPositionCloseout: MarketOrderPositionCloseout = new MarketOrderPositionCloseout();
+  @JsonProperty('marginCloseout', MarketOrderMarginCloseout, true)
+  private marginCloseout: MarketOrderMarginCloseout = new MarketOrderMarginCloseout();
 
   setId(id: OrderID | string): MarketOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -153,6 +158,26 @@ export class MarketOrder implements Order {
     return this.longPositionCloseout.copy();
   }
 
+  setShortPositionCloseout(
+    shortPositionCloseout: MarketOrderPositionCloseout
+  ): MarketOrder {
+    this.shortPositionCloseout = shortPositionCloseout.copy();
+    return this;
+  }
+
+  getShortPositionCloseout(): MarketOrderPositionCloseout {
+    return this.shortPositionCloseout.copy();
+  }
+
+  setMarginCloseout(marginCloseout: MarketOrderMarginCloseout): MarketOrder {
+    this.marginCloseout = marginCloseout;
+    return this;
+  }
+
+  getMarginCloseout(): MarketOrderMarginCloseout {
+    return this.marginCloseout;
+  }
+
   copy(): MarketOrder {
     return new MarketOrder()
       .setId(this.id.copy())
@@ -165,6 +190,8 @@ export class MarketOrder implements Order {
       .setPriceBound(this.priceBound.copy())
       .setPositionFill(this.positionFill)
       .setTradeClose(this.tradeClose.copy())
-      .setLongPositionCloseout(this.longPositionCloseout.copy());
+      .setLongPositionCloseout(this.longPositionCloseout.copy())
+      .setShortPositionCloseout(this.shortPositionCloseout.copy())
+      .setMarginCloseout(this.marginCloseout.copy());
   }
 }

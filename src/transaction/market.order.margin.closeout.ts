@@ -3,20 +3,22 @@ import {MarketOrderMarginCloseoutReason} from './market.order.margin.closeout.re
 
 @JsonObject('MarketOrderMarginCloseout')
 export class MarketOrderMarginCloseout {
-    @JsonProperty('reason', String, true)
-    private reason: MarketOrderMarginCloseoutReason = MarketOrderMarginCloseoutReason.MARGIN_CHECK_VIOLATION;
+  @JsonProperty('reason', String, true)
+  private reason: MarketOrderMarginCloseoutReason =
+    MarketOrderMarginCloseoutReason.MARGIN_CHECK_VIOLATION;
 
-    setReason(reason: MarketOrderMarginCloseoutReason): MarketOrderMarginCloseout {
-        this.reason = reason;
-        return this;
-    }
+  setReason(
+    reason: MarketOrderMarginCloseoutReason
+  ): MarketOrderMarginCloseout {
+    this.reason = reason;
+    return this;
+  }
 
-    getReason(): MarketOrderMarginCloseoutReason {
-        return this.reason;
-    }
+  getReason(): MarketOrderMarginCloseoutReason {
+    return this.reason;
+  }
 
-    copy(): MarketOrderMarginCloseout {
-        return new MarketOrderMarginCloseout()
-            .setReason(this.reason);
-    }
+  copy(): MarketOrderMarginCloseout {
+    return new MarketOrderMarginCloseout().setReason(this.reason);
+  }
 }
