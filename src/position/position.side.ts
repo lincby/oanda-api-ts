@@ -53,7 +53,7 @@ export class PositionSide {
   setTradeIDs(tradeIDs: TradeID[] | string[]): PositionSide {
     const newTradeIDs = new Array<TradeID>();
 
-    tradeIDs.forEach((item: any) => {
+    tradeIDs.forEach((item: TradeID | string) => {
       if (item instanceof TradeID) {
         newTradeIDs.push(item.copy());
       } else {

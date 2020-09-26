@@ -196,7 +196,7 @@ export class TradeSummary {
       TransactionID
     >();
 
-    closingTransactionIDs.forEach((item: any) => {
+    closingTransactionIDs.forEach((item: TransactionID | string) => {
       if (item instanceof TransactionID) {
         newClosingTransactionIDs.push(item.copy());
       } else {
