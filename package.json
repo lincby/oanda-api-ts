@@ -13,13 +13,13 @@
   ],
   "scripts": {
     "test": "mocha -r ts-node/register test/**/*.spec.ts",
-    "check": "gts check",
+    "check": "gts check **/*.ts",
     "clean": "gts clean",
     "compile": "tsc",
-    "fix": "gts fix",
+    "fix": "gts fix **/*.ts",
     "prepare": "npm run compile",
     "pretest": "npm run compile",
-    "posttest": "echo 'npm run check'"
+    "posttest": "npm run check"
   },
   "devDependencies": {
     "@types/chai": "^4.2.12",
