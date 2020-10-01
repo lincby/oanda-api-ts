@@ -56,6 +56,7 @@ export {MarketOrderMarginCloseout} from './transaction/market.order.margin.close
 export {MarketOrderMarginCloseoutReason} from './transaction/market.order.margin.closeout.reason';
 export {MarketOrderDelayedTradeClose} from './transaction/market.order.delayed.trade.close';
 export {TakeProfitDetails} from './transaction/take.profit.details';
+export {StopLossDetails} from './transaction/stop.loss.details';
 // utils
 export {PrimitiveUtils} from './util/primitive.utils';
 export {PriceCommonUtils} from './util/price.common.utils';

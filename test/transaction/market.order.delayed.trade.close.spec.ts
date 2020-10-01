@@ -26,12 +26,10 @@ describe('MarketOrderDelayedTradeClose', () => {
     const json: string = jsonConvert.serializeObject(
       marketOrderDelayedTradeCloseToJson
     );
-    console.log('from class to json: ', json);
     const marketOrderDelayedTradeCloseFromJson: MarketOrderDelayedTradeClose = jsonConvert.deserializeObject(
       json,
       MarketOrderDelayedTradeClose
     );
-    console.log('from json to class: ', marketOrderDelayedTradeCloseFromJson);
     expectMarketOrderDelayedTradeClose(marketOrderDelayedTradeCloseFromJson);
     expect(marketOrderDelayedTradeCloseFromJson).to.be.deep.equal(
       marketOrderDelayedTradeCloseToJson
