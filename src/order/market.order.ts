@@ -22,6 +22,9 @@ import {OrderPositionFill} from './order.position.fill';
 import {MarketOrderTradeClose} from '../transaction/market.order.trade.close';
 import {MarketOrderPositionCloseout} from '../transaction/market.order.position.closeout';
 import {MarketOrderMarginCloseout} from '../transaction/market.order.margin.closeout';
+import {MarketOrderDelayedTradeClose} from '../transaction/market.order.delayed.trade.close';
+import {TakeProfitDetails} from '../transaction/take.profit.details';
+import {StopLossDetails} from '../transaction/stop.loss.details';
 
 @JsonObject('MarketOrder')
 export class MarketOrder implements Order {
@@ -53,6 +56,12 @@ export class MarketOrder implements Order {
   private shortPositionCloseout: MarketOrderPositionCloseout = new MarketOrderPositionCloseout();
   @JsonProperty('marginCloseout', MarketOrderMarginCloseout, true)
   private marginCloseout: MarketOrderMarginCloseout = new MarketOrderMarginCloseout();
+  @JsonProperty('delayedTradeClose', MarketOrderDelayedTradeClose, true)
+  private delayedTradeClose: MarketOrderDelayedTradeClose = new MarketOrderDelayedTradeClose();
+  @JsonProperty('takeProfitOnFill', TakeProfitDetails, true)
+  private takeProfitOnFill: TakeProfitDetails = new TakeProfitDetails();
+  @JsonProperty('stopLossOnFill', StopLossDetails, true)
+  private stopLossOnFill: StopLossDetails = new StopLossDetails();
 
   setId(id: OrderID | string): MarketOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -178,6 +187,35 @@ export class MarketOrder implements Order {
     return this.marginCloseout;
   }
 
+  setDelayedTradeClose(
+    delayedTradeClose: MarketOrderDelayedTradeClose
+  ): MarketOrder {
+    this.delayedTradeClose = delayedTradeClose;
+    return this;
+  }
+
+  getDelayedTradeClose(): MarketOrderDelayedTradeClose {
+    return this.delayedTradeClose;
+  }
+
+  setTakeProfitOnFill(takeProfitOnFill: TakeProfitDetails): MarketOrder {
+    this.takeProfitOnFill = takeProfitOnFill.copy();
+    return this;
+  }
+
+  getTakeProfitOnFill(): TakeProfitDetails {
+    return this.takeProfitOnFill.copy();
+  }
+
+  setStopLossOnFill(stopLossOnFill: StopLossDetails): MarketOrder {
+    this.stopLossOnFill = stopLossOnFill.copy();
+    return this;
+  }
+
+  getStopLossOnFill(): StopLossDetails {
+    return this.stopLossOnFill.copy();
+  }
+
   copy(): MarketOrder {
     return new MarketOrder()
       .setId(this.id.copy())
@@ -192,6 +230,9 @@ export class MarketOrder implements Order {
       .setTradeClose(this.tradeClose.copy())
       .setLongPositionCloseout(this.longPositionCloseout.copy())
       .setShortPositionCloseout(this.shortPositionCloseout.copy())
-      .setMarginCloseout(this.marginCloseout.copy());
+      .setMarginCloseout(this.marginCloseout.copy())
+      .setDelayedTradeClose(this.delayedTradeClose.copy())
+      .setTakeProfitOnFill(this.takeProfitOnFill.copy())
+      .setStopLossOnFill(this.stopLossOnFill.copy());
   }
 }

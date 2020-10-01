@@ -36,6 +36,18 @@ import {
   createMarketOrderMarginCloseout,
   expectMarketOrderMarginCloseout,
 } from '../transaction/market.order.margin.closeout.spec';
+import {
+  createMarketOrderDelayedTradeClose,
+  expectMarketOrderDelayedTradeClose,
+} from '../transaction/market.order.delayed.trade.close.spec';
+import {
+  createTakeProfitDetails,
+  expectTakeProfitDetails,
+} from '../transaction/take.profit.details.spec';
+import {
+  createStopLossDetails,
+  expectStopLossDetails,
+} from '../transaction/stop.loss.details.spec';
 
 describe('MarketOrder', () => {
   it('test setter and getter', () => {
@@ -79,7 +91,10 @@ export const createMarketOrder = () =>
     .setTradeClose(createMarketOrderTradeClose())
     .setLongPositionCloseout(createMarketOrderPositionCloseout())
     .setShortPositionCloseout(createMarketOrderPositionCloseout())
-    .setMarginCloseout(createMarketOrderMarginCloseout());
+    .setMarginCloseout(createMarketOrderMarginCloseout())
+    .setDelayedTradeClose(createMarketOrderDelayedTradeClose())
+    .setTakeProfitOnFill(createTakeProfitDetails())
+    .setStopLossOnFill(createStopLossDetails());
 
 export const expectMarketOrder = (order: MarketOrder) => {
   expectOrderID(order.getId());
@@ -96,4 +111,7 @@ export const expectMarketOrder = (order: MarketOrder) => {
   expectMarketOrderPositionCloseout(order.getLongPositionCloseout());
   expectMarketOrderPositionCloseout(order.getShortPositionCloseout());
   expectMarketOrderMarginCloseout(order.getMarginCloseout());
+  expectMarketOrderDelayedTradeClose(order.getDelayedTradeClose());
+  expectTakeProfitDetails(order.getTakeProfitOnFill());
+  expectStopLossDetails(order.getStopLossOnFill());
 };
