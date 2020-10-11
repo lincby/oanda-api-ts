@@ -30,7 +30,10 @@ import {
 } from '../trade/trade.summary.spec';
 import {createPosition, expectPosition} from '../position/position.spec';
 import {createMarketOrder, expectMarketOrder} from '../order/market.order.spec';
-import {createFixedPriceOrder, expectFixedPriceOrder} from '../order/fixed.price.order.spec';
+import {
+  createFixedPriceOrder,
+  expectFixedPriceOrder,
+} from '../order/fixed.price.order.spec';
 import {MarketOrder} from '../../src/order/market.order';
 import {FixedPriceOrder} from '../../src/order/fixed.price.order';
 
@@ -51,12 +54,12 @@ describe('Account', () => {
     const jsonConvert: JsonConvert = new JsonConvert();
     const accountToJson: Account = createAccount();
     const json: string = jsonConvert.serializeObject(accountToJson);
-    console.log('from class to json: ', json);
+    //console.log('from class to json: ', json);
     const accountFromJson: Account = jsonConvert.deserializeObject(
       json,
       Account
     );
-    console.log('from json to class: ', accountFromJson);
+    //console.log('from json to class: ', accountFromJson);
     expectAccount(accountFromJson);
     expect(accountFromJson).to.be.deep.equal(accountToJson);
   });
@@ -105,7 +108,12 @@ const createAccount = (): Account =>
     .setLastTransactionID(createTransactionID())
     .setTrades([createTradeSummary()])
     .setPositions([createPosition(), createPosition()])
-    .setOrders([createMarketOrder(), createFixedPriceOrder(), createMarketOrder(), createFixedPriceOrder()]);
+    .setOrders([
+      createMarketOrder(),
+      createFixedPriceOrder(),
+      createMarketOrder(),
+      createFixedPriceOrder(),
+    ]);
 
 const expectAccount = (account: Account) => {
   expectAccountID(account.getAccountID());

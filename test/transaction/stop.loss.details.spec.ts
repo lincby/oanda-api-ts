@@ -34,12 +34,10 @@ describe('StopLossDetails', () => {
     const jsonConvert: JsonConvert = new JsonConvert();
     const stopLossDetailsToJson: StopLossDetails = createStopLossDetails();
     const json: string = jsonConvert.serializeObject(stopLossDetailsToJson);
-    console.log('from class to json: ', json);
     const stopLossDetailsFromJson: StopLossDetails = jsonConvert.deserializeObject(
       json,
       StopLossDetails
     );
-    console.log('from json to class: ', stopLossDetailsFromJson);
     expectStopLossDetails(stopLossDetailsFromJson);
     expect(stopLossDetailsFromJson).to.be.deep.equal(stopLossDetailsToJson);
   });

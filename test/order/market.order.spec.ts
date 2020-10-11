@@ -48,6 +48,10 @@ import {
   createStopLossDetails,
   expectStopLossDetails,
 } from '../transaction/stop.loss.details.spec';
+import {
+  createGuaranteedStopLossDetails,
+  expectGuaranteedStopLossDetails,
+} from '../transaction/guaranteed.stop.loss.details.spec';
 
 describe('MarketOrder', () => {
   it('test setter and getter', () => {
@@ -94,7 +98,8 @@ export const createMarketOrder = () =>
     .setMarginCloseout(createMarketOrderMarginCloseout())
     .setDelayedTradeClose(createMarketOrderDelayedTradeClose())
     .setTakeProfitOnFill(createTakeProfitDetails())
-    .setStopLossOnFill(createStopLossDetails());
+    .setStopLossOnFill(createStopLossDetails())
+    .setGuaranteedStopLossDetails(createGuaranteedStopLossDetails());
 
 export const expectMarketOrder = (order: MarketOrder) => {
   expectOrderID(order.getId());
@@ -114,4 +119,5 @@ export const expectMarketOrder = (order: MarketOrder) => {
   expectMarketOrderDelayedTradeClose(order.getDelayedTradeClose());
   expectTakeProfitDetails(order.getTakeProfitOnFill());
   expectStopLossDetails(order.getStopLossOnFill());
+  expectGuaranteedStopLossDetails(order.getGuaranteedStopLossDetails());
 };

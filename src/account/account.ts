@@ -108,7 +108,9 @@ export class Account {
   @JsonProperty('positions', [Position], true)
   private positions: Position[] = new Array<Position>();
   @JsonProperty('orders', OrderArrayJsonConverter, true)
-  private orders: (MarketOrder | FixedPriceOrder)[] = new Array<MarketOrder | FixedPriceOrder>();
+  private orders: (MarketOrder | FixedPriceOrder)[] = new Array<
+    MarketOrder | FixedPriceOrder
+  >();
 
   setAccountID(id: AccountID | string): Account {
     if (id instanceof AccountID) {
@@ -530,8 +532,12 @@ export class Account {
   }
 
   setOrders(orders: (MarketOrder | FixedPriceOrder)[]): Account {
-    const newOrders: (MarketOrder | FixedPriceOrder)[] = new Array<MarketOrder | FixedPriceOrder>();
-    orders.forEach((item: (MarketOrder | FixedPriceOrder)) => newOrders.push(item.copy()));
+    const newOrders: (MarketOrder | FixedPriceOrder)[] = new Array<
+      MarketOrder | FixedPriceOrder
+    >();
+    orders.forEach((item: MarketOrder | FixedPriceOrder) =>
+      newOrders.push(item.copy())
+    );
     this.orders = newOrders;
     return this;
   }

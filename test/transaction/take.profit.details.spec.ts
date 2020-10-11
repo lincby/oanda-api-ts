@@ -30,12 +30,10 @@ describe('TakeProfitDetails', () => {
     const jsonConvert: JsonConvert = new JsonConvert();
     const takeProfitDetailsToJson: TakeProfitDetails = createTakeProfitDetails();
     const json: string = jsonConvert.serializeObject(takeProfitDetailsToJson);
-    console.log('from class to json: ', json);
     const takeProfitDetailsFromJson: TakeProfitDetails = jsonConvert.deserializeObject(
       json,
       TakeProfitDetails
     );
-    console.log('from json to class: ', takeProfitDetailsFromJson);
     expectTakeProfitDetails(takeProfitDetailsFromJson);
     expect(takeProfitDetailsFromJson).to.be.deep.equal(takeProfitDetailsToJson);
   });

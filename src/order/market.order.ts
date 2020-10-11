@@ -25,6 +25,7 @@ import {MarketOrderMarginCloseout} from '../transaction/market.order.margin.clos
 import {MarketOrderDelayedTradeClose} from '../transaction/market.order.delayed.trade.close';
 import {TakeProfitDetails} from '../transaction/take.profit.details';
 import {StopLossDetails} from '../transaction/stop.loss.details';
+import {GuaranteedStopLossDetails} from '../transaction/guaranteed.stop.loss.details';
 
 @JsonObject('MarketOrder')
 export class MarketOrder implements Order {
@@ -62,6 +63,8 @@ export class MarketOrder implements Order {
   private takeProfitOnFill: TakeProfitDetails = new TakeProfitDetails();
   @JsonProperty('stopLossOnFill', StopLossDetails, true)
   private stopLossOnFill: StopLossDetails = new StopLossDetails();
+  @JsonProperty('guaranteedStopLossOnFill', GuaranteedStopLossDetails, true)
+  private guaranteedStopLossOnFill: GuaranteedStopLossDetails = new GuaranteedStopLossDetails();
 
   setId(id: OrderID | string): MarketOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -216,6 +219,17 @@ export class MarketOrder implements Order {
     return this.stopLossOnFill.copy();
   }
 
+  setGuaranteedStopLossDetails(
+    guaranteedStopLossOnFill: GuaranteedStopLossDetails
+  ): MarketOrder {
+    this.guaranteedStopLossOnFill = guaranteedStopLossOnFill.copy();
+    return this;
+  }
+
+  getGuaranteedStopLossDetails(): GuaranteedStopLossDetails {
+    return this.guaranteedStopLossOnFill.copy();
+  }
+
   copy(): MarketOrder {
     return new MarketOrder()
       .setId(this.id.copy())
@@ -233,6 +247,7 @@ export class MarketOrder implements Order {
       .setMarginCloseout(this.marginCloseout.copy())
       .setDelayedTradeClose(this.delayedTradeClose.copy())
       .setTakeProfitOnFill(this.takeProfitOnFill.copy())
-      .setStopLossOnFill(this.stopLossOnFill.copy());
+      .setStopLossOnFill(this.stopLossOnFill.copy())
+      .setGuaranteedStopLossDetails(this.guaranteedStopLossOnFill.copy());
   }
 }

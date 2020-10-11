@@ -12,61 +12,61 @@ import {ClientExtensions} from '../transaction/client.extensions';
 
 @JsonObject('FixedPriceOrder')
 export class FixedPriceOrder implements Order {
-    @JsonProperty('id', OrderIdJsonConverter, true)
-    private id: OrderID = new OrderID('');
-    @JsonProperty('type', String, true)
-    private type: OrderType = OrderType.FIXED_PRICE;
-    @JsonProperty('createTime', DateTimeJsonConverter, true)
-    private createTime: DateTime = new DateTime('');
-    @JsonProperty('state', String, true)
-    private state: OrderState = OrderState.CANCELLED;
-    @JsonProperty('clientExtensions', ClientExtensions, true)
-    private clientExtensions: ClientExtensions = new ClientExtensions();
+  @JsonProperty('id', OrderIdJsonConverter, true)
+  private id: OrderID = new OrderID('');
+  @JsonProperty('type', String, true)
+  private type: OrderType = OrderType.FIXED_PRICE;
+  @JsonProperty('createTime', DateTimeJsonConverter, true)
+  private createTime: DateTime = new DateTime('');
+  @JsonProperty('state', String, true)
+  private state: OrderState = OrderState.CANCELLED;
+  @JsonProperty('clientExtensions', ClientExtensions, true)
+  private clientExtensions: ClientExtensions = new ClientExtensions();
 
-    setId(id: OrderID | string): FixedPriceOrder {
-        this.id = OrderUtils.orderIdValue(id);
-        return this;
-    }
+  setId(id: OrderID | string): FixedPriceOrder {
+    this.id = OrderUtils.orderIdValue(id);
+    return this;
+  }
 
-    getId(): OrderID {
-        return this.id.copy();
-    }
+  getId(): OrderID {
+    return this.id.copy();
+  }
 
-    getType(): OrderType {
-        return this.type;
-    }
+  getType(): OrderType {
+    return this.type;
+  }
 
-    setCreateTime(createTime: DateTime | string): FixedPriceOrder {
-        this.createTime = PrimitiveUtils.dateTimeValue(createTime);
-        return this;
-    }
+  setCreateTime(createTime: DateTime | string): FixedPriceOrder {
+    this.createTime = PrimitiveUtils.dateTimeValue(createTime);
+    return this;
+  }
 
-    getCreateTime(): DateTime {
-        return this.createTime.copy();
-    }
+  getCreateTime(): DateTime {
+    return this.createTime.copy();
+  }
 
-    setState(state: OrderState): FixedPriceOrder {
-        this.state = state;
-        return this;
-    }
-    getState(): OrderState {
-        return this.state;
-    }
+  setState(state: OrderState): FixedPriceOrder {
+    this.state = state;
+    return this;
+  }
+  getState(): OrderState {
+    return this.state;
+  }
 
-    setClientExtensions(clientExtensions: ClientExtensions): FixedPriceOrder {
-        this.clientExtensions = clientExtensions.copy();
-        return this;
-    }
+  setClientExtensions(clientExtensions: ClientExtensions): FixedPriceOrder {
+    this.clientExtensions = clientExtensions.copy();
+    return this;
+  }
 
-    getClientExtensions(): ClientExtensions {
-        return this.clientExtensions.copy();
-    }
+  getClientExtensions(): ClientExtensions {
+    return this.clientExtensions.copy();
+  }
 
-    copy(): FixedPriceOrder {
-        return new FixedPriceOrder()
-            .setId(this.id.copy())
-            .setCreateTime(this.createTime.copy())
-            .setState(this.state)
-            .setClientExtensions(this.clientExtensions.copy());
-    }
+  copy(): FixedPriceOrder {
+    return new FixedPriceOrder()
+      .setId(this.id.copy())
+      .setCreateTime(this.createTime.copy())
+      .setState(this.state)
+      .setClientExtensions(this.clientExtensions.copy());
+  }
 }
