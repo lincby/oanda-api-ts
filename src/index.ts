@@ -58,6 +58,7 @@ export {MarketOrderDelayedTradeClose} from './transaction/market.order.delayed.t
 export {TakeProfitDetails} from './transaction/take.profit.details';
 export {StopLossDetails} from './transaction/stop.loss.details';
 export {GuaranteedStopLossDetails} from './transaction/guaranteed.stop.loss.details';
+export {TrailingStopLossDetails} from './transaction/trailing.stop.loss.details';
 // utils
 export {PrimitiveUtils} from './util/primitive.utils';
 export {PriceCommonUtils} from './util/price.common.utils';
