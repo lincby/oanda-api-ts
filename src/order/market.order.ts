@@ -27,6 +27,13 @@ import {TakeProfitDetails} from '../transaction/take.profit.details';
 import {StopLossDetails} from '../transaction/stop.loss.details';
 import {GuaranteedStopLossDetails} from '../transaction/guaranteed.stop.loss.details';
 import {TrailingStopLossDetails} from '../transaction/trailing.stop.loss.details';
+import {TransactionID} from '../transaction/transaction.id';
+import {TransactionIdJsonConverter} from '../converter/transaction/transaction.id.json.converter';
+import {TradeID} from '../trade/trade.id';
+import {TradeIdJsonConverter} from '../converter/trade/trade.id.json.converter';
+import {TradeIdArrayJsonConverter} from '../converter/trade/trade.id.array.json.converter';
+import {TradeIdUtils} from '../util/trade.id.utils';
+import {TransactionIdUtils} from '../util/transaction.id.utils';
 
 @JsonObject('MarketOrder')
 export class MarketOrder implements Order {
@@ -68,6 +75,22 @@ export class MarketOrder implements Order {
   private guaranteedStopLossOnFill: GuaranteedStopLossDetails = new GuaranteedStopLossDetails();
   @JsonProperty('trailingStopLossOnFill', TrailingStopLossDetails, true)
   private trailingStopLossOnFill: TrailingStopLossDetails = new TrailingStopLossDetails();
+  @JsonProperty('tradeClientExtensions', ClientExtensions, true)
+  private tradeClientExtensions: ClientExtensions = new ClientExtensions();
+  @JsonProperty('fillingTransactionID', TransactionIdJsonConverter, true)
+  private fillingTransactionID: TransactionID = new TransactionID('');
+  @JsonProperty('filledTime', DateTimeJsonConverter, true)
+  private filledTime: DateTime = new DateTime('');
+  @JsonProperty('tradeOpenedID', TradeIdJsonConverter, true)
+  private tradeOpenedID: TradeID = new TradeID('');
+  @JsonProperty('tradeReducedID', TradeIdJsonConverter, true)
+  private tradeReducedID: TradeID = new TradeID('');
+  @JsonProperty('tradeClosedIDs', TradeIdArrayJsonConverter, true)
+  private tradeClosedIDs: TradeID[] = new Array<TradeID>();
+  @JsonProperty('cancellingTransactionID', TransactionIdJsonConverter, true)
+  private cancellingTransactionID: TransactionID = new TransactionID('');
+  @JsonProperty('cancelledTime', DateTimeJsonConverter, true)
+  private cancelledTime: DateTime = new DateTime('');
 
   setId(id: OrderID | string): MarketOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -244,6 +267,90 @@ export class MarketOrder implements Order {
     return this.trailingStopLossOnFill.copy();
   }
 
+  setTradeClientExtensions(
+    tradeClientExtensions: ClientExtensions
+  ): MarketOrder {
+    this.tradeClientExtensions = tradeClientExtensions.copy();
+    return this;
+  }
+
+  getTradeClientExtensions(): ClientExtensions {
+    return this.tradeClientExtensions.copy();
+  }
+
+  setFillingTransactionID(
+    fillingTransactionID: TransactionID | string
+  ): MarketOrder {
+    this.fillingTransactionID = TransactionIdUtils.transactionIdValue(
+      fillingTransactionID
+    );
+    return this;
+  }
+
+  getFillingTransactionID(): TransactionID {
+    return this.fillingTransactionID.copy();
+  }
+
+  setFilledTime(filledTime: DateTime | string): MarketOrder {
+    this.filledTime = PrimitiveUtils.dateTimeValue(filledTime);
+    return this;
+  }
+
+  getFilledTime(): DateTime {
+    return this.filledTime.copy();
+  }
+
+  setTradeOpenedID(tradeOpenedID: TradeID | string): MarketOrder {
+    this.tradeOpenedID = TradeIdUtils.tradeIdValue(tradeOpenedID);
+    return this;
+  }
+
+  getTradeOpenedID(): TradeID {
+    return this.tradeOpenedID.copy();
+  }
+
+  setTradeReducedID(tradeReducedID: TradeID | string): MarketOrder {
+    this.tradeReducedID = TradeIdUtils.tradeIdValue(tradeReducedID);
+    return this;
+  }
+
+  getTradeReducedID(): TradeID {
+    return this.tradeReducedID.copy();
+  }
+
+  setTradeClosedIDs(tradeClosedIDs: TradeID[] | string[]): MarketOrder {
+    this.tradeClosedIDs = TradeIdUtils.tradeIdValues(tradeClosedIDs);
+    return this;
+  }
+
+  getTradeClosedIDs(): TradeID[] {
+    const copyOfTradeIDs = new Array<TradeID>();
+    this.tradeClosedIDs.forEach(item => copyOfTradeIDs.push(item.copy()));
+    return copyOfTradeIDs;
+  }
+
+  setCancellingTransactionID(
+    cancellingTransactionID: TransactionID | string
+  ): MarketOrder {
+    this.cancellingTransactionID = TransactionIdUtils.transactionIdValue(
+      cancellingTransactionID
+    );
+    return this;
+  }
+
+  getCancellingTransactionID(): TransactionID {
+    return this.cancellingTransactionID.copy();
+  }
+
+  setCancelledTime(cancelledTime: DateTime | string): MarketOrder {
+    this.cancelledTime = PrimitiveUtils.dateTimeValue(cancelledTime);
+    return this;
+  }
+
+  getCancelledTime(): DateTime {
+    return this.cancelledTime.copy();
+  }
+
   copy(): MarketOrder {
     return new MarketOrder()
       .setId(this.id.copy())
@@ -263,6 +370,15 @@ export class MarketOrder implements Order {
       .setTakeProfitOnFill(this.takeProfitOnFill.copy())
       .setStopLossOnFill(this.stopLossOnFill.copy())
       .setGuaranteedStopLossDetails(this.guaranteedStopLossOnFill.copy())
-      .setTrailingStopLossOnFill(this.trailingStopLossOnFill.copy());
+      .setTrailingStopLossOnFill(this.trailingStopLossOnFill.copy())
+      .setTradeClientExtensions(this.tradeClientExtensions.copy())
+      .setFillingTransactionID(this.fillingTransactionID.copy())
+      .setFilledTime(this.filledTime.copy())
+      .setTradeOpenedID(this.tradeOpenedID.copy())
+      .setTradeReducedID(this.tradeReducedID.copy())
+      .setTradeClosedIDs(this.getTradeClosedIDs())
+      .setCancellingTransactionID(this.cancellingTransactionID.copy())
+      .setCancellingTransactionID(this.cancellingTransactionID.copy())
+      .setCancelledTime(this.cancelledTime.copy());
   }
 }

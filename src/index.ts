@@ -63,3 +63,4 @@ export {TrailingStopLossDetails} from './transaction/trailing.stop.loss.details'
 export {PrimitiveUtils} from './util/primitive.utils';
 export {PriceCommonUtils} from './util/price.common.utils';
 export {OrderUtils} from './util/order.utils';
+export {TradeIdUtils} from './util/trade.id.utils';

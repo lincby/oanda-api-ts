@@ -56,6 +56,11 @@ import {
   createTrailingStopLossDetails,
   expectTrailingStopLossDetails,
 } from '../transaction/trailing.stop.loss.details.spec';
+import {
+  createTransactionID,
+  expectTransactionID,
+} from '../transaction/transaction.id.spec';
+import {createTradeID, expectTradeID} from '../trade/trade.id.spec';
 
 describe('MarketOrder', () => {
   it('test setter and getter', () => {
@@ -104,7 +109,15 @@ export const createMarketOrder = () =>
     .setTakeProfitOnFill(createTakeProfitDetails())
     .setStopLossOnFill(createStopLossDetails())
     .setGuaranteedStopLossDetails(createGuaranteedStopLossDetails())
-    .setTrailingStopLossOnFill(createTrailingStopLossDetails());
+    .setTrailingStopLossOnFill(createTrailingStopLossDetails())
+    .setTradeClientExtensions(createClientExtensions())
+    .setFillingTransactionID(createTransactionID())
+    .setFilledTime(createDateTime())
+    .setTradeOpenedID(createTradeID())
+    .setTradeReducedID(createTradeID())
+    .setTradeClosedIDs([createTradeID(), createTradeID()])
+    .setCancellingTransactionID(createTransactionID())
+    .setCancelledTime(createDateTime());
 
 export const expectMarketOrder = (order: MarketOrder) => {
   expectOrderID(order.getId());
@@ -126,4 +139,13 @@ export const expectMarketOrder = (order: MarketOrder) => {
   expectStopLossDetails(order.getStopLossOnFill());
   expectGuaranteedStopLossDetails(order.getGuaranteedStopLossDetails());
   expectTrailingStopLossDetails(order.getTrailingStopLossOnFill());
+  expectClientExtensions(order.getTradeClientExtensions());
+  expectTransactionID(order.getFillingTransactionID());
+  expectDateTime(order.getFilledTime());
+  expectTradeID(order.getTradeOpenedID());
+  expectTradeID(order.getTradeReducedID());
+  expectTradeID(order.getTradeClosedIDs()[0]);
+  expectTradeID(order.getTradeClosedIDs()[1]);
+  expectTransactionID(order.getCancellingTransactionID());
+  expectDateTime(order.getCancelledTime());
 };

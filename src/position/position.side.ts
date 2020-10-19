@@ -10,6 +10,7 @@ import {TradeID} from '../trade/trade.id';
 import {TradeIdArrayJsonConverter} from '../converter/trade/trade.id.array.json.converter';
 import {AccountUnits} from '../primitives/account.units';
 import {AccountUnitsJsonConverter} from '../converter/primitives/account.units.json.converter';
+import {TradeIdUtils} from '../util/trade.id.utils';
 
 @JsonObject('Position')
 export class PositionSide {
@@ -51,17 +52,7 @@ export class PositionSide {
   }
 
   setTradeIDs(tradeIDs: TradeID[] | string[]): PositionSide {
-    const newTradeIDs = new Array<TradeID>();
-
-    tradeIDs.forEach((item: TradeID | string) => {
-      if (item instanceof TradeID) {
-        newTradeIDs.push(item.copy());
-      } else {
-        newTradeIDs.push(new TradeID(item));
-      }
-    });
-
-    this.tradeIDs = newTradeIDs;
+    this.tradeIDs = TradeIdUtils.tradeIdValues(tradeIDs);
     return this;
   }
 
