@@ -10,6 +10,18 @@ import {
   createClientExtensions,
   expectClientExtensions,
 } from '../transaction/client.extensions.spec';
+import {
+  createInstrumentName,
+  expectInstrumentName,
+} from '../primitives/instrument.name.spec';
+import {
+  createDecimalNumber,
+  expectDecimalNumber,
+} from '../primitives/decimal.number.spec';
+import {
+  createPriceValue,
+  expectPriceValue,
+} from '../price_common/price.value.spec';
 
 describe('FixedPriceOrder', () => {
   it('test setter and getter', () => {
@@ -28,12 +40,12 @@ describe('FixedPriceOrder', () => {
     const jsonConvert: JsonConvert = new JsonConvert();
     const fixedPriceOrderToJson: FixedPriceOrder = createFixedPriceOrder();
     const json: string = jsonConvert.serializeObject(fixedPriceOrderToJson);
-    //console.log('from class to json: ', json);
+    console.log('from class to json: ', json);
     const fixedPriceOrderFromJson: FixedPriceOrder = jsonConvert.deserializeObject(
       json,
       FixedPriceOrder
     );
-    //console.log('from json to class: ', fixedPriceOrderFromJson);
+    console.log('from json to class: ', fixedPriceOrderFromJson);
     expectFixedPriceOrder(fixedPriceOrderFromJson);
     expect(fixedPriceOrderFromJson).to.be.deep.equal(fixedPriceOrderToJson);
   });
@@ -44,7 +56,10 @@ export const createFixedPriceOrder = () =>
     .setId(createOrderID())
     .setCreateTime(createDateTime())
     .setState(OrderState.FILLED)
-    .setClientExtensions(createClientExtensions());
+    .setClientExtensions(createClientExtensions())
+    .setInstrument(createInstrumentName())
+    .setUnits(createDecimalNumber())
+    .setPrice(createPriceValue());
 
 export const expectFixedPriceOrder = (order: FixedPriceOrder) => {
   expectOrderID(order.getId());
@@ -52,4 +67,7 @@ export const expectFixedPriceOrder = (order: FixedPriceOrder) => {
   expectDateTime(order.getCreateTime());
   expect(order.getState()).to.be.equal(OrderState.FILLED);
   expectClientExtensions(order.getClientExtensions());
+  expectInstrumentName(order.getInstrument());
+  expectDecimalNumber(order.getUnits());
+  expectPriceValue(order.getPrice());
 };

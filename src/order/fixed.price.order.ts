@@ -9,6 +9,14 @@ import {OrderUtils} from '../util/order.utils';
 import {PrimitiveUtils} from '../util/primitive.utils';
 import {OrderState} from './order.state';
 import {ClientExtensions} from '../transaction/client.extensions';
+import {InstrumentName} from '../primitives/instrument.name';
+import {InstrumentNameJsonConverter} from '../converter/primitives/instrument.name.json.converter';
+import {DecimalNumber} from '../primitives/decimal.number';
+import {DecimalNumberJsonConverter} from '../converter/primitives/decimal.number.json.converter';
+import Decimal from 'decimal.js';
+import {PriceValue} from '../price_common/price.value';
+import {PriceValueJsonConverter} from '../converter/price_common/price.value.json.converter';
+import {PriceCommonUtils} from '..';
 
 @JsonObject('FixedPriceOrder')
 export class FixedPriceOrder implements Order {
@@ -22,6 +30,12 @@ export class FixedPriceOrder implements Order {
   private state: OrderState = OrderState.CANCELLED;
   @JsonProperty('clientExtensions', ClientExtensions, true)
   private clientExtensions: ClientExtensions = new ClientExtensions();
+  @JsonProperty('instrument', InstrumentNameJsonConverter, true)
+  private instrument: InstrumentName = new InstrumentName('');
+  @JsonProperty('units', DecimalNumberJsonConverter, true)
+  private units: DecimalNumber = new DecimalNumber('');
+  @JsonProperty('price', PriceValueJsonConverter, true)
+  private price: PriceValue = new PriceValue('');
 
   setId(id: OrderID | string): FixedPriceOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -62,11 +76,41 @@ export class FixedPriceOrder implements Order {
     return this.clientExtensions.copy();
   }
 
+  setInstrument(instrumentName: InstrumentName | string): FixedPriceOrder {
+    this.instrument = PrimitiveUtils.instrumentNameValue(instrumentName);
+    return this;
+  }
+
+  getInstrument(): InstrumentName {
+    return this.instrument.copy();
+  }
+
+  setUnits(units: DecimalNumber | Decimal | string): FixedPriceOrder {
+    this.units = PrimitiveUtils.decimalNumberValue(units);
+    return this;
+  }
+
+  getUnits(): DecimalNumber {
+    return this.units.copy();
+  }
+
+  setPrice(priceBound: PriceValue | Decimal | string): FixedPriceOrder {
+    this.price = PriceCommonUtils.priceValue(priceBound);
+    return this;
+  }
+
+  getPrice(): PriceValue {
+    return this.price.copy();
+  }
+
   copy(): FixedPriceOrder {
     return new FixedPriceOrder()
       .setId(this.id.copy())
       .setCreateTime(this.createTime.copy())
       .setState(this.state)
-      .setClientExtensions(this.clientExtensions.copy());
+      .setClientExtensions(this.clientExtensions.copy())
+      .setInstrument(this.instrument.copy())
+      .setUnits(this.units.copy())
+      .setPrice(this.price.copy());
   }
 }
