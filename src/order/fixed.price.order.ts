@@ -16,7 +16,7 @@ import {DecimalNumberJsonConverter} from '../converter/primitives/decimal.number
 import Decimal from 'decimal.js';
 import {PriceValue} from '../price_common/price.value';
 import {PriceValueJsonConverter} from '../converter/price_common/price.value.json.converter';
-import {PriceCommonUtils} from '..';
+import {OrderPositionFill, PriceCommonUtils, TakeProfitDetails} from '..';
 
 @JsonObject('FixedPriceOrder')
 export class FixedPriceOrder implements Order {
@@ -36,6 +36,12 @@ export class FixedPriceOrder implements Order {
   private units: DecimalNumber = new DecimalNumber('');
   @JsonProperty('price', PriceValueJsonConverter, true)
   private price: PriceValue = new PriceValue('');
+  @JsonProperty('positionFill', String, true)
+  private positionFill: OrderPositionFill = OrderPositionFill.DEFAULT;
+  @JsonProperty('tradeState', String, true)
+  private tradeState = '';
+  @JsonProperty('takeProfitOnFill', TakeProfitDetails, true)
+  private takeProfitOnFill: TakeProfitDetails = new TakeProfitDetails();
 
   setId(id: OrderID | string): FixedPriceOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -103,6 +109,33 @@ export class FixedPriceOrder implements Order {
     return this.price.copy();
   }
 
+  setPositionFill(positionFill: OrderPositionFill): FixedPriceOrder {
+    this.positionFill = positionFill;
+    return this;
+  }
+
+  getPositionFill(): OrderPositionFill {
+    return this.positionFill;
+  }
+
+  setTradeState(tradeState: string): FixedPriceOrder {
+    this.tradeState = tradeState;
+    return this;
+  }
+
+  getTradeState(): string {
+    return this.tradeState;
+  }
+
+  setTakeProfitOnFill(takeProfitOnFill: TakeProfitDetails): FixedPriceOrder {
+    this.takeProfitOnFill = takeProfitOnFill.copy();
+    return this;
+  }
+
+  getTakeProfitOnFill(): TakeProfitDetails {
+    return this.takeProfitOnFill.copy();
+  }
+
   copy(): FixedPriceOrder {
     return new FixedPriceOrder()
       .setId(this.id.copy())
@@ -111,6 +144,9 @@ export class FixedPriceOrder implements Order {
       .setClientExtensions(this.clientExtensions.copy())
       .setInstrument(this.instrument.copy())
       .setUnits(this.units.copy())
-      .setPrice(this.price.copy());
+      .setPrice(this.price.copy())
+      .setPositionFill(this.positionFill)
+      .setTradeState(this.tradeState)
+      .setTakeProfitOnFill(this.takeProfitOnFill.copy());
   }
 }

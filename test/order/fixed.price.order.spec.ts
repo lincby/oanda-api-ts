@@ -22,6 +22,12 @@ import {
   createPriceValue,
   expectPriceValue,
 } from '../price_common/price.value.spec';
+import {OrderPositionFill} from '../../src/order/order.position.fill';
+import {STRING_TEST_VALUE} from '../test.utils.spec';
+import {
+  createTakeProfitDetails,
+  expectTakeProfitDetails,
+} from '../transaction/take.profit.details.spec';
 
 describe('FixedPriceOrder', () => {
   it('test setter and getter', () => {
@@ -59,7 +65,10 @@ export const createFixedPriceOrder = () =>
     .setClientExtensions(createClientExtensions())
     .setInstrument(createInstrumentName())
     .setUnits(createDecimalNumber())
-    .setPrice(createPriceValue());
+    .setPrice(createPriceValue())
+    .setPositionFill(OrderPositionFill.OPEN_ONLY)
+    .setTradeState(STRING_TEST_VALUE)
+    .setTakeProfitOnFill(createTakeProfitDetails());
 
 export const expectFixedPriceOrder = (order: FixedPriceOrder) => {
   expectOrderID(order.getId());
@@ -70,4 +79,7 @@ export const expectFixedPriceOrder = (order: FixedPriceOrder) => {
   expectInstrumentName(order.getInstrument());
   expectDecimalNumber(order.getUnits());
   expectPriceValue(order.getPrice());
+  expect(order.getPositionFill()).to.be.equal(OrderPositionFill.OPEN_ONLY);
+  expect(order.getTradeState()).to.be.equal(STRING_TEST_VALUE);
+  expectTakeProfitDetails(order.getTakeProfitOnFill());
 };
