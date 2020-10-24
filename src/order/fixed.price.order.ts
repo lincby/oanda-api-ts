@@ -16,7 +16,12 @@ import {DecimalNumberJsonConverter} from '../converter/primitives/decimal.number
 import Decimal from 'decimal.js';
 import {PriceValue} from '../price_common/price.value';
 import {PriceValueJsonConverter} from '../converter/price_common/price.value.json.converter';
-import {OrderPositionFill, PriceCommonUtils, TakeProfitDetails} from '..';
+import {OrderPositionFill} from '../order/order.position.fill';
+import {PriceCommonUtils} from '../util/price.common.utils';
+import {StopLossDetails} from '../transaction/stop.loss.details';
+import {TakeProfitDetails} from '../transaction/take.profit.details';
+import {GuaranteedStopLossDetails} from '../transaction/guaranteed.stop.loss.details';
+import {TrailingStopLossDetails} from '../transaction/trailing.stop.loss.details';
 
 @JsonObject('FixedPriceOrder')
 export class FixedPriceOrder implements Order {
@@ -42,6 +47,12 @@ export class FixedPriceOrder implements Order {
   private tradeState = '';
   @JsonProperty('takeProfitOnFill', TakeProfitDetails, true)
   private takeProfitOnFill: TakeProfitDetails = new TakeProfitDetails();
+  @JsonProperty('stopLossOnFill', StopLossDetails, true)
+  private stopLossOnFill: StopLossDetails = new StopLossDetails();
+  @JsonProperty('guaranteedStopLossOnFill', GuaranteedStopLossDetails, true)
+  private guaranteedStopLossOnFill: GuaranteedStopLossDetails = new GuaranteedStopLossDetails();
+  @JsonProperty('trailingStopLossOnFill', TrailingStopLossDetails, true)
+  private trailingStopLossOnFill: TrailingStopLossDetails = new TrailingStopLossDetails();
 
   setId(id: OrderID | string): FixedPriceOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -136,6 +147,37 @@ export class FixedPriceOrder implements Order {
     return this.takeProfitOnFill.copy();
   }
 
+  setStopLossOnFill(stopLossOnFill: StopLossDetails): FixedPriceOrder {
+    this.stopLossOnFill = stopLossOnFill.copy();
+    return this;
+  }
+
+  getStopLossOnFill(): StopLossDetails {
+    return this.stopLossOnFill.copy();
+  }
+
+  setGuaranteedStopLossDetails(
+    guaranteedStopLossOnFill: GuaranteedStopLossDetails
+  ): FixedPriceOrder {
+    this.guaranteedStopLossOnFill = guaranteedStopLossOnFill.copy();
+    return this;
+  }
+
+  getGuaranteedStopLossDetails(): GuaranteedStopLossDetails {
+    return this.guaranteedStopLossOnFill.copy();
+  }
+
+  setTrailingStopLossOnFill(
+    trailingStopLossOnFill: TrailingStopLossDetails
+  ): FixedPriceOrder {
+    this.trailingStopLossOnFill = trailingStopLossOnFill.copy();
+    return this;
+  }
+
+  getTrailingStopLossOnFill(): TrailingStopLossDetails {
+    return this.trailingStopLossOnFill.copy();
+  }
+
   copy(): FixedPriceOrder {
     return new FixedPriceOrder()
       .setId(this.id.copy())
@@ -147,6 +189,9 @@ export class FixedPriceOrder implements Order {
       .setPrice(this.price.copy())
       .setPositionFill(this.positionFill)
       .setTradeState(this.tradeState)
-      .setTakeProfitOnFill(this.takeProfitOnFill.copy());
+      .setTakeProfitOnFill(this.takeProfitOnFill.copy())
+      .setStopLossOnFill(this.stopLossOnFill.copy())
+      .setGuaranteedStopLossDetails(this.guaranteedStopLossOnFill.copy())
+      .setTrailingStopLossOnFill(this.trailingStopLossOnFill.copy());
   }
 }

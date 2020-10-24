@@ -28,6 +28,18 @@ import {
   createTakeProfitDetails,
   expectTakeProfitDetails,
 } from '../transaction/take.profit.details.spec';
+import {
+  createStopLossDetails,
+  expectStopLossDetails,
+} from '../transaction/stop.loss.details.spec';
+import {
+  createGuaranteedStopLossDetails,
+  expectGuaranteedStopLossDetails,
+} from '../transaction/guaranteed.stop.loss.details.spec';
+import {
+  createTrailingStopLossDetails,
+  expectTrailingStopLossDetails,
+} from '../transaction/trailing.stop.loss.details.spec';
 
 describe('FixedPriceOrder', () => {
   it('test setter and getter', () => {
@@ -68,7 +80,10 @@ export const createFixedPriceOrder = () =>
     .setPrice(createPriceValue())
     .setPositionFill(OrderPositionFill.OPEN_ONLY)
     .setTradeState(STRING_TEST_VALUE)
-    .setTakeProfitOnFill(createTakeProfitDetails());
+    .setTakeProfitOnFill(createTakeProfitDetails())
+    .setStopLossOnFill(createStopLossDetails())
+    .setGuaranteedStopLossDetails(createGuaranteedStopLossDetails())
+    .setTrailingStopLossOnFill(createTrailingStopLossDetails());
 
 export const expectFixedPriceOrder = (order: FixedPriceOrder) => {
   expectOrderID(order.getId());
@@ -82,4 +97,7 @@ export const expectFixedPriceOrder = (order: FixedPriceOrder) => {
   expect(order.getPositionFill()).to.be.equal(OrderPositionFill.OPEN_ONLY);
   expect(order.getTradeState()).to.be.equal(STRING_TEST_VALUE);
   expectTakeProfitDetails(order.getTakeProfitOnFill());
+  expectStopLossDetails(order.getStopLossOnFill());
+  expectGuaranteedStopLossDetails(order.getGuaranteedStopLossDetails());
+  expectTrailingStopLossDetails(order.getTrailingStopLossOnFill());
 };
