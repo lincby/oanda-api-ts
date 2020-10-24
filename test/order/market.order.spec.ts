@@ -79,12 +79,10 @@ describe('MarketOrder', () => {
     const jsonConvert: JsonConvert = new JsonConvert();
     const marketOrderToJson: MarketOrder = createMarketOrder();
     const json: string = jsonConvert.serializeObject(marketOrderToJson);
-    console.log('from class to json: ', json);
     const marketOrderFromJson: MarketOrder = jsonConvert.deserializeObject(
       json,
       MarketOrder
     );
-    console.log('from json to class: ', marketOrderFromJson);
     expectMarketOrder(marketOrderFromJson);
     expect(marketOrderFromJson).to.be.deep.equal(marketOrderToJson);
   });

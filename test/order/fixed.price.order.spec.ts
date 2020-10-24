@@ -63,12 +63,10 @@ describe('FixedPriceOrder', () => {
     const jsonConvert: JsonConvert = new JsonConvert();
     const fixedPriceOrderToJson: FixedPriceOrder = createFixedPriceOrder();
     const json: string = jsonConvert.serializeObject(fixedPriceOrderToJson);
-    console.log('from class to json: ', json);
     const fixedPriceOrderFromJson: FixedPriceOrder = jsonConvert.deserializeObject(
       json,
       FixedPriceOrder
     );
-    console.log('from json to class: ', fixedPriceOrderFromJson);
     expectFixedPriceOrder(fixedPriceOrderFromJson);
     expect(fixedPriceOrderFromJson).to.be.deep.equal(fixedPriceOrderToJson);
   });
@@ -94,7 +92,9 @@ export const createFixedPriceOrder = () =>
     .setFilledTime(createDateTime())
     .setTradeOpenedID(createTradeID())
     .setTradeReducedID(createTradeID())
-    .setTradeClosedIDs([createTradeID(), createTradeID()]);
+    .setTradeClosedIDs([createTradeID(), createTradeID()])
+    .setCancellingTransactionID(createTransactionID())
+    .setCancelledTime(createDateTime());
 
 export const expectFixedPriceOrder = (order: FixedPriceOrder) => {
   expectOrderID(order.getId());
@@ -118,4 +118,6 @@ export const expectFixedPriceOrder = (order: FixedPriceOrder) => {
   expectTradeID(order.getTradeReducedID());
   expectTradeID(order.getTradeClosedIDs()[0]);
   expectTradeID(order.getTradeClosedIDs()[1]);
+  expectTransactionID(order.getCancellingTransactionID());
+  expectDateTime(order.getCancelledTime());
 };

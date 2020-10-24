@@ -378,7 +378,6 @@ export class MarketOrder implements Order {
       .setTradeReducedID(this.tradeReducedID.copy())
       .setTradeClosedIDs(this.getTradeClosedIDs())
       .setCancellingTransactionID(this.cancellingTransactionID.copy())
-      .setCancellingTransactionID(this.cancellingTransactionID.copy())
       .setCancelledTime(this.cancelledTime.copy());
   }
 }

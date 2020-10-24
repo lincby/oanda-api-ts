@@ -72,6 +72,10 @@ export class FixedPriceOrder implements Order {
   private tradeReducedID: TradeID = new TradeID('');
   @JsonProperty('tradeClosedIDs', TradeIdArrayJsonConverter, true)
   private tradeClosedIDs: TradeID[] = new Array<TradeID>();
+  @JsonProperty('cancellingTransactionID', TransactionIdJsonConverter, true)
+  private cancellingTransactionID: TransactionID = new TransactionID('');
+  @JsonProperty('cancelledTime', DateTimeJsonConverter, true)
+  private cancelledTime: DateTime = new DateTime('');
 
   setId(id: OrderID | string): FixedPriceOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -259,6 +263,28 @@ export class FixedPriceOrder implements Order {
     return copyOfTradeIDs;
   }
 
+  setCancellingTransactionID(
+    cancellingTransactionID: TransactionID | string
+  ): FixedPriceOrder {
+    this.cancellingTransactionID = TransactionIdUtils.transactionIdValue(
+      cancellingTransactionID
+    );
+    return this;
+  }
+
+  getCancellingTransactionID(): TransactionID {
+    return this.cancellingTransactionID.copy();
+  }
+
+  setCancelledTime(cancelledTime: DateTime | string): FixedPriceOrder {
+    this.cancelledTime = PrimitiveUtils.dateTimeValue(cancelledTime);
+    return this;
+  }
+
+  getCancelledTime(): DateTime {
+    return this.cancelledTime.copy();
+  }
+
   copy(): FixedPriceOrder {
     return new FixedPriceOrder()
       .setId(this.id.copy())
@@ -279,6 +305,8 @@ export class FixedPriceOrder implements Order {
       .setFilledTime(this.filledTime.copy())
       .setTradeOpenedID(this.tradeOpenedID.copy())
       .setTradeReducedID(this.tradeReducedID.copy())
-      .setTradeClosedIDs(this.getTradeClosedIDs());
+      .setTradeClosedIDs(this.getTradeClosedIDs())
+      .setCancellingTransactionID(this.cancellingTransactionID.copy())
+      .setCancelledTime(this.cancelledTime.copy());
   }
 }
