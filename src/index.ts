@@ -28,6 +28,8 @@ export {OrderState} from './order/order.state';
 export {MarketOrder} from './order/market.order';
 export {TimeInForce} from './order/time.in.force';
 export {OrderPositionFill} from './order/order.position.fill';
+export {FixedPriceOrder} from './order/fixed.price.order';
+export {LimitOrder} from './order/limit.order';
 // position
 export {Position} from './position/position';
 export {PositionSide} from './position/position.side';
@@ -64,3 +66,4 @@ export {PrimitiveUtils} from './util/primitive.utils';
 export {PriceCommonUtils} from './util/price.common.utils';
 export {OrderUtils} from './util/order.utils';
 export {TradeIdUtils} from './util/trade.id.utils';
+export {TransactionIdUtils} from './util/transaction.id.utils';

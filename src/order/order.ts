@@ -5,21 +5,22 @@ import {OrderState} from './order.state';
 import {ClientExtensions} from '../transaction/client.extensions';
 import {MarketOrder} from './market.order';
 import {FixedPriceOrder} from './fixed.price.order';
+import {LimitOrder} from './limit.order';
 
 export interface Order {
-  setId(id: OrderID): MarketOrder | FixedPriceOrder;
+  setId(id: OrderID): MarketOrder | FixedPriceOrder | LimitOrder;
   getId(): OrderID;
 
   getType(): OrderType;
 
-  setCreateTime(createTime: DateTime): MarketOrder | FixedPriceOrder;
+  setCreateTime(createTime: DateTime): MarketOrder | FixedPriceOrder | LimitOrder;
   getCreateTime(): DateTime;
 
-  setState(state: OrderState): MarketOrder | FixedPriceOrder;
+  setState(state: OrderState): MarketOrder | FixedPriceOrder | LimitOrder;
   getState(): OrderState;
 
   setClientExtensions(
     clientExtensions: ClientExtensions
-  ): MarketOrder | FixedPriceOrder;
+  ): MarketOrder | FixedPriceOrder | LimitOrder;
   getClientExtensions(): ClientExtensions;
 }
