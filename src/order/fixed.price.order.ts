@@ -22,6 +22,9 @@ import {StopLossDetails} from '../transaction/stop.loss.details';
 import {TakeProfitDetails} from '../transaction/take.profit.details';
 import {GuaranteedStopLossDetails} from '../transaction/guaranteed.stop.loss.details';
 import {TrailingStopLossDetails} from '../transaction/trailing.stop.loss.details';
+import {TransactionID} from '../transaction/transaction.id';
+import {TransactionIdJsonConverter} from '../converter/transaction/transaction.id.json.converter';
+import {TransactionIdUtils} from '../util/transaction.id.utils';
 
 @JsonObject('FixedPriceOrder')
 export class FixedPriceOrder implements Order {
@@ -53,6 +56,12 @@ export class FixedPriceOrder implements Order {
   private guaranteedStopLossOnFill: GuaranteedStopLossDetails = new GuaranteedStopLossDetails();
   @JsonProperty('trailingStopLossOnFill', TrailingStopLossDetails, true)
   private trailingStopLossOnFill: TrailingStopLossDetails = new TrailingStopLossDetails();
+  @JsonProperty('tradeClientExtensions', ClientExtensions, true)
+  private tradeClientExtensions: ClientExtensions = new ClientExtensions();
+  @JsonProperty('fillingTransactionID', TransactionIdJsonConverter, true)
+  private fillingTransactionID: TransactionID = new TransactionID('');
+  @JsonProperty('filledTime', DateTimeJsonConverter, true)
+  private filledTime: DateTime = new DateTime('');
 
   setId(id: OrderID | string): FixedPriceOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -178,6 +187,39 @@ export class FixedPriceOrder implements Order {
     return this.trailingStopLossOnFill.copy();
   }
 
+  setTradeClientExtensions(
+      tradeClientExtensions: ClientExtensions
+  ): FixedPriceOrder {
+    this.tradeClientExtensions = tradeClientExtensions.copy();
+    return this;
+  }
+
+  getTradeClientExtensions(): ClientExtensions {
+    return this.tradeClientExtensions.copy();
+  }
+
+  setFillingTransactionID(
+      fillingTransactionID: TransactionID | string
+  ): FixedPriceOrder {
+    this.fillingTransactionID = TransactionIdUtils.transactionIdValue(
+        fillingTransactionID
+    );
+    return this;
+  }
+
+  getFillingTransactionID(): TransactionID {
+    return this.fillingTransactionID.copy();
+  }
+
+  setFilledTime(filledTime: DateTime | string): FixedPriceOrder {
+    this.filledTime = PrimitiveUtils.dateTimeValue(filledTime);
+    return this;
+  }
+
+  getFilledTime(): DateTime {
+    return this.filledTime.copy();
+  }
+
   copy(): FixedPriceOrder {
     return new FixedPriceOrder()
       .setId(this.id.copy())
@@ -192,6 +234,9 @@ export class FixedPriceOrder implements Order {
       .setTakeProfitOnFill(this.takeProfitOnFill.copy())
       .setStopLossOnFill(this.stopLossOnFill.copy())
       .setGuaranteedStopLossDetails(this.guaranteedStopLossOnFill.copy())
-      .setTrailingStopLossOnFill(this.trailingStopLossOnFill.copy());
+      .setTrailingStopLossOnFill(this.trailingStopLossOnFill.copy())
+        .setTradeClientExtensions(this.tradeClientExtensions.copy())
+        .setFillingTransactionID(this.fillingTransactionID.copy())
+        .setFilledTime(this.filledTime.copy());
   }
 }
