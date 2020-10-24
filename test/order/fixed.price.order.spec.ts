@@ -40,7 +40,11 @@ import {
   createTrailingStopLossDetails,
   expectTrailingStopLossDetails,
 } from '../transaction/trailing.stop.loss.details.spec';
-import {createTransactionID, expectTransactionID} from '../transaction/transaction.id.spec';
+import {
+  createTransactionID,
+  expectTransactionID,
+} from '../transaction/transaction.id.spec';
+import {createTradeID, expectTradeID} from '../trade/trade.id.spec';
 
 describe('FixedPriceOrder', () => {
   it('test setter and getter', () => {
@@ -85,9 +89,12 @@ export const createFixedPriceOrder = () =>
     .setStopLossOnFill(createStopLossDetails())
     .setGuaranteedStopLossDetails(createGuaranteedStopLossDetails())
     .setTrailingStopLossOnFill(createTrailingStopLossDetails())
-      .setTradeClientExtensions(createClientExtensions())
-      .setFillingTransactionID(createTransactionID())
-      .setFilledTime(createDateTime());
+    .setTradeClientExtensions(createClientExtensions())
+    .setFillingTransactionID(createTransactionID())
+    .setFilledTime(createDateTime())
+    .setTradeOpenedID(createTradeID())
+    .setTradeReducedID(createTradeID())
+    .setTradeClosedIDs([createTradeID(), createTradeID()]);
 
 export const expectFixedPriceOrder = (order: FixedPriceOrder) => {
   expectOrderID(order.getId());
@@ -107,4 +114,8 @@ export const expectFixedPriceOrder = (order: FixedPriceOrder) => {
   expectClientExtensions(order.getTradeClientExtensions());
   expectTransactionID(order.getFillingTransactionID());
   expectDateTime(order.getFilledTime());
+  expectTradeID(order.getTradeOpenedID());
+  expectTradeID(order.getTradeReducedID());
+  expectTradeID(order.getTradeClosedIDs()[0]);
+  expectTradeID(order.getTradeClosedIDs()[1]);
 };
