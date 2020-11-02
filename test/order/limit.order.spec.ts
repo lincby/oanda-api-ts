@@ -9,6 +9,7 @@ import {createDateTime, expectDateTime} from '../primitives/date.time.spec';
 import {createClientExtensions, expectClientExtensions} from '../transaction/client.extensions.spec';
 import {createInstrumentName, expectInstrumentName} from '../primitives/instrument.name.spec';
 import {createDecimalNumber, expectDecimalNumber} from '../primitives/decimal.number.spec';
+import {OrderPositionFill, TimeInForce} from "../../src";
 
 describe('LimitOrder', () => {
     it('test setter and getter', () => {
@@ -44,7 +45,10 @@ export const createLimitOrder = () => new LimitOrder()
     .setState(OrderState.FILLED)
     .setClientExtensions(createClientExtensions())
     .setInstrument(createInstrumentName())
-    .setUnits(createDecimalNumber());
+    .setUnits(createDecimalNumber())
+    .setTimeInForce(TimeInForce.GFD)
+    .setGtdTime(createDateTime())
+    .setPositionFill(OrderPositionFill.OPEN_ONLY);
 
 export const expectLimitOrder = (order: LimitOrder) => {
     expectOrderID(order.getId());
@@ -54,4 +58,7 @@ export const expectLimitOrder = (order: LimitOrder) => {
     expectClientExtensions(order.getClientExtensions());
     expectInstrumentName(order.getInstrument());
     expectDecimalNumber(order.getUnits());
+    expect(order.getTimeInForce()).to.be.equal(TimeInForce.GFD);
+    expectDateTime(order.getGtdTime());
+    expect(order.getPositionFill()).to.be.equal(OrderPositionFill.OPEN_ONLY);
 }

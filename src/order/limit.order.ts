@@ -16,6 +16,8 @@ import {DecimalNumberJsonConverter} from '../converter/primitives/decimal.number
 import Decimal from 'decimal.js';
 import {PriceValue} from '../price_common/price.value';
 import {PriceValueJsonConverter} from '../converter/price_common/price.value.json.converter';
+import {TimeInForce} from './time.in.force';
+import {OrderPositionFill} from './order.position.fill';
 
 @JsonObject('LimitOrder')
 export class LimitOrder implements Order {
@@ -35,6 +37,12 @@ export class LimitOrder implements Order {
     private units: DecimalNumber = new DecimalNumber('');
     @JsonProperty('price', PriceValueJsonConverter, true)
     private price: PriceValue = new PriceValue('');
+    @JsonProperty('timeInForce', String, true)
+    private timeInForce: TimeInForce = TimeInForce.GTC;
+    @JsonProperty('gtdTime', DateTimeJsonConverter, true)
+    private gtdTime: DateTime = new DateTime('');
+    @JsonProperty('positionFill', String, true)
+    private positionFill: OrderPositionFill = OrderPositionFill.DEFAULT;
 
     setId(id: OrderID | string): LimitOrder {
         this.id = OrderUtils.orderIdValue(id);
@@ -93,6 +101,33 @@ export class LimitOrder implements Order {
         return this.units.copy();
     }
 
+    setTimeInForce(timeInForce: TimeInForce): LimitOrder {
+        this.timeInForce = timeInForce;
+        return this;
+    }
+
+    getTimeInForce(): TimeInForce {
+        return this.timeInForce;
+    }
+
+    setGtdTime(gtdTime: DateTime | string): LimitOrder {
+        this.gtdTime = PrimitiveUtils.dateTimeValue(gtdTime);
+        return this;
+    }
+
+    getGtdTime(): DateTime {
+        return this.gtdTime.copy();
+    }
+
+    setPositionFill(positionFill: OrderPositionFill): LimitOrder {
+        this.positionFill = positionFill;
+        return this;
+    }
+
+    getPositionFill(): OrderPositionFill {
+        return this.positionFill;
+    }
+
     copy(): LimitOrder {
         return new LimitOrder()
             .setId(this.id.copy())
@@ -100,6 +135,9 @@ export class LimitOrder implements Order {
             .setState(this.state)
             .setClientExtensions(this.clientExtensions.copy())
             .setInstrument(this.instrument.copy())
-            .setUnits(this.units.copy());
+            .setUnits(this.units.copy())
+            .setTimeInForce(this.timeInForce)
+            .setGtdTime(this.gtdTime.copy())
+            .setPositionFill(this.positionFill);
     }
 }
