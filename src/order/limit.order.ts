@@ -9,6 +9,13 @@ import {OrderState} from './order.state';
 import {ClientExtensions} from '../transaction/client.extensions';
 import {OrderUtils} from '../util/order.utils';
 import {PrimitiveUtils} from '../util/primitive.utils';
+import {InstrumentName} from '../primitives/instrument.name';
+import {InstrumentNameJsonConverter} from '../converter/primitives/instrument.name.json.converter';
+import {DecimalNumber} from '../primitives/decimal.number';
+import {DecimalNumberJsonConverter} from '../converter/primitives/decimal.number.json.converter';
+import Decimal from 'decimal.js';
+import {PriceValue} from '../price_common/price.value';
+import {PriceValueJsonConverter} from '../converter/price_common/price.value.json.converter';
 
 @JsonObject('LimitOrder')
 export class LimitOrder implements Order {
@@ -22,6 +29,12 @@ export class LimitOrder implements Order {
     private state: OrderState = OrderState.CANCELLED;
     @JsonProperty('clientExtensions', ClientExtensions, true)
     private clientExtensions: ClientExtensions = new ClientExtensions();
+    @JsonProperty('instrument', InstrumentNameJsonConverter, true)
+    private instrument: InstrumentName = new InstrumentName('');
+    @JsonProperty('units', DecimalNumberJsonConverter, true)
+    private units: DecimalNumber = new DecimalNumber('');
+    @JsonProperty('price', PriceValueJsonConverter, true)
+    private price: PriceValue = new PriceValue('');
 
     setId(id: OrderID | string): LimitOrder {
         this.id = OrderUtils.orderIdValue(id);
@@ -62,11 +75,31 @@ export class LimitOrder implements Order {
         return this.clientExtensions.copy();
     }
 
+    setInstrument(instrument: InstrumentName | string): LimitOrder {
+        this.instrument = PrimitiveUtils.instrumentNameValue(instrument);
+        return this;
+    }
+
+    getInstrument(): InstrumentName {
+        return this.instrument.copy();
+    }
+
+    setUnits(units: DecimalNumber | Decimal | string): LimitOrder {
+        this.units = PrimitiveUtils.decimalNumberValue(units);
+        return this;
+    }
+
+    getUnits(): DecimalNumber {
+        return this.units.copy();
+    }
+
     copy(): LimitOrder {
         return new LimitOrder()
             .setId(this.id.copy())
             .setCreateTime(this.createTime.copy())
             .setState(this.state)
-            .setClientExtensions(this.clientExtensions.copy());
+            .setClientExtensions(this.clientExtensions.copy())
+            .setInstrument(this.instrument.copy())
+            .setUnits(this.units.copy());
     }
 }

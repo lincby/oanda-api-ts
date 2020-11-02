@@ -7,6 +7,8 @@ import {JsonConvert} from 'json2typescript';
 import {createOrderID, expectOrderID} from './order.id.spec';
 import {createDateTime, expectDateTime} from '../primitives/date.time.spec';
 import {createClientExtensions, expectClientExtensions} from '../transaction/client.extensions.spec';
+import {createInstrumentName, expectInstrumentName} from '../primitives/instrument.name.spec';
+import {createDecimalNumber, expectDecimalNumber} from '../primitives/decimal.number.spec';
 
 describe('LimitOrder', () => {
     it('test setter and getter', () => {
@@ -41,6 +43,8 @@ export const createLimitOrder = () => new LimitOrder()
     .setCreateTime(createDateTime())
     .setState(OrderState.FILLED)
     .setClientExtensions(createClientExtensions())
+    .setInstrument(createInstrumentName())
+    .setUnits(createDecimalNumber());
 
 export const expectLimitOrder = (order: LimitOrder) => {
     expectOrderID(order.getId());
@@ -48,4 +52,6 @@ export const expectLimitOrder = (order: LimitOrder) => {
     expectDateTime(order.getCreateTime());
     expect(order.getState()).to.be.equal(OrderState.FILLED);
     expectClientExtensions(order.getClientExtensions());
+    expectInstrumentName(order.getInstrument());
+    expectDecimalNumber(order.getUnits());
 }
