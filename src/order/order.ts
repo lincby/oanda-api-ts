@@ -13,7 +13,9 @@ export interface Order {
 
   getType(): OrderType;
 
-  setCreateTime(createTime: DateTime): MarketOrder | FixedPriceOrder | LimitOrder;
+  setCreateTime(
+    createTime: DateTime
+  ): MarketOrder | FixedPriceOrder | LimitOrder;
   getCreateTime(): DateTime;
 
   setState(state: OrderState): MarketOrder | FixedPriceOrder | LimitOrder;
