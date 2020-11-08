@@ -21,6 +21,8 @@ import {OrderPositionFill} from './order.position.fill';
 import {OrderTriggerCondition} from './order.trigger.condition';
 import {TakeProfitDetails} from '../transaction/take.profit.details';
 import {StopLossDetails} from '../transaction/stop.loss.details';
+import {GuaranteedStopLossDetails} from '../transaction/guaranteed.stop.loss.details';
+import {TrailingStopLossDetails} from '../transaction/trailing.stop.loss.details';
 
 @JsonObject('LimitOrder')
 export class LimitOrder implements Order {
@@ -53,6 +55,12 @@ export class LimitOrder implements Order {
   private takeProfitOnFill: TakeProfitDetails = new TakeProfitDetails();
   @JsonProperty('stopLossOnFill', StopLossDetails, true)
   private stopLossOnFill: StopLossDetails = new StopLossDetails();
+  @JsonProperty('guaranteedStopLossOnFill', GuaranteedStopLossDetails, true)
+  private guaranteedStopLossOnFill: GuaranteedStopLossDetails = new GuaranteedStopLossDetails();
+  @JsonProperty('trailingStopLossOnFill', TrailingStopLossDetails, true)
+  private trailingStopLossOnFill: TrailingStopLossDetails = new TrailingStopLossDetails();
+  @JsonProperty('tradeClientExtensions', ClientExtensions, true)
+  private tradeClientExtensions: ClientExtensions = new ClientExtensions();
 
   setId(id: OrderID | string): LimitOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -165,6 +173,39 @@ export class LimitOrder implements Order {
     return this.stopLossOnFill.copy();
   }
 
+  setGuaranteedStopLossDetails(
+      guaranteedStopLossOnFill: GuaranteedStopLossDetails
+  ): LimitOrder {
+    this.guaranteedStopLossOnFill = guaranteedStopLossOnFill.copy();
+    return this;
+  }
+
+  getGuaranteedStopLossDetails(): GuaranteedStopLossDetails {
+    return this.guaranteedStopLossOnFill.copy();
+  }
+
+  setTrailingStopLossOnFill(
+      trailingStopLossOnFill: TrailingStopLossDetails
+  ): LimitOrder {
+    this.trailingStopLossOnFill = trailingStopLossOnFill.copy();
+    return this;
+  }
+
+  getTrailingStopLossOnFill(): TrailingStopLossDetails {
+    return this.trailingStopLossOnFill.copy();
+  }
+
+  setTradeClientExtensions(
+      tradeClientExtensions: ClientExtensions
+  ): LimitOrder {
+    this.tradeClientExtensions = tradeClientExtensions.copy();
+    return this;
+  }
+
+  getTradeClientExtensions(): ClientExtensions {
+    return this.tradeClientExtensions.copy();
+  }
+
   copy(): LimitOrder {
     return new LimitOrder()
       .setId(this.id.copy())
@@ -178,6 +219,9 @@ export class LimitOrder implements Order {
       .setPositionFill(this.positionFill)
       .setTriggerCondition(this.triggerCondition)
       .setTakeProfitOnFill(this.takeProfitOnFill.copy())
-      .setStopLossOnFill(this.stopLossOnFill.copy());
+      .setStopLossOnFill(this.stopLossOnFill.copy())
+        .setGuaranteedStopLossDetails(this.guaranteedStopLossOnFill.copy())
+        .setTrailingStopLossOnFill(this.trailingStopLossOnFill.copy())
+        .setTradeClientExtensions(this.tradeClientExtensions.copy());
   }
 }
