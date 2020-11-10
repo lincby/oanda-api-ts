@@ -23,6 +23,12 @@ import {TakeProfitDetails} from '../transaction/take.profit.details';
 import {StopLossDetails} from '../transaction/stop.loss.details';
 import {GuaranteedStopLossDetails} from '../transaction/guaranteed.stop.loss.details';
 import {TrailingStopLossDetails} from '../transaction/trailing.stop.loss.details';
+import {TransactionID} from '../transaction/transaction.id';
+import {TransactionIdJsonConverter} from '../converter/transaction/transaction.id.json.converter';
+import {TransactionIdUtils} from '../util/transaction.id.utils';
+import {TradeID} from '../trade/trade.id';
+import {TradeIdJsonConverter} from '../converter/trade/trade.id.json.converter';
+import {TradeIdUtils} from '..';
 
 @JsonObject('LimitOrder')
 export class LimitOrder implements Order {
@@ -61,6 +67,12 @@ export class LimitOrder implements Order {
   private trailingStopLossOnFill: TrailingStopLossDetails = new TrailingStopLossDetails();
   @JsonProperty('tradeClientExtensions', ClientExtensions, true)
   private tradeClientExtensions: ClientExtensions = new ClientExtensions();
+  @JsonProperty('fillingTransactionID', TransactionIdJsonConverter, true)
+  private fillingTransactionID: TransactionID = new TransactionID('');
+  @JsonProperty('filledTime', DateTimeJsonConverter, true)
+  private filledTime: DateTime = new DateTime('');
+  @JsonProperty('tradeOpenedID', TradeIdJsonConverter, true)
+  private tradeOpenedID: TradeID = new TradeID('');
 
   setId(id: OrderID | string): LimitOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -174,7 +186,7 @@ export class LimitOrder implements Order {
   }
 
   setGuaranteedStopLossDetails(
-      guaranteedStopLossOnFill: GuaranteedStopLossDetails
+    guaranteedStopLossOnFill: GuaranteedStopLossDetails
   ): LimitOrder {
     this.guaranteedStopLossOnFill = guaranteedStopLossOnFill.copy();
     return this;
@@ -185,7 +197,7 @@ export class LimitOrder implements Order {
   }
 
   setTrailingStopLossOnFill(
-      trailingStopLossOnFill: TrailingStopLossDetails
+    trailingStopLossOnFill: TrailingStopLossDetails
   ): LimitOrder {
     this.trailingStopLossOnFill = trailingStopLossOnFill.copy();
     return this;
@@ -196,7 +208,7 @@ export class LimitOrder implements Order {
   }
 
   setTradeClientExtensions(
-      tradeClientExtensions: ClientExtensions
+    tradeClientExtensions: ClientExtensions
   ): LimitOrder {
     this.tradeClientExtensions = tradeClientExtensions.copy();
     return this;
@@ -204,6 +216,37 @@ export class LimitOrder implements Order {
 
   getTradeClientExtensions(): ClientExtensions {
     return this.tradeClientExtensions.copy();
+  }
+
+  setFillingTransactionID(
+    fillingTransactionID: TransactionID | string
+  ): LimitOrder {
+    this.fillingTransactionID = TransactionIdUtils.transactionIdValue(
+      fillingTransactionID
+    );
+    return this;
+  }
+
+  getFillingTransactionID(): TransactionID {
+    return this.fillingTransactionID.copy();
+  }
+
+  setFilledTime(filledTime: DateTime | string): LimitOrder {
+    this.filledTime = PrimitiveUtils.dateTimeValue(filledTime);
+    return this;
+  }
+
+  getFilledTime(): DateTime {
+    return this.filledTime.copy();
+  }
+
+  setTradeOpenedID(tradeOpenedID: TradeID | string): LimitOrder {
+    this.tradeOpenedID = TradeIdUtils.tradeIdValue(tradeOpenedID);
+    return this;
+  }
+
+  getTradeOpenedID(): TradeID {
+    return this.tradeOpenedID.copy();
   }
 
   copy(): LimitOrder {
@@ -220,8 +263,11 @@ export class LimitOrder implements Order {
       .setTriggerCondition(this.triggerCondition)
       .setTakeProfitOnFill(this.takeProfitOnFill.copy())
       .setStopLossOnFill(this.stopLossOnFill.copy())
-        .setGuaranteedStopLossDetails(this.guaranteedStopLossOnFill.copy())
-        .setTrailingStopLossOnFill(this.trailingStopLossOnFill.copy())
-        .setTradeClientExtensions(this.tradeClientExtensions.copy());
+      .setGuaranteedStopLossDetails(this.guaranteedStopLossOnFill.copy())
+      .setTrailingStopLossOnFill(this.trailingStopLossOnFill.copy())
+      .setTradeClientExtensions(this.tradeClientExtensions.copy())
+      .setFillingTransactionID(this.fillingTransactionID.copy())
+      .setFilledTime(this.filledTime.copy())
+      .setTradeOpenedID(this.tradeOpenedID.copy());
   }
 }

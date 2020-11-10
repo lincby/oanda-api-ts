@@ -30,12 +30,17 @@ import {
 } from '../transaction/stop.loss.details.spec';
 import {
   createGuaranteedStopLossDetails,
-  expectGuaranteedStopLossDetails
+  expectGuaranteedStopLossDetails,
 } from '../transaction/guaranteed.stop.loss.details.spec';
 import {
   createTrailingStopLossDetails,
-  expectTrailingStopLossDetails
+  expectTrailingStopLossDetails,
 } from '../transaction/trailing.stop.loss.details.spec';
+import {
+  createTransactionID,
+  expectTransactionID,
+} from '../transaction/transaction.id.spec';
+import {createTradeID, expectTradeID} from '../trade/trade.id.spec';
 
 describe('LimitOrder', () => {
   it('test setter and getter', () => {
@@ -79,9 +84,12 @@ export const createLimitOrder = () =>
     .setTriggerCondition(OrderTriggerCondition.ASK)
     .setTakeProfitOnFill(createTakeProfitDetails())
     .setStopLossOnFill(createStopLossDetails())
-      .setGuaranteedStopLossDetails(createGuaranteedStopLossDetails())
-      .setTrailingStopLossOnFill(createTrailingStopLossDetails())
-      .setTradeClientExtensions(createClientExtensions());
+    .setGuaranteedStopLossDetails(createGuaranteedStopLossDetails())
+    .setTrailingStopLossOnFill(createTrailingStopLossDetails())
+    .setTradeClientExtensions(createClientExtensions())
+    .setFillingTransactionID(createTransactionID())
+    .setFilledTime(createDateTime())
+    .setTradeOpenedID(createTradeID());
 
 export const expectLimitOrder = (order: LimitOrder) => {
   expectOrderID(order.getId());
@@ -100,4 +108,7 @@ export const expectLimitOrder = (order: LimitOrder) => {
   expectGuaranteedStopLossDetails(order.getGuaranteedStopLossDetails());
   expectTrailingStopLossDetails(order.getTrailingStopLossOnFill());
   expectClientExtensions(order.getTradeClientExtensions());
+  expectTransactionID(order.getFillingTransactionID());
+  expectDateTime(order.getFilledTime());
+  expectTradeID(order.getTradeOpenedID());
 };
