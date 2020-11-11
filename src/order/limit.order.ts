@@ -28,7 +28,8 @@ import {TransactionIdJsonConverter} from '../converter/transaction/transaction.i
 import {TransactionIdUtils} from '../util/transaction.id.utils';
 import {TradeID} from '../trade/trade.id';
 import {TradeIdJsonConverter} from '../converter/trade/trade.id.json.converter';
-import {TradeIdUtils} from '..';
+import {TradeIdUtils} from '../util/trade.id.utils';
+import {TradeIdArrayJsonConverter} from '../converter/trade/trade.id.array.json.converter';
 
 @JsonObject('LimitOrder')
 export class LimitOrder implements Order {
@@ -73,6 +74,12 @@ export class LimitOrder implements Order {
   private filledTime: DateTime = new DateTime('');
   @JsonProperty('tradeOpenedID', TradeIdJsonConverter, true)
   private tradeOpenedID: TradeID = new TradeID('');
+  @JsonProperty('tradeReducedID', TradeIdJsonConverter, true)
+  private tradeReducedID: TradeID = new TradeID('');
+  @JsonProperty('tradeClosedIDs', TradeIdArrayJsonConverter, true)
+  private tradeClosedIDs: TradeID[] = new Array<TradeID>();
+  @JsonProperty('cancellingTransactionID', TransactionIdJsonConverter, true)
+  private cancellingTransactionID: TransactionID = new TransactionID('');
 
   setId(id: OrderID | string): LimitOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -249,6 +256,39 @@ export class LimitOrder implements Order {
     return this.tradeOpenedID.copy();
   }
 
+  setTradeReducedID(tradeReducedID: TradeID | string): LimitOrder {
+    this.tradeReducedID = TradeIdUtils.tradeIdValue(tradeReducedID);
+    return this;
+  }
+
+  getTradeReducedID(): TradeID {
+    return this.tradeReducedID.copy();
+  }
+
+  setTradeClosedIDs(tradeClosedIDs: TradeID[] | string[]): LimitOrder {
+    this.tradeClosedIDs = TradeIdUtils.tradeIdValues(tradeClosedIDs);
+    return this;
+  }
+
+  getTradeClosedIDs(): TradeID[] {
+    const copyOfTradeIDs = new Array<TradeID>();
+    this.tradeClosedIDs.forEach(item => copyOfTradeIDs.push(item.copy()));
+    return copyOfTradeIDs;
+  }
+
+  setCancellingTransactionID(
+    cancellingTransactionID: TransactionID | string
+  ): LimitOrder {
+    this.cancellingTransactionID = TransactionIdUtils.transactionIdValue(
+      cancellingTransactionID
+    );
+    return this;
+  }
+
+  getCancellingTransactionID(): TransactionID {
+    return this.cancellingTransactionID.copy();
+  }
+
   copy(): LimitOrder {
     return new LimitOrder()
       .setId(this.id.copy())
@@ -268,6 +308,9 @@ export class LimitOrder implements Order {
       .setTradeClientExtensions(this.tradeClientExtensions.copy())
       .setFillingTransactionID(this.fillingTransactionID.copy())
       .setFilledTime(this.filledTime.copy())
-      .setTradeOpenedID(this.tradeOpenedID.copy());
+      .setTradeOpenedID(this.tradeOpenedID.copy())
+      .setTradeReducedID(this.tradeReducedID.copy())
+      .setTradeClosedIDs(this.getTradeClosedIDs())
+      .setCancellingTransactionID(this.cancellingTransactionID.copy());
   }
 }

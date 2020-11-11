@@ -89,7 +89,10 @@ export const createLimitOrder = () =>
     .setTradeClientExtensions(createClientExtensions())
     .setFillingTransactionID(createTransactionID())
     .setFilledTime(createDateTime())
-    .setTradeOpenedID(createTradeID());
+    .setTradeOpenedID(createTradeID())
+    .setTradeReducedID(createTradeID())
+    .setTradeClosedIDs([createTradeID(), createTradeID()])
+    .setCancellingTransactionID(createTransactionID());
 
 export const expectLimitOrder = (order: LimitOrder) => {
   expectOrderID(order.getId());
@@ -111,4 +114,8 @@ export const expectLimitOrder = (order: LimitOrder) => {
   expectTransactionID(order.getFillingTransactionID());
   expectDateTime(order.getFilledTime());
   expectTradeID(order.getTradeOpenedID());
+  expectTradeID(order.getTradeReducedID());
+  expectTradeID(order.getTradeClosedIDs()[0]);
+  expectTradeID(order.getTradeClosedIDs()[1]);
+  expectTransactionID(order.getCancellingTransactionID());
 };
