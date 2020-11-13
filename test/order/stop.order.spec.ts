@@ -7,47 +7,67 @@ import {OrderType} from '../../src/order/order.type';
 import {createDateTime, expectDateTime} from '../primitives/date.time.spec';
 import {OrderState} from '../../src/order/order.state';
 import {
-    createClientExtensions,
-    expectClientExtensions,
+  createClientExtensions,
+  expectClientExtensions,
 } from '../transaction/client.extensions.spec';
+import {
+  createInstrumentName,
+  expectInstrumentName,
+} from '../primitives/instrument.name.spec';
+import {
+  createDecimalNumber,
+  expectDecimalNumber,
+} from '../primitives/decimal.number.spec';
+import {
+  createPriceValue,
+  expectPriceValue,
+} from '../price_common/price.value.spec';
 
 describe('StopOrder', () => {
-    it('test setter and getter', () => {
-        const stopOrder: StopOrder = createStopOrder();
-        expectStopOrder(stopOrder);
-    });
+  it('test setter and getter', () => {
+    const stopOrder: StopOrder = createStopOrder();
+    expectStopOrder(stopOrder);
+  });
 
-    it('test copy', () => {
-        const stopOrder: StopOrder = createStopOrder();
-        const copyStopOrder: StopOrder = stopOrder.copy();
-        expectStopOrder(copyStopOrder);
-        expect(copyStopOrder).to.be.deep.equal(stopOrder);
-    });
+  it('test copy', () => {
+    const stopOrder: StopOrder = createStopOrder();
+    const copyStopOrder: StopOrder = stopOrder.copy();
+    expectStopOrder(copyStopOrder);
+    expect(copyStopOrder).to.be.deep.equal(stopOrder);
+  });
 
-    it('test to and from json', () => {
-        const jsonConvert: JsonConvert = new JsonConvert();
-        const stopOrderToJson: StopOrder = createStopOrder();
-        const json: string = jsonConvert.serializeObject(stopOrderToJson);
-        const stopOrderFromJson: StopOrder = jsonConvert.deserializeObject(
-            json,
-            StopOrder
-        );
-        expectStopOrder(stopOrderFromJson);
-        expect(stopOrderFromJson).to.be.deep.equal(stopOrderToJson);
-    });
+  it('test to and from json', () => {
+    const jsonConvert: JsonConvert = new JsonConvert();
+    const stopOrderToJson: StopOrder = createStopOrder();
+    const json: string = jsonConvert.serializeObject(stopOrderToJson);
+    console.log('from class to json: ', json);
+    const stopOrderFromJson: StopOrder = jsonConvert.deserializeObject(
+      json,
+      StopOrder
+    );
+    console.log('\nfrom json to class: ', stopOrderFromJson);
+    expectStopOrder(stopOrderFromJson);
+    expect(stopOrderFromJson).to.be.deep.equal(stopOrderToJson);
+  });
 });
 
 export const createStopOrder = () =>
-    new StopOrder()
-        .setId(createOrderID())
-        .setCreateTime(createDateTime())
-        .setState(OrderState.FILLED)
-        .setClientExtensions(createClientExtensions());
+  new StopOrder()
+    .setId(createOrderID())
+    .setCreateTime(createDateTime())
+    .setState(OrderState.FILLED)
+    .setClientExtensions(createClientExtensions())
+    .setInstrument(createInstrumentName())
+    .setUnits(createDecimalNumber())
+    .setPrice(createPriceValue());
 
 export const expectStopOrder = (order: StopOrder) => {
-    expectOrderID(order.getId());
-    expect(order.getType()).to.be.equal(OrderType.STOP);
-    expectDateTime(order.getCreateTime());
-    expect(order.getState()).to.be.equal(OrderState.FILLED);
-    expectClientExtensions(order.getClientExtensions());
-}
+  expectOrderID(order.getId());
+  expect(order.getType()).to.be.equal(OrderType.STOP);
+  expectDateTime(order.getCreateTime());
+  expect(order.getState()).to.be.equal(OrderState.FILLED);
+  expectClientExtensions(order.getClientExtensions());
+  expectInstrumentName(order.getInstrument());
+  expectDecimalNumber(order.getUnits());
+  expectPriceValue(order.getPrice());
+};

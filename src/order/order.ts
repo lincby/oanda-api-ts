@@ -19,7 +19,9 @@ export interface Order {
   ): MarketOrder | FixedPriceOrder | LimitOrder | StopOrder;
   getCreateTime(): DateTime;
 
-  setState(state: OrderState): MarketOrder | FixedPriceOrder | LimitOrder | StopOrder;
+  setState(
+    state: OrderState
+  ): MarketOrder | FixedPriceOrder | LimitOrder | StopOrder;
   getState(): OrderState;
 
   setClientExtensions(
