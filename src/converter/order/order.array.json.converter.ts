@@ -2,11 +2,12 @@ import {JsonConverter, JsonCustomConvert, JsonConvert} from 'json2typescript';
 import {MarketOrder} from '../../order/market.order';
 import {FixedPriceOrder} from '../../order/fixed.price.order';
 import {OrderType} from '../../order/order.type';
+import {LimitOrder} from '../../order/limit.order';
 
 @JsonConverter
 export class OrderArrayJsonConverter
-  implements JsonCustomConvert<(MarketOrder | FixedPriceOrder)[]> {
-  serialize(orders: (MarketOrder | FixedPriceOrder)[]): string[] {
+  implements JsonCustomConvert<(MarketOrder | FixedPriceOrder | LimitOrder)[]> {
+  serialize(orders: (MarketOrder | FixedPriceOrder | LimitOrder)[]): string[] {
     const serializedOrders = new Array<string>();
     const jsonConvert: JsonConvert = new JsonConvert();
 
@@ -18,8 +19,8 @@ export class OrderArrayJsonConverter
     return serializedOrders;
   }
 
-  deserialize(orders: string[]): (MarketOrder | FixedPriceOrder)[] {
-    const deserializedOrders = new Array<MarketOrder | FixedPriceOrder>();
+  deserialize(orders: string[]): (MarketOrder | FixedPriceOrder | LimitOrder)[] {
+    const deserializedOrders = new Array<MarketOrder | FixedPriceOrder | LimitOrder>();
     const jsonConvert: JsonConvert = new JsonConvert();
 
     orders.forEach(item => {
@@ -35,6 +36,12 @@ export class OrderArrayJsonConverter
         const order: FixedPriceOrder = jsonConvert.deserializeObject(
           item,
           FixedPriceOrder
+        );
+        deserializedOrders.push(order);
+      } else if (itemString.includes(OrderType.LIMIT)) {
+        const order: LimitOrder = jsonConvert.deserializeObject(
+            item,
+            LimitOrder
         );
         deserializedOrders.push(order);
       }

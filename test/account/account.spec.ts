@@ -36,6 +36,8 @@ import {
 } from '../order/fixed.price.order.spec';
 import {MarketOrder} from '../../src/order/market.order';
 import {FixedPriceOrder} from '../../src/order/fixed.price.order';
+import {createLimitOrder, expectLimitOrder} from '../order/limit.order.spec';
+import {LimitOrder} from '../../src/order/limit.order';
 
 describe('Account', () => {
   it('test setter and getter', () => {
@@ -111,8 +113,10 @@ const createAccount = (): Account =>
     .setOrders([
       createMarketOrder(),
       createFixedPriceOrder(),
+      createLimitOrder(),
       createMarketOrder(),
       createFixedPriceOrder(),
+      createLimitOrder(),
     ]);
 
 const expectAccount = (account: Account) => {
@@ -162,6 +166,8 @@ const expectAccount = (account: Account) => {
   expectPosition(account.getPositions()[1]);
   expectMarketOrder(<MarketOrder>account.getOrders()[0]);
   expectFixedPriceOrder(<FixedPriceOrder>account.getOrders()[1]);
-  expectMarketOrder(<MarketOrder>account.getOrders()[2]);
-  expectFixedPriceOrder(<FixedPriceOrder>account.getOrders()[3]);
+  expectLimitOrder(<LimitOrder>account.getOrders()[2]);
+  expectMarketOrder(<MarketOrder>account.getOrders()[3]);
+  expectFixedPriceOrder(<FixedPriceOrder>account.getOrders()[4]);
+  expectLimitOrder(<LimitOrder>account.getOrders()[5]);
 };
