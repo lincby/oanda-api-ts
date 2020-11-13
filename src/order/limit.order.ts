@@ -80,6 +80,10 @@ export class LimitOrder implements Order {
   private tradeClosedIDs: TradeID[] = new Array<TradeID>();
   @JsonProperty('cancellingTransactionID', TransactionIdJsonConverter, true)
   private cancellingTransactionID: TransactionID = new TransactionID('');
+  @JsonProperty('replacesOrderID', OrderIdJsonConverter, true)
+  private replacesOrderID: OrderID = new OrderID('');
+  @JsonProperty('replacedByOrderID', OrderIdJsonConverter, true)
+  private replacedByOrderID: OrderID = new OrderID('');
 
   setId(id: OrderID | string): LimitOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -289,6 +293,24 @@ export class LimitOrder implements Order {
     return this.cancellingTransactionID.copy();
   }
 
+  setReplacesOrderID(replacesOrderID: OrderID | string): LimitOrder {
+    this.replacesOrderID = OrderUtils.orderIdValue(replacesOrderID);
+    return this;
+  }
+
+  getReplacesOrderID(): OrderID {
+    return this.replacesOrderID.copy();
+  }
+
+  setReplacedByOrderID(replacedByOrderID: OrderID | string): LimitOrder {
+    this.replacedByOrderID = OrderUtils.orderIdValue(replacedByOrderID);
+    return this;
+  }
+
+  getReplacedByOrderID(): OrderID {
+    return this.replacedByOrderID.copy();
+  }
+
   copy(): LimitOrder {
     return new LimitOrder()
       .setId(this.id.copy())
@@ -311,6 +333,8 @@ export class LimitOrder implements Order {
       .setTradeOpenedID(this.tradeOpenedID.copy())
       .setTradeReducedID(this.tradeReducedID.copy())
       .setTradeClosedIDs(this.getTradeClosedIDs())
-      .setCancellingTransactionID(this.cancellingTransactionID.copy());
+      .setCancellingTransactionID(this.cancellingTransactionID.copy())
+      .setReplacesOrderID(this.replacesOrderID.copy())
+      .setReplacedByOrderID(this.replacedByOrderID.copy());
   }
 }

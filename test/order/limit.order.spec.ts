@@ -59,12 +59,10 @@ describe('LimitOrder', () => {
     const jsonConvert: JsonConvert = new JsonConvert();
     const limitOrderToJson: LimitOrder = createLimitOrder();
     const json: string = jsonConvert.serializeObject(limitOrderToJson);
-    console.log('to-json:', json);
     const limitOrderFromJson: LimitOrder = jsonConvert.deserializeObject(
       json,
       LimitOrder
     );
-    console.log('from-json:', limitOrderFromJson);
     expectLimitOrder(limitOrderFromJson);
     expect(limitOrderToJson).to.be.deep.equal(limitOrderFromJson);
   });
@@ -92,7 +90,9 @@ export const createLimitOrder = () =>
     .setTradeOpenedID(createTradeID())
     .setTradeReducedID(createTradeID())
     .setTradeClosedIDs([createTradeID(), createTradeID()])
-    .setCancellingTransactionID(createTransactionID());
+    .setCancellingTransactionID(createTransactionID())
+    .setReplacesOrderID(createOrderID())
+    .setReplacedByOrderID(createOrderID());
 
 export const expectLimitOrder = (order: LimitOrder) => {
   expectOrderID(order.getId());
@@ -118,4 +118,6 @@ export const expectLimitOrder = (order: LimitOrder) => {
   expectTradeID(order.getTradeClosedIDs()[0]);
   expectTradeID(order.getTradeClosedIDs()[1]);
   expectTransactionID(order.getCancellingTransactionID());
+  expectOrderID(order.getReplacesOrderID());
+  expectOrderID(order.getReplacedByOrderID());
 };
