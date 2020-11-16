@@ -17,6 +17,7 @@ import Decimal from 'decimal.js';
 import {PriceValue} from '../price_common/price.value';
 import {PriceValueJsonConverter} from '../converter/price_common/price.value.json.converter';
 import {PriceCommonUtils} from '../util/price.common.utils';
+import {TimeInForce} from './time.in.force';
 
 @JsonObject('StopOrder')
 export class StopOrder implements Order {
@@ -36,6 +37,12 @@ export class StopOrder implements Order {
   private units: DecimalNumber = new DecimalNumber('');
   @JsonProperty('price', PriceValueJsonConverter, true)
   private price: PriceValue = new PriceValue('');
+  @JsonProperty('priceBound', PriceValueJsonConverter, true)
+  private priceBound: PriceValue = new PriceValue('');
+  @JsonProperty('timeInForce', String, true)
+  private timeInForce: TimeInForce = TimeInForce.GTC;
+  @JsonProperty('gtdTime', DateTimeJsonConverter, true)
+  private gtdTime: DateTime = new DateTime('');
 
   setId(id: OrderID | string): StopOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -103,6 +110,33 @@ export class StopOrder implements Order {
     return this.price.copy();
   }
 
+  setPriceBound(priceBound: PriceValue | Decimal | string): StopOrder {
+    this.priceBound = PriceCommonUtils.priceValue(priceBound);
+    return this;
+  }
+
+  getPriceBound(): PriceValue {
+    return this.priceBound.copy();
+  }
+
+  setTimeInForce(timeInForce: TimeInForce): StopOrder {
+    this.timeInForce = timeInForce;
+    return this;
+  }
+
+  getTimeInForce(): TimeInForce {
+    return this.timeInForce;
+  }
+
+  setGtdTime(gtdTime: DateTime | string): StopOrder {
+    this.gtdTime = PrimitiveUtils.dateTimeValue(gtdTime);
+    return this;
+  }
+
+  getGtdTime(): DateTime {
+    return this.gtdTime.copy();
+  }
+
   copy(): StopOrder {
     return new StopOrder()
       .setId(this.id.copy())
@@ -111,6 +145,9 @@ export class StopOrder implements Order {
       .setClientExtensions(this.clientExtensions.copy())
       .setInstrument(this.instrument.copy())
       .setUnits(this.units.copy())
-      .setPrice(this.price.copy());
+      .setPrice(this.price.copy())
+        .setPriceBound(this.priceBound.copy())
+        .setTimeInForce(this.timeInForce)
+        .setGtdTime(this.gtdTime.copy());
   }
 }

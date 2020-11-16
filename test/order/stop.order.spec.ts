@@ -22,6 +22,7 @@ import {
   createPriceValue,
   expectPriceValue,
 } from '../price_common/price.value.spec';
+import {TimeInForce} from '../../src/order/time.in.force';
 
 describe('StopOrder', () => {
   it('test setter and getter', () => {
@@ -59,7 +60,10 @@ export const createStopOrder = () =>
     .setClientExtensions(createClientExtensions())
     .setInstrument(createInstrumentName())
     .setUnits(createDecimalNumber())
-    .setPrice(createPriceValue());
+    .setPrice(createPriceValue())
+      .setPriceBound(createPriceValue())
+      .setTimeInForce(TimeInForce.GFD)
+      .setGtdTime(createDateTime());
 
 export const expectStopOrder = (order: StopOrder) => {
   expectOrderID(order.getId());
@@ -70,4 +74,7 @@ export const expectStopOrder = (order: StopOrder) => {
   expectInstrumentName(order.getInstrument());
   expectDecimalNumber(order.getUnits());
   expectPriceValue(order.getPrice());
+  expectPriceValue(order.getPriceBound());
+  expect(order.getTimeInForce()).to.be.equal(TimeInForce.GFD);
+  expectDateTime(order.getGtdTime());
 };
