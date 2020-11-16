@@ -21,6 +21,9 @@ import {TimeInForce} from './time.in.force';
 import {OrderPositionFill} from './order.position.fill';
 import {OrderTriggerCondition} from './order.trigger.condition';
 import {TakeProfitDetails} from '../transaction/take.profit.details';
+import {StopLossDetails} from '../transaction/stop.loss.details';
+import {GuaranteedStopLossDetails} from '../transaction/guaranteed.stop.loss.details';
+import {TrailingStopLossDetails} from '../transaction/trailing.stop.loss.details';
 
 @JsonObject('StopOrder')
 export class StopOrder implements Order {
@@ -53,6 +56,12 @@ export class StopOrder implements Order {
     OrderTriggerCondition.DEFAULT;
   @JsonProperty('takeProfitOnFill', TakeProfitDetails, true)
   private takeProfitOnFill: TakeProfitDetails = new TakeProfitDetails();
+  @JsonProperty('stopLossOnFill', StopLossDetails, true)
+  private stopLossOnFill: StopLossDetails = new StopLossDetails();
+  @JsonProperty('guaranteedStopLossOnFill', GuaranteedStopLossDetails, true)
+  private guaranteedStopLossOnFill: GuaranteedStopLossDetails = new GuaranteedStopLossDetails();
+  @JsonProperty('trailingStopLossOnFill', TrailingStopLossDetails, true)
+  private trailingStopLossOnFill: TrailingStopLossDetails = new TrailingStopLossDetails();
 
   setId(id: OrderID | string): StopOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -174,6 +183,37 @@ export class StopOrder implements Order {
     return this.takeProfitOnFill.copy();
   }
 
+  setStopLossOnFill(stopLossOnFill: StopLossDetails): StopOrder {
+    this.stopLossOnFill = stopLossOnFill.copy();
+    return this;
+  }
+
+  getStopLossOnFill(): StopLossDetails {
+    return this.stopLossOnFill.copy();
+  }
+
+  setGuaranteedStopLossDetails(
+      guaranteedStopLossOnFill: GuaranteedStopLossDetails
+  ): StopOrder {
+    this.guaranteedStopLossOnFill = guaranteedStopLossOnFill.copy();
+    return this;
+  }
+
+  getGuaranteedStopLossDetails(): GuaranteedStopLossDetails {
+    return this.guaranteedStopLossOnFill.copy();
+  }
+
+  setTrailingStopLossOnFill(
+      trailingStopLossOnFill: TrailingStopLossDetails
+  ): StopOrder {
+    this.trailingStopLossOnFill = trailingStopLossOnFill.copy();
+    return this;
+  }
+
+  getTrailingStopLossOnFill(): TrailingStopLossDetails {
+    return this.trailingStopLossOnFill.copy();
+  }
+
   copy(): StopOrder {
     return new StopOrder()
       .setId(this.id.copy())
@@ -188,6 +228,9 @@ export class StopOrder implements Order {
       .setGtdTime(this.gtdTime.copy())
       .setPositionFill(this.positionFill)
       .setTriggerCondition(this.triggerCondition)
-      .setTakeProfitOnFill(this.takeProfitOnFill.copy());
+      .setTakeProfitOnFill(this.takeProfitOnFill.copy())
+        .setStopLossOnFill(this.stopLossOnFill.copy())
+        .setGuaranteedStopLossDetails(this.guaranteedStopLossOnFill.copy())
+        .setTrailingStopLossOnFill(this.trailingStopLossOnFill.copy());
   }
 }
