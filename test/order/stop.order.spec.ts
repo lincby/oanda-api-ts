@@ -23,6 +23,12 @@ import {
   expectPriceValue,
 } from '../price_common/price.value.spec';
 import {TimeInForce} from '../../src/order/time.in.force';
+import {OrderPositionFill} from '../../src/order/order.position.fill';
+import {OrderTriggerCondition} from '../../src/order/order.trigger.condition';
+import {
+  createTakeProfitDetails,
+  expectTakeProfitDetails,
+} from '../transaction/take.profit.details.spec';
 
 describe('StopOrder', () => {
   it('test setter and getter', () => {
@@ -61,9 +67,12 @@ export const createStopOrder = () =>
     .setInstrument(createInstrumentName())
     .setUnits(createDecimalNumber())
     .setPrice(createPriceValue())
-      .setPriceBound(createPriceValue())
-      .setTimeInForce(TimeInForce.GFD)
-      .setGtdTime(createDateTime());
+    .setPriceBound(createPriceValue())
+    .setTimeInForce(TimeInForce.GFD)
+    .setGtdTime(createDateTime())
+    .setPositionFill(OrderPositionFill.OPEN_ONLY)
+    .setTriggerCondition(OrderTriggerCondition.ASK)
+    .setTakeProfitOnFill(createTakeProfitDetails());
 
 export const expectStopOrder = (order: StopOrder) => {
   expectOrderID(order.getId());
@@ -77,4 +86,7 @@ export const expectStopOrder = (order: StopOrder) => {
   expectPriceValue(order.getPriceBound());
   expect(order.getTimeInForce()).to.be.equal(TimeInForce.GFD);
   expectDateTime(order.getGtdTime());
+  expect(order.getPositionFill()).to.be.equal(OrderPositionFill.OPEN_ONLY);
+  expect(order.getTriggerCondition()).to.be.equal(OrderTriggerCondition.ASK);
+  expectTakeProfitDetails(order.getTakeProfitOnFill());
 };

@@ -18,6 +18,9 @@ import {PriceValue} from '../price_common/price.value';
 import {PriceValueJsonConverter} from '../converter/price_common/price.value.json.converter';
 import {PriceCommonUtils} from '../util/price.common.utils';
 import {TimeInForce} from './time.in.force';
+import {OrderPositionFill} from './order.position.fill';
+import {OrderTriggerCondition} from './order.trigger.condition';
+import {TakeProfitDetails} from '../transaction/take.profit.details';
 
 @JsonObject('StopOrder')
 export class StopOrder implements Order {
@@ -43,6 +46,13 @@ export class StopOrder implements Order {
   private timeInForce: TimeInForce = TimeInForce.GTC;
   @JsonProperty('gtdTime', DateTimeJsonConverter, true)
   private gtdTime: DateTime = new DateTime('');
+  @JsonProperty('positionFill', String, true)
+  private positionFill: OrderPositionFill = OrderPositionFill.DEFAULT;
+  @JsonProperty('triggerCondition', String, true)
+  private triggerCondition: OrderTriggerCondition =
+    OrderTriggerCondition.DEFAULT;
+  @JsonProperty('takeProfitOnFill', TakeProfitDetails, true)
+  private takeProfitOnFill: TakeProfitDetails = new TakeProfitDetails();
 
   setId(id: OrderID | string): StopOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -137,6 +147,33 @@ export class StopOrder implements Order {
     return this.gtdTime.copy();
   }
 
+  setPositionFill(positionFill: OrderPositionFill): StopOrder {
+    this.positionFill = positionFill;
+    return this;
+  }
+
+  getPositionFill(): OrderPositionFill {
+    return this.positionFill;
+  }
+
+  setTriggerCondition(triggerCondition: OrderTriggerCondition): StopOrder {
+    this.triggerCondition = triggerCondition;
+    return this;
+  }
+
+  getTriggerCondition(): OrderTriggerCondition {
+    return this.triggerCondition;
+  }
+
+  setTakeProfitOnFill(takeProfitOnFill: TakeProfitDetails): StopOrder {
+    this.takeProfitOnFill = takeProfitOnFill.copy();
+    return this;
+  }
+
+  getTakeProfitOnFill(): TakeProfitDetails {
+    return this.takeProfitOnFill.copy();
+  }
+
   copy(): StopOrder {
     return new StopOrder()
       .setId(this.id.copy())
@@ -146,8 +183,11 @@ export class StopOrder implements Order {
       .setInstrument(this.instrument.copy())
       .setUnits(this.units.copy())
       .setPrice(this.price.copy())
-        .setPriceBound(this.priceBound.copy())
-        .setTimeInForce(this.timeInForce)
-        .setGtdTime(this.gtdTime.copy());
+      .setPriceBound(this.priceBound.copy())
+      .setTimeInForce(this.timeInForce)
+      .setGtdTime(this.gtdTime.copy())
+      .setPositionFill(this.positionFill)
+      .setTriggerCondition(this.triggerCondition)
+      .setTakeProfitOnFill(this.takeProfitOnFill.copy());
   }
 }

@@ -18,7 +18,8 @@ import {
   createDecimalNumber,
   expectDecimalNumber,
 } from '../primitives/decimal.number.spec';
-import {OrderPositionFill, TimeInForce} from '../../src';
+import {OrderPositionFill} from '../../src/order/order.position.fill';
+import {TimeInForce} from '../../src/order/time.in.force';
 import {OrderTriggerCondition} from '../../src/order/order.trigger.condition';
 import {
   createTakeProfitDetails,
