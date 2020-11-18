@@ -64,12 +64,10 @@ describe('StopOrder', () => {
     const jsonConvert: JsonConvert = new JsonConvert();
     const stopOrderToJson: StopOrder = createStopOrder();
     const json: string = jsonConvert.serializeObject(stopOrderToJson);
-    console.log('from class to json: ', json);
     const stopOrderFromJson: StopOrder = jsonConvert.deserializeObject(
       json,
       StopOrder
     );
-    console.log('\nfrom json to class: ', stopOrderFromJson);
     expectStopOrder(stopOrderFromJson);
     expect(stopOrderFromJson).to.be.deep.equal(stopOrderToJson);
   });
@@ -98,7 +96,11 @@ export const createStopOrder = () =>
     .setFilledTime(createDateTime())
     .setTradeOpenedID(createTradeID())
     .setTradeReducedID(createTradeID())
-    .setTradeClosedIDs([createTradeID(), createTradeID()]);
+    .setTradeClosedIDs([createTradeID(), createTradeID()])
+    .setCancellingTransactionID(createTransactionID())
+    .setCancelledTime(createDateTime())
+    .setReplacesOrderID(createOrderID())
+    .setReplacedByOrderID(createOrderID());
 
 export const expectStopOrder = (order: StopOrder) => {
   expectOrderID(order.getId());
@@ -125,4 +127,8 @@ export const expectStopOrder = (order: StopOrder) => {
   expectTradeID(order.getTradeReducedID());
   expectTradeID(order.getTradeClosedIDs()[0]);
   expectTradeID(order.getTradeClosedIDs()[1]);
+  expectTransactionID(order.getCancellingTransactionID());
+  expectDateTime(order.getCancelledTime());
+  expectOrderID(order.getReplacesOrderID());
+  expectOrderID(order.getReplacedByOrderID());
 };

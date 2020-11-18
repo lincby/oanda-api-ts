@@ -92,6 +92,7 @@ export const createLimitOrder = () =>
     .setTradeReducedID(createTradeID())
     .setTradeClosedIDs([createTradeID(), createTradeID()])
     .setCancellingTransactionID(createTransactionID())
+    .setCancelledTime(createDateTime())
     .setReplacesOrderID(createOrderID())
     .setReplacedByOrderID(createOrderID());
 
@@ -119,6 +120,7 @@ export const expectLimitOrder = (order: LimitOrder) => {
   expectTradeID(order.getTradeClosedIDs()[0]);
   expectTradeID(order.getTradeClosedIDs()[1]);
   expectTransactionID(order.getCancellingTransactionID());
+  expectDateTime(order.getCancelledTime());
   expectOrderID(order.getReplacesOrderID());
   expectOrderID(order.getReplacedByOrderID());
 };
