@@ -27,6 +27,10 @@ import {TrailingStopLossDetails} from '../transaction/trailing.stop.loss.details
 import {TransactionID} from '../transaction/transaction.id';
 import {TransactionIdJsonConverter} from '../converter/transaction/transaction.id.json.converter';
 import {TransactionIdUtils} from '../util/transaction.id.utils';
+import {TradeID} from '../trade/trade.id';
+import {TradeIdJsonConverter} from '../converter/trade/trade.id.json.converter';
+import {TradeIdUtils} from '../util/trade.id.utils';
+import {TradeIdArrayJsonConverter} from '../converter/trade/trade.id.array.json.converter';
 
 @JsonObject('StopOrder')
 export class StopOrder implements Order {
@@ -71,6 +75,12 @@ export class StopOrder implements Order {
   private fillingTransactionID: TransactionID = new TransactionID('');
   @JsonProperty('filledTime', DateTimeJsonConverter, true)
   private filledTime: DateTime = new DateTime('');
+  @JsonProperty('tradeOpenedID', TradeIdJsonConverter, true)
+  private tradeOpenedID: TradeID = new TradeID('');
+  @JsonProperty('tradeReducedID', TradeIdJsonConverter, true)
+  private tradeReducedID: TradeID = new TradeID('');
+  @JsonProperty('tradeClosedIDs', TradeIdArrayJsonConverter, true)
+  private tradeClosedIDs: TradeID[] = new Array<TradeID>();
 
   setId(id: OrderID | string): StopOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -254,6 +264,35 @@ export class StopOrder implements Order {
     return this.filledTime.copy();
   }
 
+  setTradeOpenedID(tradeOpenedID: TradeID | string): StopOrder {
+    this.tradeOpenedID = TradeIdUtils.tradeIdValue(tradeOpenedID);
+    return this;
+  }
+
+  getTradeOpenedID(): TradeID {
+    return this.tradeOpenedID.copy();
+  }
+
+  setTradeReducedID(tradeReducedID: TradeID | string): StopOrder {
+    this.tradeReducedID = TradeIdUtils.tradeIdValue(tradeReducedID);
+    return this;
+  }
+
+  getTradeReducedID(): TradeID {
+    return this.tradeReducedID.copy();
+  }
+
+  setTradeClosedIDs(tradeClosedIDs: TradeID[] | string[]): StopOrder {
+    this.tradeClosedIDs = TradeIdUtils.tradeIdValues(tradeClosedIDs);
+    return this;
+  }
+
+  getTradeClosedIDs(): TradeID[] {
+    const copyOfTradeIDs = new Array<TradeID>();
+    this.tradeClosedIDs.forEach(item => copyOfTradeIDs.push(item.copy()));
+    return copyOfTradeIDs;
+  }
+
   copy(): StopOrder {
     return new StopOrder()
       .setId(this.id.copy())
@@ -274,6 +313,9 @@ export class StopOrder implements Order {
       .setTrailingStopLossOnFill(this.trailingStopLossOnFill.copy())
       .setTradeClientExtensions(this.tradeClientExtensions.copy())
       .setFillingTransactionID(this.fillingTransactionID.copy())
-      .setFilledTime(this.filledTime.copy());
+      .setFilledTime(this.filledTime.copy())
+      .setTradeOpenedID(this.tradeOpenedID.copy())
+      .setTradeReducedID(this.tradeReducedID.copy())
+      .setTradeClosedIDs(this.getTradeClosedIDs());
   }
 }

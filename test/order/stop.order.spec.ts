@@ -45,6 +45,7 @@ import {
   createTransactionID,
   expectTransactionID,
 } from '../transaction/transaction.id.spec';
+import {createTradeID, expectTradeID} from '../trade/trade.id.spec';
 
 describe('StopOrder', () => {
   it('test setter and getter', () => {
@@ -94,7 +95,10 @@ export const createStopOrder = () =>
     .setTrailingStopLossOnFill(createTrailingStopLossDetails())
     .setTradeClientExtensions(createClientExtensions())
     .setFillingTransactionID(createTransactionID())
-    .setFilledTime(createDateTime());
+    .setFilledTime(createDateTime())
+    .setTradeOpenedID(createTradeID())
+    .setTradeReducedID(createTradeID())
+    .setTradeClosedIDs([createTradeID(), createTradeID()]);
 
 export const expectStopOrder = (order: StopOrder) => {
   expectOrderID(order.getId());
@@ -117,4 +121,8 @@ export const expectStopOrder = (order: StopOrder) => {
   expectClientExtensions(order.getTradeClientExtensions());
   expectTransactionID(order.getFillingTransactionID());
   expectDateTime(order.getFilledTime());
+  expectTradeID(order.getTradeOpenedID());
+  expectTradeID(order.getTradeReducedID());
+  expectTradeID(order.getTradeClosedIDs()[0]);
+  expectTradeID(order.getTradeClosedIDs()[1]);
 };
