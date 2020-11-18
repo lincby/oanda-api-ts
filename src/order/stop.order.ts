@@ -24,6 +24,9 @@ import {TakeProfitDetails} from '../transaction/take.profit.details';
 import {StopLossDetails} from '../transaction/stop.loss.details';
 import {GuaranteedStopLossDetails} from '../transaction/guaranteed.stop.loss.details';
 import {TrailingStopLossDetails} from '../transaction/trailing.stop.loss.details';
+import {TransactionID} from '../transaction/transaction.id';
+import {TransactionIdJsonConverter} from '../converter/transaction/transaction.id.json.converter';
+import {TransactionIdUtils} from '../util/transaction.id.utils';
 
 @JsonObject('StopOrder')
 export class StopOrder implements Order {
@@ -62,6 +65,12 @@ export class StopOrder implements Order {
   private guaranteedStopLossOnFill: GuaranteedStopLossDetails = new GuaranteedStopLossDetails();
   @JsonProperty('trailingStopLossOnFill', TrailingStopLossDetails, true)
   private trailingStopLossOnFill: TrailingStopLossDetails = new TrailingStopLossDetails();
+  @JsonProperty('tradeClientExtensions', ClientExtensions, true)
+  private tradeClientExtensions: ClientExtensions = new ClientExtensions();
+  @JsonProperty('fillingTransactionID', TransactionIdJsonConverter, true)
+  private fillingTransactionID: TransactionID = new TransactionID('');
+  @JsonProperty('filledTime', DateTimeJsonConverter, true)
+  private filledTime: DateTime = new DateTime('');
 
   setId(id: OrderID | string): StopOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -193,7 +202,7 @@ export class StopOrder implements Order {
   }
 
   setGuaranteedStopLossDetails(
-      guaranteedStopLossOnFill: GuaranteedStopLossDetails
+    guaranteedStopLossOnFill: GuaranteedStopLossDetails
   ): StopOrder {
     this.guaranteedStopLossOnFill = guaranteedStopLossOnFill.copy();
     return this;
@@ -204,7 +213,7 @@ export class StopOrder implements Order {
   }
 
   setTrailingStopLossOnFill(
-      trailingStopLossOnFill: TrailingStopLossDetails
+    trailingStopLossOnFill: TrailingStopLossDetails
   ): StopOrder {
     this.trailingStopLossOnFill = trailingStopLossOnFill.copy();
     return this;
@@ -212,6 +221,37 @@ export class StopOrder implements Order {
 
   getTrailingStopLossOnFill(): TrailingStopLossDetails {
     return this.trailingStopLossOnFill.copy();
+  }
+
+  setTradeClientExtensions(tradeClientExtensions: ClientExtensions): StopOrder {
+    this.tradeClientExtensions = tradeClientExtensions.copy();
+    return this;
+  }
+
+  getTradeClientExtensions(): ClientExtensions {
+    return this.tradeClientExtensions.copy();
+  }
+
+  setFillingTransactionID(
+    fillingTransactionID: TransactionID | string
+  ): StopOrder {
+    this.fillingTransactionID = TransactionIdUtils.transactionIdValue(
+      fillingTransactionID
+    );
+    return this;
+  }
+
+  getFillingTransactionID(): TransactionID {
+    return this.fillingTransactionID.copy();
+  }
+
+  setFilledTime(filledTime: DateTime | string): StopOrder {
+    this.filledTime = PrimitiveUtils.dateTimeValue(filledTime);
+    return this;
+  }
+
+  getFilledTime(): DateTime {
+    return this.filledTime.copy();
   }
 
   copy(): StopOrder {
@@ -229,8 +269,11 @@ export class StopOrder implements Order {
       .setPositionFill(this.positionFill)
       .setTriggerCondition(this.triggerCondition)
       .setTakeProfitOnFill(this.takeProfitOnFill.copy())
-        .setStopLossOnFill(this.stopLossOnFill.copy())
-        .setGuaranteedStopLossDetails(this.guaranteedStopLossOnFill.copy())
-        .setTrailingStopLossOnFill(this.trailingStopLossOnFill.copy());
+      .setStopLossOnFill(this.stopLossOnFill.copy())
+      .setGuaranteedStopLossDetails(this.guaranteedStopLossOnFill.copy())
+      .setTrailingStopLossOnFill(this.trailingStopLossOnFill.copy())
+      .setTradeClientExtensions(this.tradeClientExtensions.copy())
+      .setFillingTransactionID(this.fillingTransactionID.copy())
+      .setFilledTime(this.filledTime.copy());
   }
 }

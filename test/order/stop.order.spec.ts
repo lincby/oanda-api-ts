@@ -29,15 +29,22 @@ import {
   createTakeProfitDetails,
   expectTakeProfitDetails,
 } from '../transaction/take.profit.details.spec';
-import {createStopLossDetails, expectStopLossDetails} from '../transaction/stop.loss.details.spec';
+import {
+  createStopLossDetails,
+  expectStopLossDetails,
+} from '../transaction/stop.loss.details.spec';
 import {
   createGuaranteedStopLossDetails,
-  expectGuaranteedStopLossDetails
+  expectGuaranteedStopLossDetails,
 } from '../transaction/guaranteed.stop.loss.details.spec';
 import {
   createTrailingStopLossDetails,
-  expectTrailingStopLossDetails
+  expectTrailingStopLossDetails,
 } from '../transaction/trailing.stop.loss.details.spec';
+import {
+  createTransactionID,
+  expectTransactionID,
+} from '../transaction/transaction.id.spec';
 
 describe('StopOrder', () => {
   it('test setter and getter', () => {
@@ -82,9 +89,12 @@ export const createStopOrder = () =>
     .setPositionFill(OrderPositionFill.OPEN_ONLY)
     .setTriggerCondition(OrderTriggerCondition.ASK)
     .setTakeProfitOnFill(createTakeProfitDetails())
-      .setStopLossOnFill(createStopLossDetails())
-      .setGuaranteedStopLossDetails(createGuaranteedStopLossDetails())
-      .setTrailingStopLossOnFill(createTrailingStopLossDetails());
+    .setStopLossOnFill(createStopLossDetails())
+    .setGuaranteedStopLossDetails(createGuaranteedStopLossDetails())
+    .setTrailingStopLossOnFill(createTrailingStopLossDetails())
+    .setTradeClientExtensions(createClientExtensions())
+    .setFillingTransactionID(createTransactionID())
+    .setFilledTime(createDateTime());
 
 export const expectStopOrder = (order: StopOrder) => {
   expectOrderID(order.getId());
@@ -104,4 +114,7 @@ export const expectStopOrder = (order: StopOrder) => {
   expectStopLossDetails(order.getStopLossOnFill());
   expectGuaranteedStopLossDetails(order.getGuaranteedStopLossDetails());
   expectTrailingStopLossDetails(order.getTrailingStopLossOnFill());
+  expectClientExtensions(order.getTradeClientExtensions());
+  expectTransactionID(order.getFillingTransactionID());
+  expectDateTime(order.getFilledTime());
 };
