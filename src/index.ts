@@ -32,6 +32,7 @@ export {FixedPriceOrder} from './order/fixed.price.order';
 export {LimitOrder} from './order/limit.order';
 export {OrderTriggerCondition} from './order/order.trigger.condition';
 export {StopOrder} from './order/stop.order';
+export {MarketIfTouchedOrder} from './order/market.if.touched.order';
 // position
 export {Position} from './position/position';
 export {PositionSide} from './position/position.side';
