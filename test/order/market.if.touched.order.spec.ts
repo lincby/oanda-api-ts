@@ -10,6 +10,18 @@ import {
   createClientExtensions,
   expectClientExtensions,
 } from '../transaction/client.extensions.spec';
+import {
+  createInstrumentName,
+  expectInstrumentName,
+} from '../primitives/instrument.name.spec';
+import {
+  createDecimalNumber,
+  expectDecimalNumber,
+} from '../primitives/decimal.number.spec';
+import {
+  createPriceValue,
+  expectPriceValue,
+} from '../price_common/price.value.spec';
 
 describe('MarketIfTouchedOrder', () => {
   it('test setter and getter', () => {
@@ -30,12 +42,12 @@ describe('MarketIfTouchedOrder', () => {
     const json: string = jsonConvert.serializeObject(
       marketIfTouchedOrderToJson
     );
-    console.log('to json:', json)
+    console.log('to json:', json);
     const marketIfTouchedOrderFromJson: MarketIfTouchedOrder = jsonConvert.deserializeObject(
       json,
       MarketIfTouchedOrder
     );
-    console.log('\nfrom json:', marketIfTouchedOrderFromJson)
+    console.log('\nfrom json:', marketIfTouchedOrderFromJson);
     expectMarketIfTouchedOrder(marketIfTouchedOrderFromJson);
     expect(marketIfTouchedOrderToJson).to.be.deep.equal(
       marketIfTouchedOrderFromJson
@@ -48,7 +60,10 @@ export const createMarketIfTouchedOrder = () =>
     .setId(createOrderID())
     .setCreateTime(createDateTime())
     .setState(OrderState.FILLED)
-    .setClientExtensions(createClientExtensions());
+    .setClientExtensions(createClientExtensions())
+    .setInstrument(createInstrumentName())
+    .setUnits(createDecimalNumber())
+    .setPrice(createPriceValue());
 
 export const expectMarketIfTouchedOrder = (order: MarketIfTouchedOrder) => {
   expectOrderID(order.getId());
@@ -56,4 +71,7 @@ export const expectMarketIfTouchedOrder = (order: MarketIfTouchedOrder) => {
   expectDateTime(order.getCreateTime());
   expect(order.getState()).to.be.equal(OrderState.FILLED);
   expectClientExtensions(order.getClientExtensions());
+  expectInstrumentName(order.getInstrument());
+  expectDecimalNumber(order.getUnits());
+  expectPriceValue(order.getPrice());
 };
