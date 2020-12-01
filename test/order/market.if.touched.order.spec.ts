@@ -25,6 +25,16 @@ import {
 import {TimeInForce} from '../../src/order/time.in.force';
 import {OrderPositionFill} from '../../src/order/order.position.fill';
 import {OrderTriggerCondition} from '../../src/order/order.trigger.condition';
+import {createTakeProfitDetails, expectTakeProfitDetails} from '../transaction/take.profit.details.spec';
+import {createStopLossDetails, expectStopLossDetails} from '../transaction/stop.loss.details.spec';
+import {
+  createGuaranteedStopLossDetails,
+  expectGuaranteedStopLossDetails
+} from '../transaction/guaranteed.stop.loss.details.spec';
+import {
+  createTrailingStopLossDetails,
+  expectTrailingStopLossDetails
+} from '../transaction/trailing.stop.loss.details.spec';
 
 describe('MarketIfTouchedOrder', () => {
   it('test setter and getter', () => {
@@ -72,7 +82,12 @@ export const createMarketIfTouchedOrder = () =>
     .setGtdTime(createDateTime())
     .setPositionFill(OrderPositionFill.OPEN_ONLY)
     .setTriggerCondition(OrderTriggerCondition.ASK)
-    .setInitialMarketPrice(createPriceValue());
+    .setInitialMarketPrice(createPriceValue())
+      .setTakeProfitOnFill(createTakeProfitDetails())
+      .setStopLossOnFill(createStopLossDetails())
+      .setGuaranteedStopLossDetails(createGuaranteedStopLossDetails())
+      .setTrailingStopLossOnFill(createTrailingStopLossDetails())
+      .setTradeClientExtensions(createClientExtensions());
 
 export const expectMarketIfTouchedOrder = (order: MarketIfTouchedOrder) => {
   expectOrderID(order.getId());
@@ -89,4 +104,9 @@ export const expectMarketIfTouchedOrder = (order: MarketIfTouchedOrder) => {
   expect(order.getPositionFill()).to.be.equal(OrderPositionFill.OPEN_ONLY);
   expect(order.getTriggerCondition()).to.be.equal(OrderTriggerCondition.ASK);
   expectPriceValue(order.getInitialMarketPrice());
+  expectTakeProfitDetails(order.getTakeProfitOnFill());
+  expectStopLossDetails(order.getStopLossOnFill());
+  expectGuaranteedStopLossDetails(order.getGuaranteedStopLossDetails());
+  expectTrailingStopLossDetails(order.getTrailingStopLossOnFill());
+  expectClientExtensions(order.getTradeClientExtensions());
 };

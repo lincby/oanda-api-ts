@@ -20,6 +20,17 @@ import {PriceCommonUtils} from '../util/price.common.utils';
 import {TimeInForce} from './time.in.force';
 import {OrderPositionFill} from './order.position.fill';
 import {OrderTriggerCondition} from './order.trigger.condition';
+import {TakeProfitDetails} from '../transaction/take.profit.details';
+import {StopLossDetails} from '../transaction/stop.loss.details';
+import {GuaranteedStopLossDetails} from '../transaction/guaranteed.stop.loss.details';
+import {TrailingStopLossDetails} from '../transaction/trailing.stop.loss.details';
+import {TransactionID} from '../transaction/transaction.id';
+import {TransactionIdJsonConverter} from '../converter/transaction/transaction.id.json.converter';
+import {TransactionIdUtils} from '../util/transaction.id.utils';
+import {TradeID} from '../trade/trade.id';
+import {TradeIdJsonConverter} from '../converter/trade/trade.id.json.converter';
+import {TradeIdUtils} from '../util/trade.id.utils';
+import {TradeIdArrayJsonConverter} from '../converter/trade/trade.id.array.json.converter';
 
 @JsonObject('MarketIfTouchedOrder')
 export class MarketIfTouchedOrder implements Order {
@@ -52,6 +63,16 @@ export class MarketIfTouchedOrder implements Order {
     OrderTriggerCondition.DEFAULT;
   @JsonProperty('initialMarketPrice', PriceValueJsonConverter, true)
   private initialMarketPrice: PriceValue = new PriceValue('');
+  @JsonProperty('takeProfitOnFill', TakeProfitDetails, true)
+  private takeProfitOnFill: TakeProfitDetails = new TakeProfitDetails();
+  @JsonProperty('stopLossOnFill', StopLossDetails, true)
+  private stopLossOnFill: StopLossDetails = new StopLossDetails();
+  @JsonProperty('guaranteedStopLossOnFill', GuaranteedStopLossDetails, true)
+  private guaranteedStopLossOnFill: GuaranteedStopLossDetails = new GuaranteedStopLossDetails();
+  @JsonProperty('trailingStopLossOnFill', TrailingStopLossDetails, true)
+  private trailingStopLossOnFill: TrailingStopLossDetails = new TrailingStopLossDetails();
+  @JsonProperty('tradeClientExtensions', ClientExtensions, true)
+  private tradeClientExtensions: ClientExtensions = new ClientExtensions();
 
   setId(id: OrderID | string): MarketIfTouchedOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -181,6 +202,55 @@ export class MarketIfTouchedOrder implements Order {
     return this.initialMarketPrice.copy();
   }
 
+  setTakeProfitOnFill(takeProfitOnFill: TakeProfitDetails): MarketIfTouchedOrder {
+    this.takeProfitOnFill = takeProfitOnFill.copy();
+    return this;
+  }
+
+  getTakeProfitOnFill(): TakeProfitDetails {
+    return this.takeProfitOnFill.copy();
+  }
+
+  setStopLossOnFill(stopLossOnFill: StopLossDetails): MarketIfTouchedOrder {
+    this.stopLossOnFill = stopLossOnFill.copy();
+    return this;
+  }
+
+  getStopLossOnFill(): StopLossDetails {
+    return this.stopLossOnFill.copy();
+  }
+
+  setGuaranteedStopLossDetails(
+      guaranteedStopLossOnFill: GuaranteedStopLossDetails
+  ): MarketIfTouchedOrder {
+    this.guaranteedStopLossOnFill = guaranteedStopLossOnFill.copy();
+    return this;
+  }
+
+  getGuaranteedStopLossDetails(): GuaranteedStopLossDetails {
+    return this.guaranteedStopLossOnFill.copy();
+  }
+
+  setTrailingStopLossOnFill(
+      trailingStopLossOnFill: TrailingStopLossDetails
+  ): MarketIfTouchedOrder {
+    this.trailingStopLossOnFill = trailingStopLossOnFill.copy();
+    return this;
+  }
+
+  getTrailingStopLossOnFill(): TrailingStopLossDetails {
+    return this.trailingStopLossOnFill.copy();
+  }
+
+  setTradeClientExtensions(tradeClientExtensions: ClientExtensions): MarketIfTouchedOrder {
+    this.tradeClientExtensions = tradeClientExtensions.copy();
+    return this;
+  }
+
+  getTradeClientExtensions(): ClientExtensions {
+    return this.tradeClientExtensions.copy();
+  }
+
   copy(): MarketIfTouchedOrder {
     return new MarketIfTouchedOrder()
       .setId(this.id.copy())
@@ -195,6 +265,11 @@ export class MarketIfTouchedOrder implements Order {
       .setGtdTime(this.gtdTime.copy())
       .setPositionFill(this.positionFill)
       .setTriggerCondition(this.triggerCondition)
-      .setInitialMarketPrice(this.initialMarketPrice.copy());
+      .setInitialMarketPrice(this.initialMarketPrice.copy())
+        .setTakeProfitOnFill(this.takeProfitOnFill.copy())
+        .setStopLossOnFill(this.stopLossOnFill.copy())
+        .setGuaranteedStopLossDetails(this.guaranteedStopLossOnFill.copy())
+        .setTrailingStopLossOnFill(this.trailingStopLossOnFill.copy())
+        .setTradeClientExtensions(this.tradeClientExtensions.copy());
   }
 }
