@@ -22,6 +22,9 @@ import {
   createPriceValue,
   expectPriceValue,
 } from '../price_common/price.value.spec';
+import {TimeInForce} from '../../src/order/time.in.force';
+import {OrderPositionFill} from '../../src/order/order.position.fill';
+import {OrderTriggerCondition} from '../../src/order/order.trigger.condition';
 
 describe('MarketIfTouchedOrder', () => {
   it('test setter and getter', () => {
@@ -63,7 +66,13 @@ export const createMarketIfTouchedOrder = () =>
     .setClientExtensions(createClientExtensions())
     .setInstrument(createInstrumentName())
     .setUnits(createDecimalNumber())
-    .setPrice(createPriceValue());
+    .setPrice(createPriceValue())
+    .setPriceBound(createPriceValue())
+    .setTimeInForce(TimeInForce.GFD)
+    .setGtdTime(createDateTime())
+    .setPositionFill(OrderPositionFill.OPEN_ONLY)
+    .setTriggerCondition(OrderTriggerCondition.ASK)
+    .setInitialMarketPrice(createPriceValue());
 
 export const expectMarketIfTouchedOrder = (order: MarketIfTouchedOrder) => {
   expectOrderID(order.getId());
@@ -74,4 +83,10 @@ export const expectMarketIfTouchedOrder = (order: MarketIfTouchedOrder) => {
   expectInstrumentName(order.getInstrument());
   expectDecimalNumber(order.getUnits());
   expectPriceValue(order.getPrice());
+  expectPriceValue(order.getPriceBound());
+  expect(order.getTimeInForce()).to.be.equal(TimeInForce.GFD);
+  expectDateTime(order.getGtdTime());
+  expect(order.getPositionFill()).to.be.equal(OrderPositionFill.OPEN_ONLY);
+  expect(order.getTriggerCondition()).to.be.equal(OrderTriggerCondition.ASK);
+  expectPriceValue(order.getInitialMarketPrice());
 };

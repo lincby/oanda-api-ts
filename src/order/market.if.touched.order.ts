@@ -17,6 +17,9 @@ import Decimal from 'decimal.js';
 import {PriceValue} from '../price_common/price.value';
 import {PriceValueJsonConverter} from '../converter/price_common/price.value.json.converter';
 import {PriceCommonUtils} from '../util/price.common.utils';
+import {TimeInForce} from './time.in.force';
+import {OrderPositionFill} from './order.position.fill';
+import {OrderTriggerCondition} from './order.trigger.condition';
 
 @JsonObject('MarketIfTouchedOrder')
 export class MarketIfTouchedOrder implements Order {
@@ -36,6 +39,19 @@ export class MarketIfTouchedOrder implements Order {
   private units: DecimalNumber = new DecimalNumber('');
   @JsonProperty('price', PriceValueJsonConverter, true)
   private price: PriceValue = new PriceValue('');
+  @JsonProperty('priceBound', PriceValueJsonConverter, true)
+  private priceBound: PriceValue = new PriceValue('');
+  @JsonProperty('timeInForce', String, true)
+  private timeInForce: TimeInForce = TimeInForce.GTC;
+  @JsonProperty('gtdTime', DateTimeJsonConverter, true)
+  private gtdTime: DateTime = new DateTime('');
+  @JsonProperty('positionFill', String, true)
+  private positionFill: OrderPositionFill = OrderPositionFill.DEFAULT;
+  @JsonProperty('triggerCondition', String, true)
+  private triggerCondition: OrderTriggerCondition =
+    OrderTriggerCondition.DEFAULT;
+  @JsonProperty('initialMarketPrice', PriceValueJsonConverter, true)
+  private initialMarketPrice: PriceValue = new PriceValue('');
 
   setId(id: OrderID | string): MarketIfTouchedOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -105,6 +121,66 @@ export class MarketIfTouchedOrder implements Order {
     return this.price.copy();
   }
 
+  setPriceBound(
+    priceBound: PriceValue | Decimal | string
+  ): MarketIfTouchedOrder {
+    this.priceBound = PriceCommonUtils.priceValue(priceBound);
+    return this;
+  }
+
+  getPriceBound(): PriceValue {
+    return this.priceBound.copy();
+  }
+
+  setTimeInForce(timeInForce: TimeInForce): MarketIfTouchedOrder {
+    this.timeInForce = timeInForce;
+    return this;
+  }
+
+  getTimeInForce(): TimeInForce {
+    return this.timeInForce;
+  }
+
+  setGtdTime(gtdTime: DateTime | string): MarketIfTouchedOrder {
+    this.gtdTime = PrimitiveUtils.dateTimeValue(gtdTime);
+    return this;
+  }
+
+  getGtdTime(): DateTime {
+    return this.gtdTime.copy();
+  }
+
+  setPositionFill(positionFill: OrderPositionFill): MarketIfTouchedOrder {
+    this.positionFill = positionFill;
+    return this;
+  }
+
+  getPositionFill(): OrderPositionFill {
+    return this.positionFill;
+  }
+
+  setTriggerCondition(
+    triggerCondition: OrderTriggerCondition
+  ): MarketIfTouchedOrder {
+    this.triggerCondition = triggerCondition;
+    return this;
+  }
+
+  getTriggerCondition(): OrderTriggerCondition {
+    return this.triggerCondition;
+  }
+
+  setInitialMarketPrice(
+    initialMarketPrice: PriceValue | Decimal | string
+  ): MarketIfTouchedOrder {
+    this.initialMarketPrice = PriceCommonUtils.priceValue(initialMarketPrice);
+    return this;
+  }
+
+  getInitialMarketPrice(): PriceValue {
+    return this.initialMarketPrice.copy();
+  }
+
   copy(): MarketIfTouchedOrder {
     return new MarketIfTouchedOrder()
       .setId(this.id.copy())
@@ -113,6 +189,12 @@ export class MarketIfTouchedOrder implements Order {
       .setClientExtensions(this.clientExtensions.copy())
       .setInstrument(this.instrument.copy())
       .setUnits(this.units.copy())
-      .setPrice(this.price.copy());
+      .setPrice(this.price.copy())
+      .setPriceBound(this.priceBound.copy())
+      .setTimeInForce(this.timeInForce)
+      .setGtdTime(this.gtdTime.copy())
+      .setPositionFill(this.positionFill)
+      .setTriggerCondition(this.triggerCondition)
+      .setInitialMarketPrice(this.initialMarketPrice.copy());
   }
 }
