@@ -202,7 +202,9 @@ export class MarketIfTouchedOrder implements Order {
     return this.initialMarketPrice.copy();
   }
 
-  setTakeProfitOnFill(takeProfitOnFill: TakeProfitDetails): MarketIfTouchedOrder {
+  setTakeProfitOnFill(
+    takeProfitOnFill: TakeProfitDetails
+  ): MarketIfTouchedOrder {
     this.takeProfitOnFill = takeProfitOnFill.copy();
     return this;
   }
@@ -221,7 +223,7 @@ export class MarketIfTouchedOrder implements Order {
   }
 
   setGuaranteedStopLossDetails(
-      guaranteedStopLossOnFill: GuaranteedStopLossDetails
+    guaranteedStopLossOnFill: GuaranteedStopLossDetails
   ): MarketIfTouchedOrder {
     this.guaranteedStopLossOnFill = guaranteedStopLossOnFill.copy();
     return this;
@@ -232,7 +234,7 @@ export class MarketIfTouchedOrder implements Order {
   }
 
   setTrailingStopLossOnFill(
-      trailingStopLossOnFill: TrailingStopLossDetails
+    trailingStopLossOnFill: TrailingStopLossDetails
   ): MarketIfTouchedOrder {
     this.trailingStopLossOnFill = trailingStopLossOnFill.copy();
     return this;
@@ -242,7 +244,9 @@ export class MarketIfTouchedOrder implements Order {
     return this.trailingStopLossOnFill.copy();
   }
 
-  setTradeClientExtensions(tradeClientExtensions: ClientExtensions): MarketIfTouchedOrder {
+  setTradeClientExtensions(
+    tradeClientExtensions: ClientExtensions
+  ): MarketIfTouchedOrder {
     this.tradeClientExtensions = tradeClientExtensions.copy();
     return this;
   }
@@ -266,10 +270,10 @@ export class MarketIfTouchedOrder implements Order {
       .setPositionFill(this.positionFill)
       .setTriggerCondition(this.triggerCondition)
       .setInitialMarketPrice(this.initialMarketPrice.copy())
-        .setTakeProfitOnFill(this.takeProfitOnFill.copy())
-        .setStopLossOnFill(this.stopLossOnFill.copy())
-        .setGuaranteedStopLossDetails(this.guaranteedStopLossOnFill.copy())
-        .setTrailingStopLossOnFill(this.trailingStopLossOnFill.copy())
-        .setTradeClientExtensions(this.tradeClientExtensions.copy());
+      .setTakeProfitOnFill(this.takeProfitOnFill.copy())
+      .setStopLossOnFill(this.stopLossOnFill.copy())
+      .setGuaranteedStopLossDetails(this.guaranteedStopLossOnFill.copy())
+      .setTrailingStopLossOnFill(this.trailingStopLossOnFill.copy())
+      .setTradeClientExtensions(this.tradeClientExtensions.copy());
   }
 }

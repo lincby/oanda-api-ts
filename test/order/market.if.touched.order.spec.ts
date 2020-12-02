@@ -25,15 +25,21 @@ import {
 import {TimeInForce} from '../../src/order/time.in.force';
 import {OrderPositionFill} from '../../src/order/order.position.fill';
 import {OrderTriggerCondition} from '../../src/order/order.trigger.condition';
-import {createTakeProfitDetails, expectTakeProfitDetails} from '../transaction/take.profit.details.spec';
-import {createStopLossDetails, expectStopLossDetails} from '../transaction/stop.loss.details.spec';
+import {
+  createTakeProfitDetails,
+  expectTakeProfitDetails,
+} from '../transaction/take.profit.details.spec';
+import {
+  createStopLossDetails,
+  expectStopLossDetails,
+} from '../transaction/stop.loss.details.spec';
 import {
   createGuaranteedStopLossDetails,
-  expectGuaranteedStopLossDetails
+  expectGuaranteedStopLossDetails,
 } from '../transaction/guaranteed.stop.loss.details.spec';
 import {
   createTrailingStopLossDetails,
-  expectTrailingStopLossDetails
+  expectTrailingStopLossDetails,
 } from '../transaction/trailing.stop.loss.details.spec';
 
 describe('MarketIfTouchedOrder', () => {
@@ -83,11 +89,11 @@ export const createMarketIfTouchedOrder = () =>
     .setPositionFill(OrderPositionFill.OPEN_ONLY)
     .setTriggerCondition(OrderTriggerCondition.ASK)
     .setInitialMarketPrice(createPriceValue())
-      .setTakeProfitOnFill(createTakeProfitDetails())
-      .setStopLossOnFill(createStopLossDetails())
-      .setGuaranteedStopLossDetails(createGuaranteedStopLossDetails())
-      .setTrailingStopLossOnFill(createTrailingStopLossDetails())
-      .setTradeClientExtensions(createClientExtensions());
+    .setTakeProfitOnFill(createTakeProfitDetails())
+    .setStopLossOnFill(createStopLossDetails())
+    .setGuaranteedStopLossDetails(createGuaranteedStopLossDetails())
+    .setTrailingStopLossOnFill(createTrailingStopLossDetails())
+    .setTradeClientExtensions(createClientExtensions());
 
 export const expectMarketIfTouchedOrder = (order: MarketIfTouchedOrder) => {
   expectOrderID(order.getId());
