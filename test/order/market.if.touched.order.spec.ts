@@ -41,6 +41,11 @@ import {
   createTrailingStopLossDetails,
   expectTrailingStopLossDetails,
 } from '../transaction/trailing.stop.loss.details.spec';
+import {
+  createTransactionID,
+  expectTransactionID,
+} from '../transaction/transaction.id.spec';
+import {createTradeID, expectTradeID} from '../trade/trade.id.spec';
 
 describe('MarketIfTouchedOrder', () => {
   it('test setter and getter', () => {
@@ -61,12 +66,10 @@ describe('MarketIfTouchedOrder', () => {
     const json: string = jsonConvert.serializeObject(
       marketIfTouchedOrderToJson
     );
-    console.log('to json:', json);
     const marketIfTouchedOrderFromJson: MarketIfTouchedOrder = jsonConvert.deserializeObject(
       json,
       MarketIfTouchedOrder
     );
-    console.log('\nfrom json:', marketIfTouchedOrderFromJson);
     expectMarketIfTouchedOrder(marketIfTouchedOrderFromJson);
     expect(marketIfTouchedOrderToJson).to.be.deep.equal(
       marketIfTouchedOrderFromJson
@@ -93,7 +96,16 @@ export const createMarketIfTouchedOrder = () =>
     .setStopLossOnFill(createStopLossDetails())
     .setGuaranteedStopLossDetails(createGuaranteedStopLossDetails())
     .setTrailingStopLossOnFill(createTrailingStopLossDetails())
-    .setTradeClientExtensions(createClientExtensions());
+    .setTradeClientExtensions(createClientExtensions())
+    .setFillingTransactionID(createTransactionID())
+    .setFilledTime(createDateTime())
+    .setTradeOpenedID(createTradeID())
+    .setTradeReducedID(createTradeID())
+    .setTradeClosedIDs([createTradeID(), createTradeID()])
+    .setCancellingTransactionID(createTransactionID())
+    .setCancelledTime(createDateTime())
+    .setReplacesOrderID(createOrderID())
+    .setReplacedByOrderID(createOrderID());
 
 export const expectMarketIfTouchedOrder = (order: MarketIfTouchedOrder) => {
   expectOrderID(order.getId());
@@ -115,4 +127,14 @@ export const expectMarketIfTouchedOrder = (order: MarketIfTouchedOrder) => {
   expectGuaranteedStopLossDetails(order.getGuaranteedStopLossDetails());
   expectTrailingStopLossDetails(order.getTrailingStopLossOnFill());
   expectClientExtensions(order.getTradeClientExtensions());
+  expectTransactionID(order.getFillingTransactionID());
+  expectDateTime(order.getFilledTime());
+  expectTradeID(order.getTradeOpenedID());
+  expectTradeID(order.getTradeReducedID());
+  expectTradeID(order.getTradeClosedIDs()[0]);
+  expectTradeID(order.getTradeClosedIDs()[1]);
+  expectTransactionID(order.getCancellingTransactionID());
+  expectDateTime(order.getCancelledTime());
+  expectOrderID(order.getReplacesOrderID());
+  expectOrderID(order.getReplacedByOrderID());
 };

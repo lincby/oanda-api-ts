@@ -73,6 +73,24 @@ export class MarketIfTouchedOrder implements Order {
   private trailingStopLossOnFill: TrailingStopLossDetails = new TrailingStopLossDetails();
   @JsonProperty('tradeClientExtensions', ClientExtensions, true)
   private tradeClientExtensions: ClientExtensions = new ClientExtensions();
+  @JsonProperty('fillingTransactionID', TransactionIdJsonConverter, true)
+  private fillingTransactionID: TransactionID = new TransactionID('');
+  @JsonProperty('filledTime', DateTimeJsonConverter, true)
+  private filledTime: DateTime = new DateTime('');
+  @JsonProperty('tradeOpenedID', TradeIdJsonConverter, true)
+  private tradeOpenedID: TradeID = new TradeID('');
+  @JsonProperty('tradeReducedID', TradeIdJsonConverter, true)
+  private tradeReducedID: TradeID = new TradeID('');
+  @JsonProperty('tradeClosedIDs', TradeIdArrayJsonConverter, true)
+  private tradeClosedIDs: TradeID[] = new Array<TradeID>();
+  @JsonProperty('cancellingTransactionID', TransactionIdJsonConverter, true)
+  private cancellingTransactionID: TransactionID = new TransactionID('');
+  @JsonProperty('cancelledTime', DateTimeJsonConverter, true)
+  private cancelledTime: DateTime = new DateTime('');
+  @JsonProperty('replacesOrderID', OrderIdJsonConverter, true)
+  private replacesOrderID: OrderID = new OrderID('');
+  @JsonProperty('replacedByOrderID', OrderIdJsonConverter, true)
+  private replacedByOrderID: OrderID = new OrderID('');
 
   setId(id: OrderID | string): MarketIfTouchedOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -255,6 +273,101 @@ export class MarketIfTouchedOrder implements Order {
     return this.tradeClientExtensions.copy();
   }
 
+  setFillingTransactionID(
+    fillingTransactionID: TransactionID | string
+  ): MarketIfTouchedOrder {
+    this.fillingTransactionID = TransactionIdUtils.transactionIdValue(
+      fillingTransactionID
+    );
+    return this;
+  }
+
+  getFillingTransactionID(): TransactionID {
+    return this.fillingTransactionID.copy();
+  }
+
+  setFilledTime(filledTime: DateTime | string): MarketIfTouchedOrder {
+    this.filledTime = PrimitiveUtils.dateTimeValue(filledTime);
+    return this;
+  }
+
+  getFilledTime(): DateTime {
+    return this.filledTime.copy();
+  }
+
+  setTradeOpenedID(tradeOpenedID: TradeID | string): MarketIfTouchedOrder {
+    this.tradeOpenedID = TradeIdUtils.tradeIdValue(tradeOpenedID);
+    return this;
+  }
+
+  getTradeOpenedID(): TradeID {
+    return this.tradeOpenedID.copy();
+  }
+
+  setTradeReducedID(tradeReducedID: TradeID | string): MarketIfTouchedOrder {
+    this.tradeReducedID = TradeIdUtils.tradeIdValue(tradeReducedID);
+    return this;
+  }
+
+  getTradeReducedID(): TradeID {
+    return this.tradeReducedID.copy();
+  }
+
+  setTradeClosedIDs(
+    tradeClosedIDs: TradeID[] | string[]
+  ): MarketIfTouchedOrder {
+    this.tradeClosedIDs = TradeIdUtils.tradeIdValues(tradeClosedIDs);
+    return this;
+  }
+
+  getTradeClosedIDs(): TradeID[] {
+    const copyOfTradeIDs = new Array<TradeID>();
+    this.tradeClosedIDs.forEach(item => copyOfTradeIDs.push(item.copy()));
+    return copyOfTradeIDs;
+  }
+
+  setCancellingTransactionID(
+    cancellingTransactionID: TransactionID | string
+  ): MarketIfTouchedOrder {
+    this.cancellingTransactionID = TransactionIdUtils.transactionIdValue(
+      cancellingTransactionID
+    );
+    return this;
+  }
+
+  getCancellingTransactionID(): TransactionID {
+    return this.cancellingTransactionID.copy();
+  }
+
+  setCancelledTime(cancelledTime: DateTime | string): MarketIfTouchedOrder {
+    this.cancelledTime = PrimitiveUtils.dateTimeValue(cancelledTime);
+    return this;
+  }
+
+  getCancelledTime(): DateTime {
+    return this.cancelledTime.copy();
+  }
+
+  setReplacesOrderID(replacesOrderID: OrderID | string): MarketIfTouchedOrder {
+    this.replacesOrderID = OrderUtils.orderIdValue(replacesOrderID);
+    return this;
+  }
+
+  getReplacesOrderID(): OrderID {
+    return this.replacesOrderID.copy();
+  }
+
+  setReplacedByOrderID(
+    replacedByOrderID: OrderID | string
+  ): MarketIfTouchedOrder {
+    this.replacedByOrderID = OrderUtils.orderIdValue(replacedByOrderID);
+    return this;
+  }
+
+  getReplacedByOrderID(): OrderID {
+    return this.replacedByOrderID.copy();
+  }
+
   copy(): MarketIfTouchedOrder {
     return new MarketIfTouchedOrder()
       .setId(this.id.copy())
@@ -274,6 +387,15 @@ export class MarketIfTouchedOrder implements Order {
       .setStopLossOnFill(this.stopLossOnFill.copy())
       .setGuaranteedStopLossDetails(this.guaranteedStopLossOnFill.copy())
       .setTrailingStopLossOnFill(this.trailingStopLossOnFill.copy())
-      .setTradeClientExtensions(this.tradeClientExtensions.copy());
+      .setTradeClientExtensions(this.tradeClientExtensions.copy())
+      .setFillingTransactionID(this.fillingTransactionID.copy())
+      .setFilledTime(this.filledTime.copy())
+      .setTradeOpenedID(this.tradeOpenedID.copy())
+      .setTradeReducedID(this.tradeReducedID.copy())
+      .setTradeClosedIDs(this.getTradeClosedIDs())
+      .setCancellingTransactionID(this.cancellingTransactionID.copy())
+      .setCancelledTime(this.cancelledTime.copy())
+      .setReplacesOrderID(this.replacesOrderID.copy())
+      .setReplacedByOrderID(this.replacedByOrderID.copy());
   }
 }
