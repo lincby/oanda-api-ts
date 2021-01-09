@@ -21,6 +21,8 @@ import {MarketOrder} from '../order/market.order';
 import {FixedPriceOrder} from '../order/fixed.price.order';
 import {OrderArrayJsonConverter} from '../converter/order/order.array.json.converter';
 import {LimitOrder} from '../order/limit.order';
+import {MarketIfTouchedOrder} from '../order/market.if.touched.order';
+import {StopOrder} from '../order/stop.order';
 
 @JsonObject('Account')
 export class Account {
@@ -109,8 +111,18 @@ export class Account {
   @JsonProperty('positions', [Position], true)
   private positions: Position[] = new Array<Position>();
   @JsonProperty('orders', OrderArrayJsonConverter, true)
-  private orders: (MarketOrder | FixedPriceOrder | LimitOrder)[] = new Array<
-    MarketOrder | FixedPriceOrder | LimitOrder
+  private orders: (
+    | MarketOrder
+    | FixedPriceOrder
+    | LimitOrder
+    | StopOrder
+    | MarketIfTouchedOrder
+  )[] = new Array<
+    | MarketOrder
+    | FixedPriceOrder
+    | LimitOrder
+    | StopOrder
+    | MarketIfTouchedOrder
   >();
 
   setAccountID(id: AccountID | string): Account {
@@ -532,20 +544,51 @@ export class Account {
     return copyOfPositions;
   }
 
-  setOrders(orders: (MarketOrder | FixedPriceOrder | LimitOrder)[]): Account {
-    const newOrders: (MarketOrder | FixedPriceOrder | LimitOrder)[] = new Array<
-      MarketOrder | FixedPriceOrder | LimitOrder
+  setOrders(
+    orders: (
+      | MarketOrder
+      | FixedPriceOrder
+      | LimitOrder
+      | StopOrder
+      | MarketIfTouchedOrder
+    )[]
+  ): Account {
+    const newOrders: (
+      | MarketOrder
+      | FixedPriceOrder
+      | LimitOrder
+      | StopOrder
+      | MarketIfTouchedOrder
+    )[] = new Array<
+      MarketOrder | FixedPriceOrder | LimitOrder | MarketIfTouchedOrder
     >();
-    orders.forEach((item: MarketOrder | FixedPriceOrder | LimitOrder) =>
-      newOrders.push(item.copy())
+    orders.forEach(
+      (
+        item:
+          | MarketOrder
+          | FixedPriceOrder
+          | LimitOrder
+          | StopOrder
+          | MarketIfTouchedOrder
+      ) => newOrders.push(item.copy())
     );
     this.orders = newOrders;
     return this;
   }
 
-  getOrders(): (MarketOrder | FixedPriceOrder | LimitOrder)[] {
+  getOrders(): (
+    | MarketOrder
+    | FixedPriceOrder
+    | LimitOrder
+    | StopOrder
+    | MarketIfTouchedOrder
+  )[] {
     const copyOfOrders = new Array<
-      MarketOrder | FixedPriceOrder | LimitOrder
+      | MarketOrder
+      | FixedPriceOrder
+      | LimitOrder
+      | StopOrder
+      | MarketIfTouchedOrder
     >();
     this.orders.forEach(item => copyOfOrders.push(item.copy()));
     return copyOfOrders;
