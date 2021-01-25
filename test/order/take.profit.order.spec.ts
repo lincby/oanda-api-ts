@@ -17,6 +17,10 @@ import {
 } from '../price_common/price.value.spec';
 import {OrderTriggerCondition} from '../../src/order/order.trigger.condition';
 import {TimeInForce} from '../../src/order/time.in.force';
+import {
+  createTransactionID,
+  expectTransactionID,
+} from '../transaction/transaction.id.spec';
 
 describe('TakeProfitOrder', () => {
   it('test setter and getter', () => {
@@ -35,10 +39,12 @@ describe('TakeProfitOrder', () => {
     const jsonConvert: JsonConvert = new JsonConvert();
     const takeProfitOrderToJson: TakeProfitOrder = createTakeProfitOrder();
     const json: string = jsonConvert.serializeObject(takeProfitOrderToJson);
+    console.log('to json:', json);
     const takeProfitOrderFromJson: TakeProfitOrder = jsonConvert.deserializeObject(
       json,
       TakeProfitOrder
     );
+    console.log('from json:', takeProfitOrderFromJson);
     expectTakeProfitOrder(takeProfitOrderFromJson);
     expect(takeProfitOrderToJson).to.be.deep.equal(takeProfitOrderFromJson);
   });
@@ -55,7 +61,11 @@ export const createTakeProfitOrder = () =>
     .setPrice(createPriceValue())
     .setTimeInForce(TimeInForce.GFD)
     .setGtdTime(createDateTime())
-    .setTriggerCondition(OrderTriggerCondition.ASK);
+    .setTriggerCondition(OrderTriggerCondition.ASK)
+    .setFillingTransactionID(createTransactionID())
+    .setFilledTime(createDateTime())
+    .setTradeOpenedID(createTradeID())
+    .setTradeReducedID(createTradeID());
 
 export const expectTakeProfitOrder = (order: TakeProfitOrder) => {
   expectOrderID(order.getId());
@@ -69,4 +79,8 @@ export const expectTakeProfitOrder = (order: TakeProfitOrder) => {
   expect(order.getTimeInForce()).to.be.equal(TimeInForce.GFD);
   expectDateTime(order.getGtdTime());
   expect(order.getTriggerCondition()).to.be.equal(OrderTriggerCondition.ASK);
+  expectTransactionID(order.getFillingTransactionID());
+  expectDateTime(order.getFilledTime());
+  expectTradeID(order.getTradeOpenedID());
+  expectTradeID(order.getTradeReducedID());
 };

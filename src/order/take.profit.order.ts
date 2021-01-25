@@ -18,6 +18,9 @@ import Decimal from 'decimal.js';
 import {PriceCommonUtils} from '../util/price.common.utils';
 import {TimeInForce} from './time.in.force';
 import {OrderTriggerCondition} from './order.trigger.condition';
+import {TransactionIdJsonConverter} from '../converter/transaction/transaction.id.json.converter';
+import {TransactionID} from '../transaction/transaction.id';
+import {TransactionIdUtils} from '../util/transaction.id.utils';
 
 @JsonObject('TakeProfitOrder')
 export class TakeProfitOrder implements Order {
@@ -44,6 +47,14 @@ export class TakeProfitOrder implements Order {
   @JsonProperty('triggerCondition', String, true)
   private triggerCondition: OrderTriggerCondition =
     OrderTriggerCondition.DEFAULT;
+  @JsonProperty('fillingTransactionID', TransactionIdJsonConverter, true)
+  private fillingTransactionID: TransactionID = new TransactionID('');
+  @JsonProperty('filledTime', DateTimeJsonConverter, true)
+  private filledTime: DateTime = new DateTime('');
+  @JsonProperty('tradeOpenedID', TradeIdJsonConverter, true)
+  private tradeOpenedID: TradeID = new TradeID('');
+  @JsonProperty('tradeReducedID', TradeIdJsonConverter, true)
+  private tradeReducedID: TradeID = new TradeID('');
 
   setId(id: OrderID | string): TakeProfitOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -140,6 +151,46 @@ export class TakeProfitOrder implements Order {
     return this.triggerCondition;
   }
 
+  setFillingTransactionID(
+    fillingTransactionID: TransactionID | string
+  ): TakeProfitOrder {
+    this.fillingTransactionID = TransactionIdUtils.transactionIdValue(
+      fillingTransactionID
+    );
+    return this;
+  }
+
+  getFillingTransactionID(): TransactionID {
+    return this.fillingTransactionID.copy();
+  }
+
+  setFilledTime(filledTime: DateTime | string): TakeProfitOrder {
+    this.filledTime = PrimitiveUtils.dateTimeValue(filledTime);
+    return this;
+  }
+
+  getFilledTime(): DateTime {
+    return this.filledTime.copy();
+  }
+
+  setTradeOpenedID(tradeOpenedID: TradeID | string): TakeProfitOrder {
+    this.tradeOpenedID = TradeIdUtils.tradeIdValue(tradeOpenedID);
+    return this;
+  }
+
+  getTradeOpenedID(): TradeID {
+    return this.tradeOpenedID.copy();
+  }
+
+  setTradeReducedID(tradeReducedID: TradeID | string): TakeProfitOrder {
+    this.tradeReducedID = TradeIdUtils.tradeIdValue(tradeReducedID);
+    return this;
+  }
+
+  getTradeReducedID(): TradeID {
+    return this.tradeReducedID.copy();
+  }
+
   copy(): TakeProfitOrder {
     return new TakeProfitOrder()
       .setId(this.id.copy())
@@ -151,6 +202,10 @@ export class TakeProfitOrder implements Order {
       .setPrice(this.price.copy())
       .setTimeInForce(this.timeInForce)
       .setGtdTime(this.gtdTime.copy())
-      .setTriggerCondition(this.triggerCondition);
+      .setTriggerCondition(this.triggerCondition)
+      .setFillingTransactionID(this.fillingTransactionID.copy())
+      .setFilledTime(this.filledTime.copy())
+      .setTradeOpenedID(this.tradeOpenedID.copy())
+      .setTradeReducedID(this.tradeReducedID.copy());
   }
 }
