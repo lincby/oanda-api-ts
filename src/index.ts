@@ -33,6 +33,7 @@ export {LimitOrder} from './order/limit.order';
 export {OrderTriggerCondition} from './order/order.trigger.condition';
 export {StopOrder} from './order/stop.order';
 export {MarketIfTouchedOrder} from './order/market.if.touched.order';
+export {TakeProfitOrder} from './order/take.profit.order';
 // position
 export {Position} from './position/position';
 export {PositionSide} from './position/position.side';

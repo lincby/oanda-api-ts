@@ -3,6 +3,7 @@ import {TradeID} from '../trade/trade.id';
 import {TradeIdJsonConverter} from '../converter/trade/trade.id.json.converter';
 import {TransactionID} from './transaction.id';
 import {TransactionIdJsonConverter} from '../converter/transaction/transaction.id.json.converter';
+import {TradeIdUtils} from '../util/trade.id.utils';
 
 @JsonObject('MarketOrderDelayedTradeClose')
 export class MarketOrderDelayedTradeClose {
@@ -14,11 +15,7 @@ export class MarketOrderDelayedTradeClose {
   private sourceTransactionID: TransactionID = new TransactionID('');
 
   setTradeID(tradeID: TradeID | string): MarketOrderDelayedTradeClose {
-    if (tradeID instanceof TradeID) {
-      this.tradeID = tradeID.copy();
-    } else {
-      this.tradeID = new TradeID(tradeID);
-    }
+    this.tradeID = TradeIdUtils.tradeIdValue(tradeID);
     return this;
   }
 
@@ -29,11 +26,7 @@ export class MarketOrderDelayedTradeClose {
   setClientTradeID(
     clientTradeID: TradeID | string
   ): MarketOrderDelayedTradeClose {
-    if (clientTradeID instanceof TradeID) {
-      this.clientTradeID = clientTradeID.copy();
-    } else {
-      this.clientTradeID = new TradeID(clientTradeID);
-    }
+    this.clientTradeID = TradeIdUtils.tradeIdValue(clientTradeID);
     return this;
   }
 

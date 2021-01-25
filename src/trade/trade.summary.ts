@@ -192,9 +192,7 @@ export class TradeSummary {
   setClosingTransactionIDs(
     closingTransactionIDs: string[] | TransactionID[]
   ): TradeSummary {
-    const newClosingTransactionIDs: TransactionID[] = new Array<
-      TransactionID
-    >();
+    const newClosingTransactionIDs: TransactionID[] = new Array<TransactionID>();
 
     closingTransactionIDs.forEach((item: TransactionID | string) => {
       if (item instanceof TransactionID) {
