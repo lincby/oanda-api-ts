@@ -68,7 +68,9 @@ export const createTakeProfitOrder = () =>
     .setTradeReducedID(createTradeID())
     .setTradeClosedIDs([createTradeID(), createTradeID()])
     .setCancellingTransactionID(createTransactionID())
-    .setCancelledTime(createDateTime());
+    .setCancelledTime(createDateTime())
+    .setReplacesOrderID(createOrderID())
+    .setReplacedByOrderID(createOrderID());
 
 export const expectTakeProfitOrder = (order: TakeProfitOrder) => {
   expectOrderID(order.getId());
@@ -90,4 +92,6 @@ export const expectTakeProfitOrder = (order: TakeProfitOrder) => {
   expectTradeID(order.getTradeClosedIDs()[1]);
   expectTransactionID(order.getCancellingTransactionID());
   expectDateTime(order.getCancelledTime());
+  expectOrderID(order.getReplacesOrderID());
+  expectOrderID(order.getReplacedByOrderID());
 };
