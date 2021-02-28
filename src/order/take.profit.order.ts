@@ -21,6 +21,7 @@ import {OrderTriggerCondition} from './order.trigger.condition';
 import {TransactionIdJsonConverter} from '../converter/transaction/transaction.id.json.converter';
 import {TransactionID} from '../transaction/transaction.id';
 import {TransactionIdUtils} from '../util/transaction.id.utils';
+import {TradeIdArrayJsonConverter} from '../converter/trade/trade.id.array.json.converter';
 
 @JsonObject('TakeProfitOrder')
 export class TakeProfitOrder implements Order {
@@ -55,6 +56,12 @@ export class TakeProfitOrder implements Order {
   private tradeOpenedID: TradeID = new TradeID('');
   @JsonProperty('tradeReducedID', TradeIdJsonConverter, true)
   private tradeReducedID: TradeID = new TradeID('');
+  @JsonProperty('tradeClosedIDs', TradeIdArrayJsonConverter, true)
+  private tradeClosedIDs: TradeID[] = new Array<TradeID>();
+  @JsonProperty('cancellingTransactionID', TransactionIdJsonConverter, true)
+  private cancellingTransactionID: TransactionID = new TransactionID('');
+  @JsonProperty('cancelledTime', DateTimeJsonConverter, true)
+  private cancelledTime: DateTime = new DateTime('');
 
   setId(id: OrderID | string): TakeProfitOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -191,6 +198,39 @@ export class TakeProfitOrder implements Order {
     return this.tradeReducedID.copy();
   }
 
+  setTradeClosedIDs(tradeClosedIDs: TradeID[] | string[]): TakeProfitOrder {
+    this.tradeClosedIDs = TradeIdUtils.tradeIdValues(tradeClosedIDs);
+    return this;
+  }
+
+  getTradeClosedIDs(): TradeID[] {
+    const copyOfTradeIDs = new Array<TradeID>();
+    this.tradeClosedIDs.forEach(item => copyOfTradeIDs.push(item.copy()));
+    return copyOfTradeIDs;
+  }
+
+  setCancellingTransactionID(
+    cancellingTransactionID: TransactionID | string
+  ): TakeProfitOrder {
+    this.cancellingTransactionID = TransactionIdUtils.transactionIdValue(
+      cancellingTransactionID
+    );
+    return this;
+  }
+
+  getCancellingTransactionID(): TransactionID {
+    return this.cancellingTransactionID.copy();
+  }
+
+  setCancelledTime(cancelledTime: DateTime | string): TakeProfitOrder {
+    this.cancelledTime = PrimitiveUtils.dateTimeValue(cancelledTime);
+    return this;
+  }
+
+  getCancelledTime(): DateTime {
+    return this.cancelledTime.copy();
+  }
+
   copy(): TakeProfitOrder {
     return new TakeProfitOrder()
       .setId(this.id.copy())
@@ -206,6 +246,9 @@ export class TakeProfitOrder implements Order {
       .setFillingTransactionID(this.fillingTransactionID.copy())
       .setFilledTime(this.filledTime.copy())
       .setTradeOpenedID(this.tradeOpenedID.copy())
-      .setTradeReducedID(this.tradeReducedID.copy());
+      .setTradeReducedID(this.tradeReducedID.copy())
+      .setTradeClosedIDs(this.getTradeClosedIDs())
+      .setCancellingTransactionID(this.cancellingTransactionID.copy())
+      .setCancelledTime(this.cancelledTime.copy());
   }
 }
