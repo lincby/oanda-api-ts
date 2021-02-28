@@ -45,6 +45,11 @@ import {
 import {MarketIfTouchedOrder} from '../../src/order/market.if.touched.order';
 import {createStopOrder, expectStopOrder} from '../order/stop.order.spec';
 import {StopOrder} from '../../src/order/stop.order';
+import {
+  createTakeProfitOrder,
+  expectTakeProfitOrder,
+} from '../order/take.profit.order.spec';
+import {TakeProfitOrder} from '../../src/order/take.profit.order';
 
 describe('Account', () => {
   it('test setter and getter', () => {
@@ -123,6 +128,7 @@ const createAccount = (): Account =>
       createLimitOrder(),
       createStopOrder(),
       createMarketIfTouchedOrder(),
+      createTakeProfitOrder(),
     ]);
 
 const expectAccount = (account: Account) => {
@@ -175,4 +181,5 @@ const expectAccount = (account: Account) => {
   expectLimitOrder(account.getOrders()[2] as LimitOrder);
   expectStopOrder(account.getOrders()[3] as StopOrder);
   expectMarketIfTouchedOrder(account.getOrders()[4] as MarketIfTouchedOrder);
+  expectTakeProfitOrder(account.getOrders()[5] as TakeProfitOrder);
 };

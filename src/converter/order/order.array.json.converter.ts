@@ -6,11 +6,12 @@ import {LimitOrder} from '../../order/limit.order';
 import {StopOrder} from '../../order/stop.order';
 import {MarketIfTouchedOrder} from '../../order/market.if.touched.order';
 import {Order} from "../../order/order";
+import {TakeProfitOrder} from "../../order/take.profit.order";
 
 @JsonConverter
 export class OrderArrayJsonConverter
-  implements JsonCustomConvert<(MarketOrder | FixedPriceOrder | LimitOrder | StopOrder | MarketIfTouchedOrder)[]> {
-  serialize(orders: (MarketOrder | FixedPriceOrder | LimitOrder | StopOrder | MarketIfTouchedOrder)[]): string[] {
+  implements JsonCustomConvert<(MarketOrder | FixedPriceOrder | LimitOrder | StopOrder | MarketIfTouchedOrder | TakeProfitOrder)[]> {
+  serialize(orders: (MarketOrder | FixedPriceOrder | LimitOrder | StopOrder | MarketIfTouchedOrder | TakeProfitOrder)[]): string[] {
     const serializedOrders = new Array<string>();
     const jsonConvert: JsonConvert = new JsonConvert();
 
@@ -22,8 +23,8 @@ export class OrderArrayJsonConverter
     return serializedOrders;
   }
 
-  deserialize(orders: string[]): (MarketOrder | FixedPriceOrder | LimitOrder | StopOrder | MarketIfTouchedOrder)[] {
-    const deserializedOrders = new Array<MarketOrder | FixedPriceOrder | LimitOrder | StopOrder | MarketIfTouchedOrder>();
+  deserialize(orders: string[]): (MarketOrder | FixedPriceOrder | LimitOrder | StopOrder | MarketIfTouchedOrder | TakeProfitOrder)[] {
+    const deserializedOrders = new Array<MarketOrder | FixedPriceOrder | LimitOrder | StopOrder | MarketIfTouchedOrder | TakeProfitOrder>();
     const jsonConvert: JsonConvert = new JsonConvert();
 
     orders.forEach(item => {
@@ -57,6 +58,12 @@ export class OrderArrayJsonConverter
         const order: StopOrder = jsonConvert.deserializeObject(
             item,
             StopOrder
+        );
+        deserializedOrders.push(order);
+      } else if(itemString.includes(OrderType.TAKE_PROFIT)) {
+        const order: TakeProfitOrder = jsonConvert.deserializeObject(
+            item,
+            TakeProfitOrder
         );
         deserializedOrders.push(order);
       }
