@@ -9,6 +9,7 @@ import {LimitOrder} from './limit.order';
 import {StopOrder} from './stop.order';
 import {MarketIfTouchedOrder} from './market.if.touched.order';
 import {TakeProfitOrder} from './take.profit.order';
+import {StopLossOrder} from './stop.loss.order';
 
 export interface Order {
   setId(
@@ -19,7 +20,8 @@ export interface Order {
     | LimitOrder
     | StopOrder
     | MarketIfTouchedOrder
-    | TakeProfitOrder;
+    | TakeProfitOrder
+    | StopLossOrder;
   getId(): OrderID;
 
   getType(): OrderType;
@@ -32,7 +34,8 @@ export interface Order {
     | LimitOrder
     | StopOrder
     | MarketIfTouchedOrder
-    | TakeProfitOrder;
+    | TakeProfitOrder
+    | StopLossOrder;
   getCreateTime(): DateTime;
 
   setState(
@@ -43,7 +46,8 @@ export interface Order {
     | LimitOrder
     | StopOrder
     | MarketIfTouchedOrder
-    | TakeProfitOrder;
+    | TakeProfitOrder
+    | StopLossOrder;
   getState(): OrderState;
 
   setClientExtensions(
@@ -54,6 +58,7 @@ export interface Order {
     | LimitOrder
     | StopOrder
     | MarketIfTouchedOrder
-    | TakeProfitOrder;
+    | TakeProfitOrder
+    | StopLossOrder;
   getClientExtensions(): ClientExtensions;
 }
