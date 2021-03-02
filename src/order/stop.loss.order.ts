@@ -21,6 +21,11 @@ import Decimal from 'decimal.js';
 import {PriceCommonUtils} from '../util/price.common.utils';
 import {DecimalNumberJsonConverter} from '../converter/primitives/decimal.number.json.converter';
 import {DecimalNumber} from '../primitives/decimal.number';
+import {TimeInForce} from './time.in.force';
+import {OrderTriggerCondition} from './order.trigger.condition';
+import {TransactionIdJsonConverter} from '../converter/transaction/transaction.id.json.converter';
+import {TransactionID} from '../transaction/transaction.id';
+import {TransactionIdUtils} from '../util/transaction.id.utils';
 
 @JsonObject('StopLossOrder')
 export class StopLossOrder implements Order {
@@ -42,6 +47,15 @@ export class StopLossOrder implements Order {
   private price: PriceValue = new PriceValue('');
   @JsonProperty('distance', DecimalNumberJsonConverter, true)
   private distance: DecimalNumber = new DecimalNumber('');
+  @JsonProperty('timeInForce', String, true)
+  private timeInForce: TimeInForce = TimeInForce.GTC;
+  @JsonProperty('gtdTime', DateTimeJsonConverter, true)
+  private gtdTime: DateTime = new DateTime('');
+  @JsonProperty('triggerCondition', String, true)
+  private triggerCondition: OrderTriggerCondition =
+    OrderTriggerCondition.DEFAULT;
+  @JsonProperty('fillingTransactionID', TransactionIdJsonConverter, true)
+  private fillingTransactionID: TransactionID = new TransactionID('');
 
   setId(id: OrderID | string): StopLossOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -119,6 +133,46 @@ export class StopLossOrder implements Order {
     return this.distance.copy();
   }
 
+  setTimeInForce(timeInForce: TimeInForce): StopLossOrder {
+    this.timeInForce = timeInForce;
+    return this;
+  }
+
+  getTimeInForce(): TimeInForce {
+    return this.timeInForce;
+  }
+
+  setGtdTime(gtdTime: DateTime | string): StopLossOrder {
+    this.gtdTime = PrimitiveUtils.dateTimeValue(gtdTime);
+    return this;
+  }
+
+  getGtdTime(): DateTime {
+    return this.gtdTime.copy();
+  }
+
+  setTriggerCondition(triggerCondition: OrderTriggerCondition): StopLossOrder {
+    this.triggerCondition = triggerCondition;
+    return this;
+  }
+
+  getTriggerCondition(): OrderTriggerCondition {
+    return this.triggerCondition;
+  }
+
+  setFillingTransactionID(
+    fillingTransactionID: TransactionID | string
+  ): StopLossOrder {
+    this.fillingTransactionID = TransactionIdUtils.transactionIdValue(
+      fillingTransactionID
+    );
+    return this;
+  }
+
+  getFillingTransactionID(): TransactionID {
+    return this.fillingTransactionID.copy();
+  }
+
   copy(): StopLossOrder {
     return new StopLossOrder()
       .setId(this.id.copy())
@@ -128,6 +182,10 @@ export class StopLossOrder implements Order {
       .setTradeID(this.tradeID.copy())
       .setClientTradeID(this.clientTradeID.copy())
       .setPrice(this.price.copy())
-      .setDistance(this.distance.copy());
+      .setDistance(this.distance.copy())
+      .setTimeInForce(this.timeInForce)
+      .setGtdTime(this.gtdTime.copy())
+      .setTriggerCondition(this.triggerCondition)
+      .setFillingTransactionID(this.fillingTransactionID.copy());
   }
 }

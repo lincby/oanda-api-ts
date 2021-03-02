@@ -20,6 +20,11 @@ import {
   createDecimalNumber,
   expectDecimalNumber,
 } from '../primitives/decimal.number.spec';
+import {OrderTriggerCondition, TimeInForce} from '../../src';
+import {
+  createTransactionID,
+  expectTransactionID,
+} from '../transaction/transaction.id.spec';
 
 describe('StopLossOrder', () => {
   it('test setter and getter', () => {
@@ -58,7 +63,11 @@ export const createStopLossOrder = () =>
     .setTradeID(createTradeID())
     .setClientTradeID(createClientID())
     .setPrice(createPriceValue())
-    .setDistance(createDecimalNumber());
+    .setDistance(createDecimalNumber())
+    .setTimeInForce(TimeInForce.GFD)
+    .setGtdTime(createDateTime())
+    .setTriggerCondition(OrderTriggerCondition.ASK)
+    .setFillingTransactionID(createTransactionID());
 
 export const expectStopLossOrder = (order: StopLossOrder) => {
   expectOrderID(order.getId());
@@ -70,4 +79,8 @@ export const expectStopLossOrder = (order: StopLossOrder) => {
   expectClientID(order.getClientTradeID());
   expectPriceValue(order.getPrice());
   expectDecimalNumber(order.getDistance());
+  expect(order.getTimeInForce()).to.be.equal(TimeInForce.GFD);
+  expectDateTime(order.getGtdTime());
+  expect(order.getTriggerCondition()).to.be.equal(OrderTriggerCondition.ASK);
+  expectTransactionID(order.getFillingTransactionID());
 };
