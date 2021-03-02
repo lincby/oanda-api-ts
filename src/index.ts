@@ -34,6 +34,7 @@ export {OrderTriggerCondition} from './order/order.trigger.condition';
 export {StopOrder} from './order/stop.order';
 export {MarketIfTouchedOrder} from './order/market.if.touched.order';
 export {TakeProfitOrder} from './order/take.profit.order';
+export {StopLossOrder} from './order/stop.loss.order';
 // position
 export {Position} from './position/position';
 export {PositionSide} from './position/position.side';
@@ -71,3 +72,4 @@ export {PriceCommonUtils} from './util/price.common.utils';
 export {OrderUtils} from './util/order.utils';
 export {TradeIdUtils} from './util/trade.id.utils';
 export {TransactionIdUtils} from './util/transaction.id.utils';
+export {ClientIdUtils} from './util/client.id.utils';

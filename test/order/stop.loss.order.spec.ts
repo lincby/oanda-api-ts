@@ -10,6 +10,16 @@ import {
   createClientExtensions,
   expectClientExtensions,
 } from '../transaction/client.extensions.spec';
+import {createTradeID, expectTradeID} from '../trade/trade.id.spec';
+import {createClientID, expectClientID} from '../transaction/client.id.spec';
+import {
+  createPriceValue,
+  expectPriceValue,
+} from '../price_common/price.value.spec';
+import {
+  createDecimalNumber,
+  expectDecimalNumber,
+} from '../primitives/decimal.number.spec';
 
 describe('StopLossOrder', () => {
   it('test setter and getter', () => {
@@ -44,7 +54,11 @@ export const createStopLossOrder = () =>
     .setId(createOrderID())
     .setCreateTime(createDateTime())
     .setState(OrderState.FILLED)
-    .setClientExtensions(createClientExtensions());
+    .setClientExtensions(createClientExtensions())
+    .setTradeID(createTradeID())
+    .setClientTradeID(createClientID())
+    .setPrice(createPriceValue())
+    .setDistance(createDecimalNumber());
 
 export const expectStopLossOrder = (order: StopLossOrder) => {
   expectOrderID(order.getId());
@@ -52,4 +66,8 @@ export const expectStopLossOrder = (order: StopLossOrder) => {
   expectDateTime(order.getCreateTime());
   expect(order.getState()).to.be.equal(OrderState.FILLED);
   expectClientExtensions(order.getClientExtensions());
+  expectTradeID(order.getTradeID());
+  expectClientID(order.getClientTradeID());
+  expectPriceValue(order.getPrice());
+  expectDecimalNumber(order.getDistance());
 };
