@@ -4,6 +4,7 @@ import {MarketOrderDelayedTradeClose} from '../../src/transaction/market.order.d
 import {createTradeID, expectTradeID} from '../trade/trade.id.spec';
 import {JsonConvert} from 'json2typescript';
 import {createTransactionID, expectTransactionID} from './transaction.id.spec';
+import {createClientID, expectClientID} from './client.id.spec';
 
 describe('MarketOrderDelayedTradeClose', () => {
   it('test setter and getter', () => {
@@ -40,13 +41,13 @@ describe('MarketOrderDelayedTradeClose', () => {
 export const createMarketOrderDelayedTradeClose = () =>
   new MarketOrderDelayedTradeClose()
     .setTradeID(createTradeID())
-    .setClientTradeID(createTradeID())
+    .setClientTradeID(createClientID())
     .setSourceTransactionID(createTransactionID());
 
 export const expectMarketOrderDelayedTradeClose = (
   marketOrderDelayedTradeClose: MarketOrderDelayedTradeClose
 ) => {
   expectTradeID(marketOrderDelayedTradeClose.getTradeID());
-  expectTradeID(marketOrderDelayedTradeClose.getClientTradeID());
+  expectClientID(marketOrderDelayedTradeClose.getClientTradeID());
   expectTransactionID(marketOrderDelayedTradeClose.getSourceTransactionID());
 };

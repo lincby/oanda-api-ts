@@ -21,6 +21,7 @@ import {
   createTransactionID,
   expectTransactionID,
 } from '../transaction/transaction.id.spec';
+import {createClientID, expectClientID} from '../transaction/client.id.spec';
 
 describe('TakeProfitOrder', () => {
   it('test setter and getter', () => {
@@ -55,7 +56,7 @@ export const createTakeProfitOrder = () =>
     .setState(OrderState.FILLED)
     .setClientExtensions(createClientExtensions())
     .setTradeID(createTradeID())
-    .setClientTradeID(createTradeID())
+    .setClientTradeID(createClientID())
     .setPrice(createPriceValue())
     .setTimeInForce(TimeInForce.GFD)
     .setGtdTime(createDateTime())
@@ -77,7 +78,7 @@ export const expectTakeProfitOrder = (order: TakeProfitOrder) => {
   expect(order.getState()).to.be.equal(OrderState.FILLED);
   expectClientExtensions(order.getClientExtensions());
   expectTradeID(order.getTradeID());
-  expectTradeID(order.getClientTradeID());
+  expectClientID(order.getClientTradeID());
   expectPriceValue(order.getPrice());
   expect(order.getTimeInForce()).to.be.equal(TimeInForce.GFD);
   expectDateTime(order.getGtdTime());

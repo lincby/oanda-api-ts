@@ -22,6 +22,9 @@ import {TransactionIdJsonConverter} from '../converter/transaction/transaction.i
 import {TransactionID} from '../transaction/transaction.id';
 import {TransactionIdUtils} from '../util/transaction.id.utils';
 import {TradeIdArrayJsonConverter} from '../converter/trade/trade.id.array.json.converter';
+import {ClientID} from '../transaction/client.id';
+import {ClientIdJsonConverter} from '../converter/transaction/client.id.json.converter';
+import {ClientIdUtils} from '../util/client.id.utils';
 
 @JsonObject('TakeProfitOrder')
 export class TakeProfitOrder implements Order {
@@ -37,8 +40,8 @@ export class TakeProfitOrder implements Order {
   private clientExtensions: ClientExtensions = new ClientExtensions();
   @JsonProperty('tradeID', TradeIdJsonConverter, true)
   private tradeID: TradeID = new TradeID('');
-  @JsonProperty('clientTradeID', TradeIdJsonConverter, true)
-  private clientTradeID: TradeID = new TradeID('');
+  @JsonProperty('clientTradeID', ClientIdJsonConverter, true)
+  private clientTradeID: ClientID = new ClientID('');
   @JsonProperty('price', PriceValueJsonConverter, true)
   private price: PriceValue = new PriceValue('');
   @JsonProperty('timeInForce', String, true)
@@ -115,12 +118,12 @@ export class TakeProfitOrder implements Order {
     return this.tradeID.copy();
   }
 
-  setClientTradeID(clientTradeID: TradeID | string): TakeProfitOrder {
-    this.clientTradeID = TradeIdUtils.tradeIdValue(clientTradeID);
+  setClientTradeID(clientTradeID: ClientID | string): TakeProfitOrder {
+    this.clientTradeID = ClientIdUtils.clientIdValue(clientTradeID);
     return this;
   }
 
-  getClientTradeID(): TradeID {
+  getClientTradeID(): ClientID {
     return this.clientTradeID.copy();
   }
 
