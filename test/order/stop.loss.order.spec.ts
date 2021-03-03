@@ -43,12 +43,10 @@ describe('StopLossOrder', () => {
     const jsonConvert: JsonConvert = new JsonConvert();
     const stopLossOrderToJson: StopLossOrder = createStopLossOrder();
     const json: string = jsonConvert.serializeObject(stopLossOrderToJson);
-    console.log('to json:', json);
     const stopLossOrderFromJson: StopLossOrder = jsonConvert.deserializeObject(
       json,
       StopLossOrder
     );
-    console.log('from json:', stopLossOrderFromJson);
     expectStopLossOrder(stopLossOrderFromJson);
     expect(stopLossOrderToJson).to.be.deep.equal(stopLossOrderFromJson);
   });

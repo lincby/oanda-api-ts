@@ -35,6 +35,7 @@ export {StopOrder} from './order/stop.order';
 export {MarketIfTouchedOrder} from './order/market.if.touched.order';
 export {TakeProfitOrder} from './order/take.profit.order';
 export {StopLossOrder} from './order/stop.loss.order';
+export {GuaranteedStopLossOrder} from './order/guaranteed.stop.loss.order';
 // position
 export {Position} from './position/position';
 export {PositionSide} from './position/position.side';
