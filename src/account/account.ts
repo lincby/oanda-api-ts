@@ -24,6 +24,7 @@ import {LimitOrder} from '../order/limit.order';
 import {MarketIfTouchedOrder} from '../order/market.if.touched.order';
 import {StopOrder} from '../order/stop.order';
 import {TakeProfitOrder} from '../order/take.profit.order';
+import {StopLossOrder} from '../order/stop.loss.order';
 
 @JsonObject('Account')
 export class Account {
@@ -119,6 +120,7 @@ export class Account {
     | StopOrder
     | MarketIfTouchedOrder
     | TakeProfitOrder
+    | StopLossOrder
   )[] = new Array<
     | MarketOrder
     | FixedPriceOrder
@@ -126,6 +128,7 @@ export class Account {
     | StopOrder
     | MarketIfTouchedOrder
     | TakeProfitOrder
+    | StopLossOrder
   >();
 
   setAccountID(id: AccountID | string): Account {
@@ -555,6 +558,7 @@ export class Account {
       | StopOrder
       | MarketIfTouchedOrder
       | TakeProfitOrder
+      | StopLossOrder
     )[]
   ): Account {
     const newOrders: (
@@ -564,6 +568,7 @@ export class Account {
       | StopOrder
       | MarketIfTouchedOrder
       | TakeProfitOrder
+      | StopLossOrder
     )[] = new Array<
       | MarketOrder
       | FixedPriceOrder
@@ -571,6 +576,7 @@ export class Account {
       | StopOrder
       | MarketIfTouchedOrder
       | TakeProfitOrder
+      | StopLossOrder
     >();
     orders.forEach(
       (
@@ -581,6 +587,7 @@ export class Account {
           | StopOrder
           | MarketIfTouchedOrder
           | TakeProfitOrder
+          | StopLossOrder
       ) => newOrders.push(item.copy())
     );
     this.orders = newOrders;
@@ -594,6 +601,7 @@ export class Account {
     | StopOrder
     | MarketIfTouchedOrder
     | TakeProfitOrder
+    | StopLossOrder
   )[] {
     const copyOfOrders = new Array<
       | MarketOrder
@@ -602,6 +610,7 @@ export class Account {
       | StopOrder
       | MarketIfTouchedOrder
       | TakeProfitOrder
+      | StopLossOrder
     >();
     this.orders.forEach(item => copyOfOrders.push(item.copy()));
     return copyOfOrders;

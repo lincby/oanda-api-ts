@@ -5,13 +5,13 @@ import {OrderType} from '../../order/order.type';
 import {LimitOrder} from '../../order/limit.order';
 import {StopOrder} from '../../order/stop.order';
 import {MarketIfTouchedOrder} from '../../order/market.if.touched.order';
-import {Order} from "../../order/order";
-import {TakeProfitOrder} from "../../order/take.profit.order";
+import {TakeProfitOrder} from '../../order/take.profit.order';
+import {StopLossOrder} from '../../order/stop.loss.order';
 
 @JsonConverter
 export class OrderArrayJsonConverter
-  implements JsonCustomConvert<(MarketOrder | FixedPriceOrder | LimitOrder | StopOrder | MarketIfTouchedOrder | TakeProfitOrder)[]> {
-  serialize(orders: (MarketOrder | FixedPriceOrder | LimitOrder | StopOrder | MarketIfTouchedOrder | TakeProfitOrder)[]): string[] {
+  implements JsonCustomConvert<(MarketOrder | FixedPriceOrder | LimitOrder | StopOrder | MarketIfTouchedOrder | TakeProfitOrder | StopLossOrder)[]> {
+  serialize(orders: (MarketOrder | FixedPriceOrder | LimitOrder | StopOrder | MarketIfTouchedOrder | TakeProfitOrder | StopLossOrder)[]): string[] {
     const serializedOrders = new Array<string>();
     const jsonConvert: JsonConvert = new JsonConvert();
 
@@ -23,8 +23,8 @@ export class OrderArrayJsonConverter
     return serializedOrders;
   }
 
-  deserialize(orders: string[]): (MarketOrder | FixedPriceOrder | LimitOrder | StopOrder | MarketIfTouchedOrder | TakeProfitOrder)[] {
-    const deserializedOrders = new Array<MarketOrder | FixedPriceOrder | LimitOrder | StopOrder | MarketIfTouchedOrder | TakeProfitOrder>();
+  deserialize(orders: string[]): (MarketOrder | FixedPriceOrder | LimitOrder | StopOrder | MarketIfTouchedOrder | TakeProfitOrder | StopLossOrder)[] {
+    const deserializedOrders = new Array<MarketOrder | FixedPriceOrder | LimitOrder | StopOrder | MarketIfTouchedOrder | TakeProfitOrder | StopLossOrder>();
     const jsonConvert: JsonConvert = new JsonConvert();
 
     orders.forEach(item => {
@@ -52,6 +52,12 @@ export class OrderArrayJsonConverter
         const order: LimitOrder = jsonConvert.deserializeObject(
             item,
             LimitOrder
+        );
+        deserializedOrders.push(order);
+      } else if(itemString.includes(OrderType.STOP_LOSS)) {
+        const order: StopLossOrder = jsonConvert.deserializeObject(
+            item,
+            StopLossOrder
         );
         deserializedOrders.push(order);
       } else if(itemString.includes(OrderType.STOP)) {
