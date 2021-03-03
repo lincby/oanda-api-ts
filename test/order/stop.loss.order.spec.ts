@@ -73,7 +73,9 @@ export const createStopLossOrder = () =>
     .setTradeReducedID(createTradeID())
     .setTradeClosedIDs([createTradeID(), createTradeID()])
     .setCancellingTransactionID(createTransactionID())
-    .setCancelledTime(createDateTime());
+    .setCancelledTime(createDateTime())
+    .setReplacesOrderID(createOrderID())
+    .setReplacedByOrderID(createOrderID());
 
 export const expectStopLossOrder = (order: StopLossOrder) => {
   expectOrderID(order.getId());
@@ -96,4 +98,6 @@ export const expectStopLossOrder = (order: StopLossOrder) => {
   expectTradeID(order.getTradeClosedIDs()[1]);
   expectTransactionID(order.getCancellingTransactionID());
   expectDateTime(order.getCancelledTime());
+  expectOrderID(order.getReplacesOrderID());
+  expectOrderID(order.getReplacedByOrderID());
 };

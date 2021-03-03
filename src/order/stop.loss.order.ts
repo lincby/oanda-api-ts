@@ -69,6 +69,10 @@ export class StopLossOrder implements Order {
   private cancellingTransactionID: TransactionID = new TransactionID('');
   @JsonProperty('cancelledTime', DateTimeJsonConverter, true)
   private cancelledTime: DateTime = new DateTime('');
+  @JsonProperty('replacesOrderID', OrderIdJsonConverter, true)
+  private replacesOrderID: OrderID = new OrderID('');
+  @JsonProperty('replacedByOrderID', OrderIdJsonConverter, true)
+  private replacedByOrderID: OrderID = new OrderID('');
 
   setId(id: OrderID | string): StopLossOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -246,6 +250,24 @@ export class StopLossOrder implements Order {
     return this.cancelledTime.copy();
   }
 
+  setReplacesOrderID(replacesOrderID: OrderID | string): StopLossOrder {
+    this.replacesOrderID = OrderUtils.orderIdValue(replacesOrderID);
+    return this;
+  }
+
+  getReplacesOrderID(): OrderID {
+    return this.replacesOrderID.copy();
+  }
+
+  setReplacedByOrderID(replacedByOrderID: OrderID | string): StopLossOrder {
+    this.replacedByOrderID = OrderUtils.orderIdValue(replacedByOrderID);
+    return this;
+  }
+
+  getReplacedByOrderID(): OrderID {
+    return this.replacedByOrderID.copy();
+  }
+
   copy(): StopLossOrder {
     return new StopLossOrder()
       .setId(this.id.copy())
@@ -265,6 +287,8 @@ export class StopLossOrder implements Order {
       .setTradeReducedID(this.tradeReducedID.copy())
       .setTradeClosedIDs(this.getTradeClosedIDs())
       .setCancellingTransactionID(this.cancellingTransactionID.copy())
-      .setCancelledTime(this.cancelledTime.copy());
+      .setCancelledTime(this.cancelledTime.copy())
+      .setReplacesOrderID(this.replacesOrderID.copy())
+      .setReplacedByOrderID(this.replacedByOrderID.copy());
   }
 }
