@@ -67,7 +67,10 @@ export const createStopLossOrder = () =>
     .setTimeInForce(TimeInForce.GFD)
     .setGtdTime(createDateTime())
     .setTriggerCondition(OrderTriggerCondition.ASK)
-    .setFillingTransactionID(createTransactionID());
+    .setFillingTransactionID(createTransactionID())
+    .setFilledTime(createDateTime())
+    .setTradeOpenedID(createTradeID())
+    .setTradeReducedID(createTradeID());
 
 export const expectStopLossOrder = (order: StopLossOrder) => {
   expectOrderID(order.getId());
@@ -83,4 +86,7 @@ export const expectStopLossOrder = (order: StopLossOrder) => {
   expectDateTime(order.getGtdTime());
   expect(order.getTriggerCondition()).to.be.equal(OrderTriggerCondition.ASK);
   expectTransactionID(order.getFillingTransactionID());
+  expectDateTime(order.getFilledTime());
+  expectTradeID(order.getTradeOpenedID());
+  expectTradeID(order.getTradeReducedID());
 };

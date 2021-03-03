@@ -56,6 +56,12 @@ export class StopLossOrder implements Order {
     OrderTriggerCondition.DEFAULT;
   @JsonProperty('fillingTransactionID', TransactionIdJsonConverter, true)
   private fillingTransactionID: TransactionID = new TransactionID('');
+  @JsonProperty('filledTime', DateTimeJsonConverter, true)
+  private filledTime: DateTime = new DateTime('');
+  @JsonProperty('tradeOpenedID', TradeIdJsonConverter, true)
+  private tradeOpenedID: TradeID = new TradeID('');
+  @JsonProperty('tradeReducedID', TradeIdJsonConverter, true)
+  private tradeReducedID: TradeID = new TradeID('');
 
   setId(id: OrderID | string): StopLossOrder {
     this.id = OrderUtils.orderIdValue(id);
@@ -173,6 +179,33 @@ export class StopLossOrder implements Order {
     return this.fillingTransactionID.copy();
   }
 
+  setFilledTime(filledTime: DateTime | string): StopLossOrder {
+    this.filledTime = PrimitiveUtils.dateTimeValue(filledTime);
+    return this;
+  }
+
+  getFilledTime(): DateTime {
+    return this.filledTime.copy();
+  }
+
+  setTradeOpenedID(tradeOpenedID: TradeID | string): StopLossOrder {
+    this.tradeOpenedID = TradeIdUtils.tradeIdValue(tradeOpenedID);
+    return this;
+  }
+
+  getTradeOpenedID(): TradeID {
+    return this.tradeOpenedID.copy();
+  }
+
+  setTradeReducedID(tradeReducedID: TradeID | string): StopLossOrder {
+    this.tradeReducedID = TradeIdUtils.tradeIdValue(tradeReducedID);
+    return this;
+  }
+
+  getTradeReducedID(): TradeID {
+    return this.tradeReducedID.copy();
+  }
+
   copy(): StopLossOrder {
     return new StopLossOrder()
       .setId(this.id.copy())
@@ -186,6 +219,9 @@ export class StopLossOrder implements Order {
       .setTimeInForce(this.timeInForce)
       .setGtdTime(this.gtdTime.copy())
       .setTriggerCondition(this.triggerCondition)
-      .setFillingTransactionID(this.fillingTransactionID.copy());
+      .setFillingTransactionID(this.fillingTransactionID.copy())
+      .setFilledTime(this.filledTime.copy())
+      .setTradeOpenedID(this.tradeOpenedID.copy())
+      .setTradeReducedID(this.tradeReducedID.copy());
   }
 }
